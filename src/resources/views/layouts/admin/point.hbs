@@ -1,0 +1,89 @@
+<div class="bg-white p-6 rounded-2xl shadow-lg">
+
+  <!-- Title -->
+  <h2 class="text-xl font-bold text-gray-800 mb-4">
+    Bảng chấm điểm đồ án
+  </h2>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm text-left border-collapse">
+      
+      <!-- Header -->
+      <thead>
+        <tr class="bg-gray-100 text-gray-700 uppercase text-xs">
+          <th class="p-4 rounded-tl-xl">Sinh viên</th>
+          <th class="p-4 text-center">Điểm GVHD</th>
+          <th class="p-4 text-center">Điểm phản biện</th>
+          <th class="p-4 text-center">Điểm hội đồng</th>
+          <th class="p-4 text-center rounded-tr-xl">Trung bình</th>
+        </tr>
+      </thead>
+
+      <!-- Body -->
+      <tbody id="scoreTable">
+        <tr class="border-t hover:bg-gray-50 transition">
+          
+          <td class="p-4 font-medium text-gray-800">
+            Nguyễn Văn A
+          </td>
+
+          <td class="p-4 text-center">
+            <input type="number" min="0" max="10" step="0.1"
+              oninput="calculateAverage(this)"
+              class="score-input border border-gray-300 rounded-lg px-2 py-1 w-20 text-center focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+          </td>
+
+          <td class="p-4 text-center">
+            <input type="number" min="0" max="10" step="0.1"
+              oninput="calculateAverage(this)"
+              class="score-input border border-gray-300 rounded-lg px-2 py-1 w-20 text-center focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+          </td>
+
+          <td class="p-4 text-center">
+            <input type="number" min="0" max="10" step="0.1"
+              oninput="calculateAverage(this)"
+              class="score-input border border-gray-300 rounded-lg px-2 py-1 w-20 text-center focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+          </td>
+
+          <td class="p-4 text-center font-bold text-blue-600 average">
+            0.0
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div class="flex justify-end mt-6">
+    <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md transition duration-300">
+      💾 Lưu điểm
+    </button>
+  </div>
+
+</div>
+
+
+<script>
+function calculateAverage(input) {
+  const row = input.closest("tr");
+  const inputs = row.querySelectorAll(".score-input");
+  let total = 0;
+  let count = 0;
+
+  inputs.forEach(i => {
+    if (i.value !== "") {
+      total += parseFloat(i.value);
+      count++;
+    }
+  });
+
+  const averageCell = row.querySelector(".average");
+
+  if (count > 0) {
+    averageCell.textContent = (total / count).toFixed(2);
+  } else {
+    averageCell.textContent = "0.0";
+  }
+}
+</script>

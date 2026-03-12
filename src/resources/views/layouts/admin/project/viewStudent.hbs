@@ -1,0 +1,44 @@
+
+
+<body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen">
+
+  <div class="min-h-screen flex items-center justify-center px-4">
+
+    <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl p-8">
+
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+          👨‍🎓 Danh sách sinh viên đăng ký
+        </h3>
+
+        <span id="countStudent"
+              class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-semibold">
+          0 sinh viên
+        </span>
+      </div>
+
+      <!-- Search -->
+      <div class="mb-6">
+        <input id="searchInput"
+               type="text"
+               placeholder="🔍 Tìm kiếm sinh viên..."
+               class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <!-- List -->
+      <div id="studentList"
+           class="space-y-4 max-h-[450px] overflow-y-auto pr-1">
+      </div>
+
+      <!-- Empty -->
+      <div id="empty"
+           class="hidden text-center text-gray-400 py-10">
+        Không có sinh viên nào
+      </div>
+
+    </div>
+
+  </div>
+
+</body>

@@ -1,0 +1,94 @@
+<!-- HEADER -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+
+  <h2 class="text-2xl font-bold text-gray-800">
+    👨‍🎓 Danh sách sinh viên
+  </h2>
+
+  <div class="flex gap-3">
+    <input 
+      type="text" 
+      placeholder="Tìm kiếm sinh viên..."
+      class="px-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+    >
+
+    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl shadow transition">
+      + Thêm sinh viên
+    </button>
+  </div>
+
+</div>
+
+
+<!-- TABLE -->
+<div class="bg-white rounded-2xl shadow overflow-hidden">
+
+  <table class="w-full text-sm text-left">
+
+    <thead class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+      <tr>
+        <th class="p-4">MSSV</th>
+        <th class="p-4">Tên sinh viên</th>
+        <th class="p-4">Email</th>
+        <th class="p-4">Đồ án</th>
+        <th class="p-4">Trạng thái</th>
+        <th class="p-4 text-center">Hành động</th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y">
+
+      <tr class="hover:bg-gray-50 transition">
+        <td class="p-4 font-medium text-gray-700">SV001</td>
+        <td class="p-4">Nguyễn Văn A</td>
+        <td class="p-4 text-gray-600">a@gmail.com</td>
+        <td class="p-4">Website bán hàng</td>
+
+        <!-- Status -->
+        <td class="p-4">
+          <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-600 rounded-full">
+            Đã đăng ký
+          </span>
+        </td>
+
+        <!-- Action -->
+        <td class="p-4 text-center space-x-2">
+
+          <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs transition">
+            ✏️ Sửa
+          </button>
+
+          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs transition">
+            🗑 Xóa
+          </button>
+
+        </td>
+      </tr>
+
+      <tr class="hover:bg-gray-50 transition">
+        <td class="p-4 font-medium text-gray-700">SV002</td>
+        <td class="p-4">Trần Thị B</td>
+        <td class="p-4 text-gray-600">b@gmail.com</td>
+        <td class="p-4">Hệ thống quản lý</td>
+
+        <td class="p-4">
+          <span class="px-3 py-1 text-xs font-medium bg-red-100 text-red-600 rounded-full">
+            Chưa đăng ký
+          </span>
+        </td>
+
+        <td class="p-4 text-center space-x-2">
+          <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs transition">
+            ✏️ Sửa
+          </button>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs transition">
+            🗑 Xóa
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

@@ -1,0 +1,92 @@
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+  <!-- HEADER -->
+  <div class="flex justify-between items-center p-6 border-b">
+    <h2 class="text-xl font-bold">👨‍🏫 Quản lý giảng viên</h2>
+    <button class="create__Teacher bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+      + Thêm giảng viên
+    </button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm text-left">
+
+      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+        <tr>
+          <th class="p-4">Giảng viên</th>
+          <th class="p-4">Email</th>
+          <th class="p-4">Chức vụ</th>
+          <th class="p-4">Đồ án</th>
+          <th class="p-4 text-center">Hành động</th>
+        </tr>
+      </thead>
+
+      <tbody class="body__teacher divide-y">
+
+        {{!-- <!-- ROW -->
+        <tr class="hover:bg-gray-50 transition">
+
+          <!-- TÊN + AVATAR -->
+          <td class="p-4 flex items-center gap-3">
+            <img src="https://i.pravatar.cc/40"
+                 class="w-10 h-10 rounded-full">
+            <div>
+              <p class="font-medium">Trần Văn B</p>
+              <p class="text-gray-500 text-xs">Mã GV: GV001</p>
+            </div>
+          </td>
+
+          <!-- EMAIL -->
+          <td class="p-4 text-gray-600">
+            b@gmail.com
+          </td>
+
+          <!-- CHỨC VỤ -->
+          <td class="p-4">
+            <span class="px-3 py-1 rounded-full text-xs font-medium
+              bg-green-100 text-green-700">
+              Lecturer
+            </span>
+          </td>
+
+          <!-- SỐ ĐỒ ÁN -->
+          <td class="p-4">
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">
+              3 đồ án
+            </span>
+          </td>
+
+          <!-- ACTION -->
+          <td class="p-4">
+            <div class="flex justify-center gap-2">
+
+              <!-- Dropdown Role -->
+              <select class="border rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <option>Lecturer</option>
+                <option>Senior</option>
+                <option>Head</option>
+                <option>Admin</option>
+              </select>
+
+              <!-- Update -->
+              <button class="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition">
+                Cập nhật
+              </button>
+
+              <!-- Khóa -->
+              <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition">
+                Khóa
+              </button>
+
+            </div>
+          </td>
+
+        </tr> --}}
+
+      </tbody>
+
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,111 @@
+
+<div class="flex items-center justify-center">
+<div class="w-full max-w-4xl">
+
+    <h1 class="text-2xl font-bold mb-8 flex items-center gap-2">
+      👤 Tài khoản của tôi
+    </h1>
+
+    <!-- HÀNG TRÊN: 2 CỘT -->
+    <div class="table__information grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+      <!-- THÔNG TIN CÁ NHÂN -->
+      {{!-- <section class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-lg font-semibold mb-4 border-b pb-2">
+          📄 Thông tin cá nhân
+        </h2>
+
+        {{#each data_account}}
+        <div class="lspace-y-3 text-sm">
+          <p><span class="text-gray-500">Họ tên:</span> <span class="font-medium">{{this.full_name}}</span></p>
+          <p><span class="text-gray-500">Mã sinh viên:</span> <span class="font-medium">{{this.msv}}</span></p>
+          <p><span class="text-gray-500">Email:</span> <span class="font-medium">{{this.email}}</span></p>
+          <p><span class="text-gray-500">Lớp:</span> <span class="font-medium">{{this.class}}</span></p>
+          <p><span class="text-gray-500">Khoa:</span> <span class="font-medium">{{faculty}}</span></p>
+        </div>
+        {{/each}}
+
+        <div class="mt-6 text-right">
+          <button
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+            ✏️ Chỉnh sửa
+          </button>
+        </div>
+      </section> --}}
+
+      <!-- BẢO MẬT -->
+      <section class="bg-white p-6 rounded-xl shadow">
+        <div id="message"
+        class="hidden mb-4 p-3 rounded-lg bg-green-100 text-green-700 text-sm">
+            ✅ Đổi mật khẩu thành công
+        </div>
+        <h2 class="text-lg font-semibold mb-4 border-b pb-2">
+          🔒 Bảo mật
+        </h2>
+
+        <div class="space-y-4 text-sm">
+          <div>
+            <label class="block text-gray-600 mb-1">Mật khẩu hiện tại</label>
+            <input type="password"
+              class="current__password w-full border rounded-lg px-4 py-2 focus:ring focus:ring-blue-200 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-gray-600 mb-1">Mật khẩu mới</label>
+            <input type="password"
+              class="create__password w-full border rounded-lg px-4 py-2 focus:ring focus:ring-blue-200 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-gray-600 mb-1">Xác nhận mật khẩu</label>
+            <input type="password"
+              class="confirm__password w-full border rounded-lg px-4 py-2 focus:ring focus:ring-blue-200 outline-none">
+          </div>
+        </div>
+
+        <div class="mt-6 text-right">
+          <button
+            class="upDate px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+            🔄 Cập nhật
+          </button> 
+        </div>
+      </section>
+
+    </div>
+
+    <!-- HÀNG DƯỚI: 1 CỘT -->
+    <section class="bg-white p-6 rounded-xl shadow">
+      <h2 class="text-lg font-semibold mb-4 border-b pb-2">
+        🖥️ Phiên đăng nhập
+      </h2>
+
+      <div class="space-y-3 text-sm">
+        <p>
+          <span class="text-gray-500">Trạng thái:</span>
+          <span class="ml-2 px-2 py-1 bg-green-100 text-green-700 rounded text-xs">
+            Đang đăng nhập
+          </span>
+        </p>
+
+        <p>
+          <span class="text-gray-500">Thiết bị:</span>
+          <span class="font-medium ml-2">Windows • Chrome</span>
+        </p>
+
+        <p>
+          <span class="text-gray-500">Lần đăng nhập gần nhất:</span><br>
+          <span class="font-medium">01/02/2026 – 21:15</span>
+        </p>
+      </div>
+
+      <div class="mt-6 text-right">
+        <button
+          class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+          🚪 Đăng xuất
+        </button>
+      </div>
+    </section>
+
+  </div>
+</div>
+  

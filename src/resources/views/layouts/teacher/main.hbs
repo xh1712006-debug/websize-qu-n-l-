@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giảng viên | Quản lý đồ án</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 overflow-hidden">
+<div class="flex h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-gradient-to-b from-indigo-700 to-indigo-900
+                text-white flex-shrink-0">
+    <div class="p-4 font-bold text-lg border-b border-indigo-600">
+      👨‍🏫 GIẢNG VIÊN
+    </div>
+
+    <nav class="p-3 space-y-1 text-sm">
+      <a href="/teacher/dashboard" class="menu {{#if (eq active 'dashboard')}} active {{/if}} " >🏠 Dashboard</a>
+      <a href="/teacher/project"  class="menu {{#if (eq active 'project')}} active {{/if}} " >📘 Đồ án hướng dẫn</a>
+      <a href="/teacher/student"  class="menu {{#if (eq active 'student')}} active {{/if}} " >👨‍🎓 Sinh viên</a>
+      <a href="/teacher/report"   class="menu {{#if (eq active 'report')}} active {{/if}} " >📤 Báo cáo</a>
+      <a href="/teacher/feedback"  class="menu {{#if (eq active 'feedback')}} active {{/if}} " >💬 Phản hồi</a>
+
+      <div class="border-t border-indigo-600 mt-3 pt-2">
+        <a href="/teacher/account" class="menu {{#if (eq active 'account')}} active {{/if}} ">👤 Tài khoản</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-y-auto p-6">
+    {{{body}}}
+  </main>
+
+</div>
+<script src="/{{figure}}/{{active}}.js"></script>
+
+<style>
+.menu {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+.menu:hover {
+  background: rgba(255,255,255,0.15);
+}
+.menu.active {
+  background: rgba(255,255,255,0.25);
+  font-weight: 600;
+}
+</style>
+
+</body>
+</html>

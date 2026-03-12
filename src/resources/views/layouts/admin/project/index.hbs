@@ -1,0 +1,157 @@
+
+<div class="mt-12">
+
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-2xl font-bold text-gray-800">
+      📚 Danh sách đồ án đã tạo
+    </h3>
+
+    <button class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition text-sm">
+      <a href="/admin/project/create">
+        ➕ Tạo đồ án mới
+      </a>
+      
+    </button>
+  </div>
+
+  <!-- CARD CONTAINER -->
+  <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+
+    <table class="w-full text-sm text-left">
+
+      <!-- TABLE HEADER -->
+      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+        <tr>
+          <th class="p-4">Tên đồ án</th>
+          <th class="p-4">Giảng viên phụ trách</th>
+          <th class="p-4">Số sinh viên</th>
+          <th class="p-4">Ngày tạo</th>
+          <th class="p-4">Trạng thái</th>
+          <th class="p-4 text-center">Hành động</th>
+        </tr>
+      </thead>
+
+      <!-- TABLE BODY -->
+      <tbody class="table__body divide-y">
+
+        {{!-- <!-- PROJECT 1 -->
+        <tr class="hover:bg-gray-50 transition">
+
+          <td class="p-4">
+            <p class="font-semibold text-gray-800">
+              Website thương mại điện tử
+            </p>
+            <p class="text-xs text-gray-500 mt-1">
+              Xây dựng hệ thống bán hàng online với thanh toán trực tuyến
+            </p>
+          </td>
+
+          <td class="p-4 text-gray-600">
+            Nguyễn Văn C
+          </td>
+
+          <td class="p-4">
+
+            <div class="text-xs mb-1 text-gray-600">
+              5 / 10 sinh viên
+            </div>
+
+            <div class="w-32 bg-gray-200 rounded-full h-2">
+              <div class="bg-blue-500 h-2 rounded-full"
+                   style="width: 50%">
+              </div>
+            </div>
+
+          </td>
+
+          <td class="p-4 text-gray-600">
+            12/02/2026
+          </td>
+
+          <td class="p-4">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600">
+              Đang mở
+            </span>
+          </td>
+
+          <td class="p-4 text-center space-x-2">
+
+            <button class="view__project bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition">
+              👁 Xem
+            </button>
+
+            <button class="fix__project bg-yellow-400 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-500 transition">
+              ✏️ Sửa
+            </button>
+
+            <button class="delete__project bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition">
+              🗑 Xóa
+            </button>
+
+          </td>
+
+        </tr>
+
+
+        <!-- PROJECT 2 -->
+        <tr class="hover:bg-gray-50 transition">
+
+          <td class="p-4">
+            <p class="font-semibold text-gray-800">
+              Hệ thống quản lý sinh viên
+            </p>
+            <p class="text-xs text-gray-500 mt-1">
+              Ứng dụng quản lý hồ sơ và điểm số sinh viên
+            </p>
+          </td>
+
+          <td class="p-4 text-gray-600">
+            Trần Thị D
+          </td>
+
+          <td class="p-4">
+
+            <div class="text-xs mb-1 text-gray-600">
+              10 / 10 sinh viên
+            </div>
+
+            <div class="w-32 bg-gray-200 rounded-full h-2">
+              <div class="bg-green-500 h-2 rounded-full"
+                   style="width: 100%">
+              </div>
+            </div>
+
+          </td>
+
+          <td class="p-4 text-gray-600">
+            05/02/2026
+          </td>
+
+          <td class="p-4">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-600">
+              Đã đóng
+            </span>
+          </td>
+
+          <td class="p-4 text-center space-x-2">
+
+            <button class="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition">
+              👁 Xem
+            </button>
+
+            <button class="bg-yellow-400 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-500 transition">
+              ✏️ Sửa
+            </button>
+
+          </td>
+
+        </tr> --}}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

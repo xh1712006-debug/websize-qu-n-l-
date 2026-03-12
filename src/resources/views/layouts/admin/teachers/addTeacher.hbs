@@ -1,0 +1,270 @@
+<body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen py-10">
+
+<div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8">
+
+  <!-- HEADER -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold">➕ Tạo giảng viên</h2>
+    <p class="text-gray-500 text-sm">Frontend only - không cần backend</p>
+  </div>
+
+
+  <!-- FORM -->
+  <form id="teacherForm" class="grid grid-cols-2 gap-4">
+
+    <!-- Mã GV -->
+    <div>
+      <label>Mã giảng viên</label>
+      <input id="teacherId" required
+        class="w-full border rounded-lg p-2">
+    </div>
+
+    <!-- Tên -->
+    <div>
+      <label>Họ tên</label>
+      <input id="name" required
+        class="w-full border rounded-lg p-2">
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label>Email</label>
+      <input id="email" type="email"
+        class="w-full border rounded-lg p-2">
+    </div>
+
+    <!-- SĐT -->
+    <div>
+      <label>SĐT</label>
+      <input id="phone"
+        class="w-full border rounded-lg p-2">
+    </div>
+
+    <!-- Khoa -->
+    <div>
+      <label>Khoa</label>
+      <input id="department"
+        class="w-full border rounded-lg p-2">
+    </div>
+
+    <!-- Chức vụ -->
+    <div>
+      <label>Chức vụ</label>
+      <select id="role"
+        class="w-full border rounded-lg p-2">
+        <option>Lecturer</option>
+        <option>Senior Lecturer</option>
+        <option>Head</option>
+      </select>
+    </div>
+
+    <!-- Học vị -->
+    <div>
+      <label>Học vị</label>
+      <select id="degree"
+        class="w-full border rounded-lg p-2">
+        <option>Cử nhân</option>
+        <option>Thạc sĩ</option>
+        <option>Tiến sĩ</option>
+      </select>
+    </div>
+
+    <!-- Trạng thái -->
+    <div>
+      <label>Trạng thái</label>
+      <select id="status"
+        class="w-full border rounded-lg p-2">
+        <option>Active</option>
+        <option>Inactive</option>
+      </select>
+    </div>
+
+    <!-- Upload ảnh -->
+    <div class="col-span-2">
+      <label>Ảnh đại diện</label>
+      <input type="file"
+        id="avatarFile"
+        accept="image/*"
+        class="w-full border rounded-lg p-2">
+    </div>
+
+    <!-- Preview -->
+    <div class="col-span-2 flex justify-center">
+      <img id="preview"
+        class="w-24 h-24 rounded-full hidden border object-cover">
+    </div>
+
+    <!-- Button -->
+    <div class="col-span-2 flex gap-3">
+
+      <button type="submit"
+        class="submit flex-1 bg-blue-600 text-white p-2 rounded-lg">
+        Tạo
+      </button>
+
+      <button type="reset"
+        class="reset flex-1 bg-gray-300 p-2 rounded-lg">
+        Reset
+      </button>
+
+    </div>
+
+  </form>
+
+
+  <!-- RESULT -->
+  <div id="result"
+    class="hidden mt-4 bg-green-100 p-3 rounded-lg">
+  </div>
+
+
+  <!-- LIST -->
+  <div class="mt-6">
+
+    <h3 class="font-bold mb-2">
+      Danh sách giảng viên
+    </h3>
+
+    <div id="teacherList"></div>
+
+  </div>
+
+
+</div>
+
+{{!-- 
+<script>
+
+// lưu ảnh base64
+let avatarBase64 = ""
+
+
+// load data
+let teachers =
+JSON.parse(localStorage.getItem("teachers")) || []
+
+
+// chọn ảnh
+avatarFile.onchange = function(){
+
+  const file = this.files[0]
+
+  if(!file) return
+
+  const reader = new FileReader()
+
+  reader.onload = function(e){
+
+    avatarBase64 = e.target.result
+
+    preview.src = avatarBase64
+
+    preview.classList.remove("hidden")
+
+  }
+
+  reader.readAsDataURL(file)
+
+}
+
+
+// submit
+teacherForm.onsubmit = function(e){
+
+  e.preventDefault()
+
+  const teacher = {
+
+    id: teacherId.value,
+    name: name.value,
+    email: email.value,
+    phone: phone.value,
+    department: department.value,
+    role: role.value,
+    degree: degree.value,
+    status: status.value,
+    avatar: avatarBase64
+
+  }
+
+
+  teachers.push(teacher)
+
+  localStorage.setItem(
+    "teachers",
+    JSON.stringify(teachers)
+  )
+
+
+  result.innerHTML =
+  "✅ Đã tạo: " + teacher.name
+
+  result.classList.remove("hidden")
+
+
+  teacherForm.reset()
+
+  preview.classList.add("hidden")
+
+  avatarBase64 = ""
+
+
+  render()
+
+}
+
+
+// reset
+teacherForm.onreset = function(){
+
+  preview.classList.add("hidden")
+
+}
+
+
+// render list
+function render(){
+
+  teacherList.innerHTML = ""
+
+  teachers.forEach(t=>{
+
+    teacherList.innerHTML += `
+
+    <div class="flex items-center gap-3 border p-3 rounded mb-2">
+
+      <img src="${t.avatar || 'https://i.pravatar.cc/100'}"
+      class="w-12 h-12 rounded-full object-cover">
+
+      <div>
+
+        <div class="font-bold">
+        ${t.id} - ${t.name}
+        </div>
+
+        <div class="text-sm text-gray-500">
+        ${t.email}
+        </div>
+
+        <div class="text-xs">
+        ${t.role} | ${t.degree}
+        </div>
+
+      </div>
+
+    </div>
+
+    `
+
+  })
+
+}
+
+
+// load lần đầu
+render()
+
+</script> --}}
+
+
+</body>

@@ -1,0 +1,325 @@
+
+<style>
+.card-hover:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+
+.loading {
+    pointer-events: none;
+    opacity: 0.6;
+}
+</style>
+
+</head>
+
+
+<body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen">
+
+
+<!-- HEADER -->
+<div class="bg-white shadow">
+
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        <div>
+            <h1 class="text-2xl font-bold text-blue-600">
+                🎓 Hệ thống quản lý đồ án
+            </h1>
+
+            <p class="text-gray-500 text-sm">
+                Sinh viên chọn đồ án tốt nghiệp
+            </p>
+        </div>
+
+
+        <div class="flex items-center gap-4">
+
+            <span class="text-gray-600">
+                Xin chào, <b>Sinh viên</b>
+            </span>
+            <h3 class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                Xuân Hưng
+            </h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- CONTENT -->
+<div class="max-w-6xl mx-auto py-10 px-4">
+
+
+    <!-- TITLE -->
+    <div class="text-center mb-8">
+
+        <h2 class="text-3xl font-bold text-gray-800">
+            📚 Danh sách đồ án
+        </h2>
+
+        <p class="text-gray-500 mt-2">
+            Chọn đồ án bạn muốn thực hiện
+        </p>
+
+    </div>
+
+
+    <!-- STATS -->
+    <div class="mb-6 text-gray-600">
+
+        Tổng số đồ án: 
+        <span class="font-bold text-blue-600">
+            4
+        </span>
+
+    </div>
+
+
+
+    <!-- GRID PROJECT -->
+    <div class="list__project grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+
+        <!-- PROJECT -->
+        {{!-- <div class="project bg-white rounded-xl shadow-lg p-5 border card-hover">
+
+            <div class="flex justify-between items-center">
+
+                <h3 class="text-lg font-bold text-blue-600">
+                    Website quản lý sinh viên
+                </h3>
+
+                <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">
+                    Có thể chọn
+                </span>
+
+            </div>
+
+
+            <p class="text-gray-600 mt-3">
+                Xây dựng website quản lý sinh viên bằng NodeJS, Express, MongoDB.
+            </p>
+
+
+            <div class="mt-4 text-sm text-gray-500">
+
+                👨‍🏫 GV: Nguyễn Văn A
+
+            </div>
+
+
+            <button
+                id="btn-65f111"
+                onclick="selectProject('65f111111111111111111111')"
+                class="mt-5 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold"
+            >
+                Chọn đồ án
+            </button>
+
+        </div> --}}
+
+
+
+        {{!-- <!-- PROJECT -->
+        <div class="bg-white rounded-xl shadow-lg p-5 border card-hover">
+
+            <div class="flex justify-between">
+
+                <h3 class="text-lg font-bold text-green-600">
+                    Game rắn săn mồi C++
+                </h3>
+
+                <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">
+                    Có thể chọn
+                </span>
+
+            </div>
+
+
+            <p class="text-gray-600 mt-3">
+                Xây dựng game console C++ với đồ họa ASCII.
+            </p>
+
+
+            <div class="mt-4 text-sm text-gray-500">
+
+                👨‍🏫 GV: Trần Văn B
+
+            </div>
+
+
+            <button
+                onclick="selectProject('65f222222222222222222222')"
+                class="mt-5 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold"
+            >
+                Chọn đồ án
+            </button>
+
+        </div>
+
+
+
+        <!-- PROJECT -->
+        <div class="bg-white rounded-xl shadow-lg p-5 border card-hover">
+
+            <div class="flex justify-between">
+
+                <h3 class="text-lg font-bold text-purple-600">
+                    App quản lý công việc
+                </h3>
+
+                <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">
+                    Có thể chọn
+                </span>
+
+            </div>
+
+
+            <p class="text-gray-600 mt-3">
+                Ứng dụng quản lý task bằng ReactJS và NodeJS.
+            </p>
+
+
+            <div class="mt-4 text-sm text-gray-500">
+
+                👨‍🏫 GV: Lê Văn C
+
+            </div>
+
+
+            <button
+                onclick="selectProject('65f333333333333333333333')"
+                class="mt-5 w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-semibold"
+            >
+                Chọn đồ án
+            </button>
+
+        </div>
+
+
+
+        <!-- PROJECT -->
+        <div class="bg-white rounded-xl shadow-lg p-5 border card-hover">
+
+            <div class="flex justify-between">
+
+                <h3 class="text-lg font-bold text-red-600">
+                    Website bán hàng
+                </h3>
+
+                <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">
+                    Có thể chọn
+                </span>
+
+            </div>
+
+
+            <p class="text-gray-600 mt-3">
+                Website thương mại điện tử NodeJS, MongoDB.
+            </p>
+
+
+            <div class="mt-4 text-sm text-gray-500">
+
+                👨‍🏫 GV: Phạm Văn D
+
+            </div>
+
+
+            <button
+                onclick="selectProject('65f444444444444444444444')"
+                class="mt-5 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg font-semibold"
+            >
+                Chọn đồ án
+            </button>
+
+        </div> --}}
+
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- JAVASCRIPT -->
+<script>
+
+async function selectProject(projectId) {
+
+    const btn = event.target
+
+    if (!confirm("Bạn có chắc muốn chọn đồ án này?"))
+        return
+
+
+    btn.innerText = "Đang chọn..."
+    btn.classList.add("loading")
+
+
+    try {
+
+        const res = await fetch("/student/selectProject", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                projectId
+            })
+
+        })
+
+
+        const result = await res.json()
+
+
+        if (result.success) {
+
+            btn.innerText = "✓ Đã chọn"
+            btn.classList.remove("bg-blue-500")
+            btn.classList.add("bg-gray-500")
+
+            alert("Chọn đồ án thành công")
+
+            setTimeout(() => {
+
+                window.location.href = "/student/dashboard"
+
+            }, 1000)
+
+        }
+        else {
+
+            btn.innerText = "Chọn đồ án"
+            btn.classList.remove("loading")
+
+            alert("Thất bại")
+
+        }
+
+    }
+    catch (err) {
+
+        console.log(err)
+
+        alert("Lỗi server")
+
+    }
+
+}
+
+</script>
+
+
+
+</body>

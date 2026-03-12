@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<div class="flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-gray-900 text-white flex flex-col justify-between">
+
+    <div>
+      <!-- Logo -->
+      <div class="p-6 border-b border-gray-700">
+        <h1 class="text-2xl font-bold text-blue-400">🎓 Admin Panel</h1>
+        <p class="text-gray-400 text-xs mt-1">Quản lý hệ thống</p>
+      </div>
+
+      <!-- Menu -->
+      <nav class="p-4 space-y-2 text-sm">
+
+        <a href="/admin/dashboard"
+           class="flex items-center gap-3 px-4 py-2 rounded-lg bg-blue-600 text-white">
+          📊 Dashboard
+        </a>
+
+        <a href="/admin/student"
+           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+          👨‍🎓 Sinh viên
+        </a>
+
+        <a href="/admin/teacher"
+           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+          👨‍🏫 Giảng viên
+        </a>
+
+        <a href="/admin/project"
+           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+          📚 Đồ án
+        </a>
+
+        <a href="/admin/point"
+           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+          ⭐ Điểm
+        </a>
+
+        <a href="/admin/report"
+           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+          🔔 Thông báo
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- Footer -->
+    <div class="p-4 border-t border-gray-700 text-xs text-gray-400">
+      © 2026 Admin System
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 flex flex-col">
+
+    <!-- HEADER -->
+    {{!-- <header class="bg-white shadow px-8 py-4 flex justify-between items-center">
+
+      <h2 class="text-xl font-semibold text-gray-700">
+        Dashboard
+      </h2>
+
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-gray-600">Xin chào, Admin</span>
+        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+          A
+        </div>
+      </div>
+
+    </header> --}}
+
+
+    <!-- CONTENT -->
+    <main class="p-8 overflow-auto">
+
+      {{{body}}}
+
+    </main>
+
+  </div>
+
+</div>
+
+</body>
+<script src="/{{figure}}/{{active}}.js"></script>
+
+</html>

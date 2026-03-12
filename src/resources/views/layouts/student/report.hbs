@@ -1,0 +1,69 @@
+{{! filepath: d:\hoc_html\on_html\project2\src\resources\views\layouts\student\report.hbs }}
+<!-- TITLE -->
+<div class="mb-6">
+  <h1 class="text-2xl font-bold flex items-center gap-2">
+    📤 Nộp báo cáo đồ án
+  </h1>
+  <p class="text-gray-600 text-sm mt-1">
+    Sinh viên nộp báo cáo tiến độ và báo cáo cuối kỳ cho giảng viên hướng dẫn
+  </p>
+</div>
+
+<!-- SUBMIT FORM -->
+<form method="post" action="" enctype="multipart/form-data">  <!-- Added enctype -->
+  <div class="bg-white p-6 rounded-lg shadow mb-8">
+    <h2 class="text-lg font-semibold mb-4">📝 Thông tin báo cáo</h2>
+    <div class="space-y-4">
+      <!-- REPORT TYPE -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Loại báo cáo</label>
+        <select class="type__report w-full border rounded px-3 py-2 focus:outline-none focus:ring">
+          <option>Báo cáo tiến độ</option>
+          <option>Báo cáo giữa kỳ</option>
+          <option>Báo cáo cuối kỳ</option>
+        </select>
+      </div>
+      <!-- REPORT TITLE -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Tiêu đề báo cáo</label>
+        <input name="title" type="text" placeholder="Ví dụ: Báo cáo tiến độ tuần 6" class="title__report w-full border rounded px-3 py-2 focus:outline-none focus:ring">
+      </div>
+      <!-- DESCRIPTION -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Mô tả nội dung</label>
+        <textarea rows="4" placeholder="Mô tả ngắn gọn nội dung đã thực hiện..." class="content__report w-full border rounded px-3 py-2 focus:outline-none focus:ring"></textarea>
+      </div>
+      <!-- FILE -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">File báo cáo (PDF / DOCX)</label>
+        <input name="file_url" type="file" class="file__report w-full border rounded px-3 py-2 bg-gray-50">
+        <p class="text-xs text-gray-500 mt-1">Dung lượng tối đa: 10MB</p>
+      </div>
+      <!-- SUBMIT BUTTON -->
+      <div class="flex justify-end">
+        <button type="submit" class="submit__content bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Nộp báo cáo</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- SUBMISSION HISTORY -->
+<div class="bg-white p-6 rounded-lg shadow">
+  <h2 class="text-lg font-semibold mb-4">📚 Lịch sử nộp báo cáo</h2>
+  <div class="overflow-x-auto">
+    <table class="table__content w-full border text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border p-2 text-left">Tiêu đề</th>
+          <th class="border p-2">Loại</th>
+          <th class="border p-2">Ngày nộp</th>
+          <th class="border p-2">Trạng thái</th>
+          <th class="border p-2">File</th>
+        </tr>
+      </thead>
+      <tbody class="out__content">
+        <!-- Dynamic content loaded via JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
