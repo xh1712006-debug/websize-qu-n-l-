@@ -83,11 +83,10 @@ async function approve(id){
 // LOẠI
 // ========================
 async function reject(id){
+  console.log("ID gửi đi:", id)
     try{
-        await fetch(`/admin/project/rejectStudent`,{
+        await fetch(`/admin/project/rejectStudent?studentId=${id}`,{
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ studentId: id })
         })
 
         getApi(projectId)

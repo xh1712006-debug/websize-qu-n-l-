@@ -30,7 +30,7 @@ async function chooseStudent() {
         data.forEach(item => {
             const option = document.createElement('option')
             option.value = item._id
-            option.textContent = `${item.fullName} · ${item.studentCode} · ${item.class}`
+            option.textContent = `${item.fullName} · ${item.studentCode}`
             listStudent.appendChild(option)
         })
         
@@ -39,7 +39,7 @@ async function chooseStudent() {
     else{
         const option = document.createElement('option')
         option.value = data._id
-        option.textContent = `${data.fullName} · ${data.studentCode} · ${data.class}`
+        option.textContent = `${data.fullName} · ${data.studentCode}`
         listStudent.appendChild(option)
         infoStudentContent(data)
     }

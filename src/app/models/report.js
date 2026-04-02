@@ -19,6 +19,9 @@ const dashboardSchema = new schema({
     content: {
         type: String,
     },
+    status: {
+        type: String,
+    },
     title: {
         type: String,
     },

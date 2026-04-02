@@ -2,11 +2,17 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 const dashboardSchema = new schema({
+    fullName: {
+        type: String,
+    },
     email: {
         type: String,
     },
     password: {
-        type: String
+        type: String,
+    },
+    role: {
+        type: String,
     }
 }, {
     timestamps: true,

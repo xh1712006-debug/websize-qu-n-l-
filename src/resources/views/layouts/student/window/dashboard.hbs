@@ -1,4 +1,5 @@
 <div class="space-y-10">
+{{#each data}}
 
   <!-- HEADER -->
   <div class="flex justify-between items-center">
@@ -19,28 +20,28 @@
 
     <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-blue-500">
       <p class="text-sm text-gray-500">Đồ án</p>
-      <p class="text-4xl font-bold text-blue-600 mt-2">1</p>
+      <p class="text-4xl font-bold text-blue-600 mt-2">{{projectCount}}</p>
       <p class="text-xs text-gray-400 mt-1">Đang thực hiện</p>
     </div>
 
     <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-green-500">
       <p class="text-sm text-gray-500">Tiến độ</p>
-      <p class="text-4xl font-bold text-green-600 mt-2">75%</p>
+      <p class="text-4xl font-bold text-green-600 mt-2">{{precent}}%</p>
 
       <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
-        <div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div>
+        <div class="bg-green-500 h-2 rounded-full" style="width: {{precent}}%"></div>
       </div>
     </div>
 
     <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-yellow-500">
       <p class="text-sm text-gray-500">Báo cáo đã nộp</p>
-      <p class="text-4xl font-bold text-yellow-600 mt-2">3</p>
+      <p class="text-4xl font-bold text-yellow-600 mt-2">{{report.length}}</p>
       <p class="text-xs text-gray-400 mt-1">Tuần / Giai đoạn</p>
     </div>
 
     <div class="bg-white p-6 rounded-2xl shadow border-l-4 border-purple-500">
       <p class="text-sm text-gray-500">Phản hồi GV</p>
-      <p class="text-4xl font-bold text-purple-600 mt-2">1</p>
+      <p class="text-4xl font-bold text-purple-600 mt-2">{{feedbackCount}}</p>
       <p class="text-xs text-gray-400 mt-1">Chưa đọc</p>
     </div>
 
@@ -59,8 +60,8 @@
 
         <li class="flex justify-between items-center">
           <div>
-            <p class="font-medium">Nộp báo cáo tuần 3</p>
-            <p class="text-xs text-gray-500">Môn: Đồ án tốt nghiệp</p>
+            <p class="font-medium">Nộp báo cáo tuần {{week}}</p>
+            <p class="text-xs text-gray-500">Đề tài: {{projectName}}</p>
           </div>
           <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full">
             Hôm nay
@@ -73,7 +74,7 @@
             <p class="text-xs text-gray-500">Theo góp ý GVHD</p>
           </div>
           <span class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full">
-            Còn 2 ngày
+            Còn {{day}} ngày
           </span>
         </li>
 
@@ -88,12 +89,11 @@
 
       <div class="border-l-4 border-yellow-500 pl-4">
         <p class="text-sm text-gray-700 italic">
-          “Em cần chỉnh lại chương 2 và bổ sung sơ đồ hệ thống.
-          Chú ý phần thiết kế cơ sở dữ liệu.”
+          “{{feedbackContent}}”
         </p>
 
         <p class="text-xs text-gray-400 mt-2">
-          ThS. Trần Văn B · 05/03/2026
+          {{teacherName}} · {{FeedbackDate}}
         </p>
       </div>
 
@@ -126,19 +126,20 @@
       <tbody>
         <tr class="border-b">
           <td class="py-3 font-medium">
-            Hệ thống quản lý đồ án tốt nghiệp
+            {{projectName}}
           </td>
-          <td>ThS. Trần Văn B</td>
-          <td>75%</td>
+          <td>{{teacherName}}</td>
+          <td>{{precent}}%</td>
           <td>
             <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs">
-              Đang thực hiện
+              {{projectStatus}}
             </span>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+{{/each}}
 
 </div>
 

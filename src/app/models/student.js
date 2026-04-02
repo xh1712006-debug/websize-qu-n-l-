@@ -6,9 +6,6 @@ const dashboardSchema = new schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'teacher',
     },
-    id: {
-        type: 'String'
-    },
     fullName: {
         type: 'String'
     },
@@ -21,21 +18,12 @@ const dashboardSchema = new schema({
     phont: {
         type: 'String'
     },
-    StudentClass: {
-        type: 'String'
-    },
     studentEmail: {
         type: 'String'
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'project',
-    },
-    // studentPassword: {
-    //     type: 'String'
-    // },
-    major: {
-        type: 'String'
     },
     status: {
         type: 'String'

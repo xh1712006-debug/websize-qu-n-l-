@@ -18,8 +18,8 @@
     <!-- TITLE -->
     <div>
       <p class="text-sm text-gray-500 mb-2">Tên đề tài</p>
-      <p class="text-2xl font-semibold text-gray-800">
-        Hệ thống quản lý đồ án tốt nghiệp
+      <p class="topic text-2xl font-semibold text-gray-800">
+        
       </p>
     </div>
 
@@ -27,19 +27,19 @@
     <!-- STUDENT + SUPERVISOR -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <div class="bg-gray-50 p-6 rounded-xl">
-        <p class="text-sm text-gray-500 mb-3">👨‍🎓 Sinh viên thực hiện</p>
+      <div class="studentList bg-gray-50 p-6 rounded-xl">
+        {{!-- <p class="text-sm text-gray-500 mb-3">👨‍🎓 Sinh viên thực hiện</p>
         <p class="text-lg font-semibold text-gray-800">Nguyễn Văn A</p>
         <p class="text-sm text-gray-600">MSSV: SV00123</p>
         <p class="text-sm text-gray-600">Lớp: CNTT-K15</p>
-        <p class="text-sm text-gray-600">Email: nguyenvana@gmail.com</p>
+        <p class="text-sm text-gray-600">Email: nguyenvana@gmail.com</p> --}}
       </div>
 
-      <div class="bg-gray-50 p-6 rounded-xl">
-        <p class="text-sm text-gray-500 mb-3">👨‍🏫 Giảng viên hướng dẫn</p>
+      <div class="teacherList bg-gray-50 p-6 rounded-xl">
+        {{!-- <p class="text-sm text-gray-500 mb-3">👨‍🏫 Giảng viên hướng dẫn</p>
         <p class="text-lg font-semibold text-gray-800">ThS. Trần Văn B</p>
         <p class="text-sm text-gray-600">Khoa Công nghệ thông tin</p>
-        <p class="text-sm text-gray-600">Email: btv@university.edu.vn</p>
+        <p class="text-sm text-gray-600">Email: btv@university.edu.vn</p> --}}
       </div>
 
     </div>
@@ -48,7 +48,7 @@
     <!-- DESCRIPTION -->
     <div>
       <p class="text-sm text-gray-500 mb-3">Mô tả đề tài</p>
-      <p class="text-gray-700 leading-relaxed">
+      <p class="topic_description text-gray-700 leading-relaxed">
         Xây dựng hệ thống quản lý đồ án tốt nghiệp giúp sinh viên theo dõi tiến độ,
         nộp báo cáo trực tuyến và nhận phản hồi từ giảng viên một cách nhanh chóng,
         trực quan và hiệu quả.
@@ -59,12 +59,12 @@
     <!-- TECHNOLOGY -->
     <div>
       <p class="text-sm text-gray-500 mb-3">Công nghệ sử dụng</p>
-      <div class="flex flex-wrap gap-3">
-        <span class="tech-badge">HTML</span>
+      <div class="technologyList flex flex-wrap gap-3">
+        {{!-- <span class="tech-badge">HTML</span>
         <span class="tech-badge">Tailwind CSS</span>
         <span class="tech-badge">JavaScript</span>
         <span class="tech-badge">Node.js</span>
-        <span class="tech-badge">MongoDB</span>
+        <span class="tech-badge">MongoDB</span> --}}
       </div>
     </div>
 
@@ -75,10 +75,10 @@
       <!-- PROGRESS -->
       <div class="bg-blue-50 p-6 rounded-xl">
         <p class="text-sm text-gray-500">Tiến độ hiện tại</p>
-        <p class="text-3xl font-bold text-blue-600 mt-2">75%</p>
+        <p class="numberProdress text-3xl font-bold text-blue-600 mt-2">75%</p>
 
         <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-          <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+          <div class="widthProgress bg-blue-600 h-2.5 rounded-full"></div>
         </div>
       </div>
 
@@ -86,15 +86,15 @@
       <!-- REPORT -->
       <div class="bg-green-50 p-6 rounded-xl">
         <p class="text-sm text-gray-500">Báo cáo đã nộp</p>
-        <p class="text-3xl font-bold text-green-600 mt-2">3</p>
-        <p class="text-sm text-gray-600 mt-1">/ 5 báo cáo</p>
+        <p class="numberReport text-3xl font-bold text-green-600 mt-2">3</p>
+        {{!-- <p class="listReport text-sm text-gray-600 mt-1">/ 5 báo cáo</p> --}}
       </div>
 
 
       <!-- DEADLINE -->
       <div class="bg-red-50 p-6 rounded-xl">
         <p class="text-sm text-gray-500">Hạn nộp cuối</p>
-        <p class="text-2xl font-bold text-red-600 mt-2">30/05/2026</p>
+        <p class="date-text text-2xl font-bold text-red-600 mt-2">30/05/2026</p>
         <p class="text-sm text-gray-600 mt-1">Còn 120 ngày</p>
       </div>
 
@@ -104,11 +104,11 @@
     <!-- OBJECTIVES -->
     <div>
       <p class="text-sm text-gray-500 mb-3">Mục tiêu đề tài</p>
-      <ul class="list-disc list-inside text-gray-700 space-y-2">
-        <li>Quản lý tiến độ đồ án một cách trực quan</li>
+      <ul class="list__request list-disc list-inside text-gray-700 space-y-2">
+        {{!-- <li>Quản lý tiến độ đồ án một cách trực quan</li>
         <li>Hỗ trợ sinh viên nộp báo cáo trực tuyến</li>
         <li>Giảng viên phản hồi và đánh giá dễ dàng</li>
-        <li>Phù hợp triển khai thực tế tại các trường đại học</li>
+        <li>Phù hợp triển khai thực tế tại các trường đại học</li> --}}
       </ul>
     </div>
 

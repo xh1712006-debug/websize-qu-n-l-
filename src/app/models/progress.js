@@ -2,11 +2,28 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 const dashboardSchema = new schema({
-    name: String,
-    email: String,
+    studentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'student',
+        required: true,
+    },
+    projectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'project',
+        required: true,
+    },
+    precent: {
+        type: Number,
+    },
+    comment: {
+        type: String,
+    },
+    status: {
+        type: String,  // "pending" | "pass" | "fail"
+    },
 }, {
     timestamps: true,
 })
 
-const modelName = 'progress'
+const modelName = 'progresses'
 module.exports = mongoose.models[modelName] || mongoose.model(modelName, dashboardSchema)

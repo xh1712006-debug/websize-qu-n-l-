@@ -7,5 +7,7 @@ router.use('/feedback', require('./feedback'))
 router.use('/project', require('./project'))
 router.use('/report', require('./report'))
 router.use('/student', require('./student'))
+router.use('/score', require('./score'))
+router.use('/scoreFeedback', require('./scoreFeedback'))
 
 module.exports = router;

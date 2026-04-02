@@ -1,0 +1,420 @@
+slide 32
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a=scanner.nextInt();
+        if (a%2==0){
+            System.out.print("số chẵn");
+        }else{
+            System.out.print("số lẻ");
+        }
+    }
+}
+
+slide 34
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double a=scanner.nextDouble();
+        double b=scanner.nextDouble();
+        if (a>b){
+            System.out.print("số nhỏ nhất là:"+b);
+        }else{
+            System.out.print("số nhỏ nhất là:"+a);
+        }
+    }
+}
+
+slide 36
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double a=scanner.nextDouble();
+        if (a<4){
+            System.out.printf("điểm F");
+        }else if (a<5){
+            System.out.printf("điểm D");
+        }else if (a<5.5){
+            System.out.printf("điểm D+");
+        }else if (a<6.5){
+            System.out.printf("điểm C");
+        }else if (a<7){
+            System.out.printf("điểm C+");
+        }else if (a<8){
+            System.out.printf("điểm B");
+        }else if (a<8.5){
+            System.out.printf("điểm B+");
+        }else if (a<9){
+            System.out.printf("điểm A");
+        }else if (a<=10){
+            System.out.printf("điểm A+");
+        }
+    }
+}
+
+slide 41
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a=scanner.nextInt();
+        String b=scanner.nextLine();
+        switch(a){
+            case 0:b="chủ nhật";
+                break;
+            case 1:b="thứ hai";
+                break;
+            case 2:b="thứ ba";
+                break;
+            case 3:b="thứ tư";
+                break;
+            case 4:b="thứ năm";
+                break;
+            case 5:b="thứ sáu";
+                break;
+            case 6:b="thứ bảy";
+                break;
+        }
+        System.out.print(b);
+    }
+}
+
+slide 50
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a=scanner.nextInt();
+        int b=0;
+        while (a!=0){
+            b=b+a%10;
+            a=a/10;
+        }
+        System.out.print(b);
+    }
+}
+
+slide 53
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("nhập số:");
+        int a=scanner.nextInt();
+        int b=a;
+        while (b<=100){
+            System.out.println("nhập số:");
+            a=scanner.nextInt();
+            b=b+a;
+        }
+        System.out.print(b);
+    }
+}
+
+slide 55
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        for(int i=0;i<5;i++){
+            System.out.println(i);
+        }
+    }
+}
+
+slide 58
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class sochanle
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        for(int i=0;i<=20;i++){
+            if (i%5==0){
+                System.out.println(i);
+            }
+        }
+    }
+}
+
+bài 1
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+//    ý 1
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double a=scanner.nextDouble();
+        double b=scanner.nextDouble();
+        System.out.print("tổng:" + (a+b));
+        System.out.print("hiệu:" + (a-b));
+        System.out.print("tích:" + (a*b));
+        System.out.print("thương:" + (a/b));
+        System.out.print("dư:" + (a%b));
+
+//    ý 2
+
+        if(a>b)
+            System.out.print("a lớn hơn b");
+        else if(a<b)
+            System.out.print("a nhỏ hơn b ");
+        else if (a == b)
+            System.out.print("a bằng b");
+        else if(a!=b)
+            System.out.print("a khác b");
+    }
+}
+
+
+bài 2
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        if(a % 2 == 0)
+            System.out.println("a là số chẵn");
+        else
+            System.out.println("a là số lẽ");
+
+    }
+}
+
+bài 3
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        if(a < 16)
+            System.out.println("bạn ở tuổi vị thành niên");
+        else if (a >= 16 && a < 18)
+            System.out.println("bạn ở độ tuổi trưởng thành");
+        else
+            System.out.println("bạn ở độ tuổi già");
+    }
+}
+
+bài4
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        switch (a){
+            case 1:
+                System.out.println("tháng 1");
+                break;
+            case 2:
+                System.out.println("tháng 2");
+                break;
+            case 3:
+                System.out.println("tháng 3");
+                break;
+            case 4:
+                System.out.println("tháng 4");
+                break;
+            case 5:
+                System.out.println("tháng 5");
+                break;
+            case 6:
+                System.out.println("tháng 6");
+                break;
+            case 7:
+                System.out.println("tháng 7");
+                break;
+            case 8:
+                System.out.println("tháng 8");
+                break;
+            case 9:
+                System.out.println("tháng 9");
+                break;
+            case 10:
+                System.out.println("tháng 10");
+                break;
+            case 11:
+                System.out.println("tháng 11");
+                break;
+            case 12:
+                System.out.println("tháng 12");
+                break;
+            default:
+                System.out.println("Tháng không hợp lệ");
+        }
+    }
+}
+
+bài 5
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a, tong = 0;
+        do {
+            a = scanner.nextInt();
+            tong += a;
+        } while (tong <= 100);
+        System.out.println("tổng số vừa nhập là: " + tong);
+    }
+}
+
+bài 6
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a,gt = 1;
+        a = scanner.nextInt();
+        for(int i=1;i<=a;i++){
+            gt *= i;
+        }
+        System.out.println(" kết quả dài thừa là: " + gt);
+    }
+}
+
+bài 7
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        for(int i=1;i<=20;i++) {
+            System.out.println(i +" ");
+        }
+    }
+}
+
+bài 8
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n, tb = 0;
+        n = scanner.nextInt();
+        int[] a = new int[n];
+        for (int i=0;i<n;i++){
+            a[i] = scanner.nextInt();
+            tb += a[i];
+        }
+        tb = tb / n;
+        System.out.println("trung bình cộng là: " + tb);
+    }
+}
+
+bài 9
+
+/**
+ * user:Lê Xuân Hưng
+ * date: 02/02/2026
+ */
+import java.util.Scanner;
+public class index
+{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String s;
+        int thuong = 0,hoa = 0, so = 0;
+        s = scanner.next();
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i) >= 'a' && s.charAt(i) <= 'z'){
+                thuong++;
+            } else if (s.charAt(i) >= 'A' && s.charAt(i) <= 'Z') {
+                hoa++;
+            } else if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                so++;
+            }
+        }
+        System.out.println("số lượng chư cái thường là: " + thuong);
+        System.out.println("số lượng chư cái hoa là: " + hoa);
+        System.out.println("số lượng chư số là: " + so);
+    }
+}
+
+bài 10
+

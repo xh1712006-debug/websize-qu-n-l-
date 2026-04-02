@@ -5,11 +5,13 @@ async function getApi(){
 
     const res = await fetch('/Api/project')
     const result = await res.json()
-    console.log(result)
+
+    console.log('result: ', result)
 
     result.forEach(data => {
         data.date = new Date(data.date).toLocaleDateString('vi-VN')
         const tr = document.createElement('tr')
+
         tr.className = 'hover:bg-gray-50 transition'
         tr.innerHTML += `
             <td class="p-4">
@@ -28,12 +30,12 @@ async function getApi(){
             <td class="p-4">
 
                 <div class="text-xs mb-1 text-gray-600">
-                5 / ${data.numberStudent} sinh viên
+                ${data.numberSubmit} / ${data.numberStudent} sinh viên
                 </div>
 
                 <div class="w-32 bg-gray-200 rounded-full h-2">
                 <div class="bg-blue-500 h-2 rounded-full"
-                    style="width: 50%">
+                    style="width: ${(data.numberSubmit/data.numberStudent)*100}%">
                 </div>
                 </div>
 

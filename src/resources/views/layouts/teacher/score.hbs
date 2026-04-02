@@ -1,0 +1,65 @@
+
+<body class="bg-gray-100 min-h-screen">
+
+<div class="max-w-7xl mx-auto p-8">
+
+    <!-- Title -->
+    <h1 class="text-3xl font-bold mb-8">📊 Chấm điểm sinh viên</h1>
+
+    <!-- Table -->
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+
+        <table class="w-full">
+            <thead class="bg-gray-100 text-gray-600">
+                <tr>
+                    <th class="p-4 text-left">Sinh viên</th>
+                    <th class="p-4 text-left">Đề tài</th>
+                    <th class="p-4 text-left">Trạng thái</th>
+                    <th class="p-4 text-left">Điểm</th>
+                    <th class="p-4 text-center">Hành động</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div id="modal" class="fixed inset-0 bg-black/40 hidden items-center justify-center">
+
+    <div class="bg-white p-6 rounded-2xl w-full max-w-md shadow-lg">
+
+        <h2 class="text-xl font-bold mb-4">Chấm điểm</h2>
+
+        <p id="studentName" class="mb-4 text-gray-600"></p>
+
+        <label class="block mb-2 font-semibold">Điểm</label>
+        <input id="scoreInput" type="number" min="0" max="10"
+            class="w-full border p-2 rounded mb-4">
+
+        <label class="block mb-2 font-semibold">Nhận xét</label>
+        <textarea id="commentInput"
+            class="w-full border p-2 rounded mb-4"></textarea>
+
+        <div class="flex justify-end gap-3">
+            <button id="closeModalBtn" class="px-4 py-2 bg-gray-300 rounded">
+                Hủy
+            </button>
+
+            <button
+                id="saveScoreBtn"
+                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Lưu
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>

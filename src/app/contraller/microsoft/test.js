@@ -30,7 +30,7 @@ class microsoftController {
                 new URLSearchParams({
                     // mã số đơn hàng
                     client_id: '3a9bfba0-264d-4637-bb62-f84f32ea413b',                   
-                    CLIENT_SECRET: "ZVU8Q~CwaQZzqQwcQGNgZUg1tMQ1J8CaZrrJ9dx6",
+                    CLIENT_SECRET: 'ZVU8Q~CwaQZzqQwcQGNgZUg1tMQ1J8CaZrrJ9dx6',
                     code: code,
                     redirect_uri: 'http://localhost:3000/auth/microsoft/callback',
                     grant_type: 'authorization_code'

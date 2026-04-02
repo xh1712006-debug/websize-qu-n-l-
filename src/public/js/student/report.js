@@ -5,44 +5,56 @@ const titleReport = document.querySelector('.title__report')
 const contentReport = document.querySelector('.content__report')
 const fileReport = document.querySelector('.file__report')
 const tableContent = document.querySelector('.table__content')
+const outContent = document.querySelector('.out__content')
 
-// Post to database with file
-async function sendTable(data) {
+// upload dư liệu file
+async function uploadFile(){
     try {
         const formData = new FormData()
-        formData.append('content', data.content)
-        formData.append('type', data.type)
-        formData.append('title', data.title)
-        formData.append('file_url', data.file)  // Append the file
 
-        const res = await fetch('/student/report/new-report', {
+        formData.append('title', titleReport.value)
+        formData.append('content', contentReport.value)
+        formData.append('type', typeReport.value)
+        formData.append('file_url', fileReport.files[0])
+
+        const res = await fetch('/student/report/upload', {
             method: 'POST',
-            body: formData  // Use FormData for file upload
+            body: formData
         })
 
-        return await res.json()
-    } catch (err) {
-        console.error('Failed to create report:', err)
-        throw err
+        const data = await res.json()
+
+        if(data.success){
+            alert('Gửi báo cáo thành công')
+            window.location.reload()
+        }
+    }
+    catch(err){
+        console.log(err)
     }
 }
+
 
 // Get database
 async function createTable() {
     try {
         const res = await fetch('/student/report/getReport')
         const data = await res.json()
+        console.log('data', data)
         const tbody = document.createElement('tbody')
+        tbody.className = ''
         data.report.forEach(item => {
             const createDate = new Date(item.createdAt).toLocaleDateString('vi-VN')
+            const color = item.status == 'đã duyệt' ? 'green' :
+             item.status == 'chờ duyệt' ? 'yellow' : 'red'
             tbody.innerHTML += `
                 <tr>
-                    <td class="border p-2">${item.title}</td>
-                    <td class="border p-2">${item.type}</td>
-                    <td class="border p-2">${createDate}</td>
-                    <td class="border p-2 text-yellow-600 font-semibold">Chờ phản hồi</td>
-                    <td class="border p-2 text-blue-600 underline cursor-pointer">
-                        <a href="/uploads/${item.fileUrl}" target="_blank">Tải xuống</a>  // Updated to match static route
+                    <td class="border p-2 text-center">${item.title}</td>
+                    <td class="border p-2 text-center">${item.type}</td>
+                    <td class="border p-2 text-center">${createDate}</td>
+                    <td class="border p-2 text-${color}-600 font-semibold text-center">${item.status}</td>
+                    <td class="border p-2 text-blue-600 underline cursor-pointer text-center">
+                        <a href="/student/report/upload/file/${item.fileUrl}" target="_blank">Tải xuống</a> 
                     </td>
                 </tr>
             `
@@ -63,16 +75,18 @@ submitContent.addEventListener('click', async (e) => {
         return
     }
 
-    try {
-        await sendTable({
-            content: contentReport.value,
-            title: titleReport.value,
-            file: file,  // Pass the file object
-            type: typeReport.value,
-        })
-        window.location.reload()
-    } catch (err) {
-        console.error(err)
-        alert('Không thể gửi báo cáo: ' + err.message)
-    }
+    // try {
+    //     await sendTable({
+    //         content: contentReport.value,
+    //         title: titleReport.value,
+    //         file: file,  // Pass the file object
+    //         type: typeReport.value,
+    //     })
+    //     window.location.reload()
+    // } catch (err) {
+    //     console.error(err)
+    //     alert('Không thể gửi báo cáo: ' + err.message)
+    // }
+
+    uploadFile()
 })

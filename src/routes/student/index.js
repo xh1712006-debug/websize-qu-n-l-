@@ -8,6 +8,7 @@ router.use('/progress', require('./progress'))
 router.use('/report', require('./report'))
 router.use('/dashboard', require('./dashboard'))
 router.use('/account', require('./account'))
+router.use('/score', require('./score'))
 
 
 module.exports = router

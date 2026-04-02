@@ -1,0 +1,132 @@
+
+
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Container -->
+<div class="max-w-6xl mx-auto px-6 py-10">
+
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">
+            📊 Kết quả đồ án tốt nghiệp
+        </h1>
+        <p class="text-gray-500">
+            Xem chi tiết điểm và đánh giá của bạn
+        </p>
+    </div>
+
+    <!-- Main Card -->
+    {{#each data}}
+    <div class="bg-white rounded-2xl shadow-lg p-8 space-y-8">
+
+        <!-- Info -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+                <p><span class="font-semibold">Sinh viên:</span> {{fullName}}</p>
+                <p><span class="font-semibold">Mã SV:</span> {{studentCode}}</p>
+            </div>
+            <div class="space-y-2">
+                <p><span class="font-semibold">Đề tài:</span> {{projectName}}</p>
+                <p><span class="font-semibold">Giảng viên:</span> {{teacherName}}</p>
+            </div>
+        </div>
+
+        <!-- Score Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="bg-blue-50 rounded-xl p-6 text-center shadow-sm">
+                <p class="text-gray-500">Giảng viên</p>
+                <h2 class="text-4xl font-bold text-blue-600 mt-2">{{score}}</h2>
+            </div>
+
+            <div class="bg-green-50 rounded-xl p-6 text-center shadow-sm">
+                <p class="text-gray-500">Phản biện</p>
+                <h2 class="text-4xl font-bold text-green-600 mt-2">{{scoreFeedback}}</h2>
+            </div>
+
+            <div class="bg-yellow-50 rounded-xl p-6 text-center shadow-sm">
+                <p class="text-gray-500">Tổng kết</p>
+                <h2 id="finalScore" class="text-4xl font-bold text-yellow-600 mt-2">{{result}}</h2>
+            </div>
+
+        </div>
+
+        <!-- Progress Section -->
+        <div>
+            <div class="flex justify-between mb-2">
+                <span class="font-semibold text-gray-700">Mức độ hoàn thành</span>
+                <span id="percentText" class="text-gray-500">{{precent}}%</span>
+            </div>
+
+            <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                <div id="progressBar"
+                     class="h-4 rounded-full transition-all {{color}} duration-700 ease-in-out"
+                     style="width: {{precent}}%">
+                </div>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="flex items-center justify-between bg-gray-50 p-5 rounded-xl">
+            <span class="font-semibold text-gray-700">Trạng thái</span>
+            <span id="status"
+                  class="px-5 py-2 rounded-full {{this.color}} font-semibold text-sm">
+                {{this.status}}
+            </span>
+        </div>
+
+        <!-- Comment -->
+        <div>
+            <p class="font-semibold text-gray-700 mb-2">Nhận xét</p>
+            <div class="bg-gray-50 p-5 rounded-xl leading-relaxed text-gray-600">
+                {{comment}}
+            </div>
+        </div>
+
+    </div>
+    {{/each}}
+
+</div>
+
+
+{{!-- <script>
+    // DATA (sau này lấy từ API)
+    const teacherScore = 8.0;
+    const reviewerScore = 7.5;
+
+    // Tính điểm
+    const finalScore = ((teacherScore + reviewerScore) / 2).toFixed(1);
+
+    document.getElementById("finalScore").innerText = finalScore;
+
+    // Progress
+    const percent = (finalScore / 10) * 100;
+    document.getElementById("progressBar").style.width = percent + "%";
+    document.getElementById("percentText").innerText = percent.toFixed(0) + "%";
+
+    // Status
+    const statusEl = document.getElementById("status");
+
+    if (finalScore >= 8) {
+        statusEl.innerText = "Xuất sắc";
+        statusEl.className += " bg-blue-500";
+        progressBar.classList.add("bg-blue-500");
+
+    } else if (finalScore >= 6.5) {
+        statusEl.innerText = "Khá";
+        statusEl.className += " bg-green-500";
+        progressBar.classList.add("bg-green-500");
+
+    } else if (finalScore >= 5) {
+        statusEl.innerText = "Đạt";
+        statusEl.className += " bg-yellow-500";
+        progressBar.classList.add("bg-yellow-500");
+
+    } else {
+        statusEl.innerText = "Không đạt";
+        statusEl.className += " bg-red-500";
+        progressBar.classList.add("bg-red-500");
+    }
+</script> --}}
+
+</body>

@@ -1,6 +1,7 @@
-<div class="min-h-screen bg-gray-50 py-10 px-4">
 
-  <!-- WRAPPER -->
+
+<div class="min-h-screen py-10 px-4">
+
   <div class="max-w-4xl mx-auto">
 
     <!-- HEADER -->
@@ -13,12 +14,12 @@
       </p>
     </div>
 
-    <!-- FORM CARD -->
+    <!-- FORM -->
     <div class="bg-white p-10 rounded-3xl shadow-xl border border-gray-100">
 
       <form class="space-y-8">
 
-        <!-- TÊN ĐỒ ÁN -->
+        <!-- TÊN -->
         <div>
           <label class="block text-sm font-semibold text-gray-700 mb-3">
             Tên đồ án
@@ -26,7 +27,7 @@
           <input 
             type="text"
             placeholder="Nhập tên đồ án..."
-            class="input__project w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
+            class="input__project w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500">
         </div>
 
         <!-- MÔ TẢ -->
@@ -37,33 +38,62 @@
           <textarea
             rows="4"
             placeholder="Nhập mô tả đồ án..."
-            class="content__project w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition"></textarea>
+            class="content__project w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        {{!-- <!-- MỤC TIÊU -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-3">
+            Mục tiêu
+          </label>
+          <textarea
+            rows="3"
+            placeholder="Nhập mục tiêu..."
+            class="objective w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500"></textarea>
+        </div> --}}
+
+        <!-- CÔNG NGHỆ -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-3">
+            Công nghệ đề xuất
+          </label>
+          <input
+            type="text"
+            placeholder="VD: NodeJS, MongoDB..."
+            class="technology w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- REQUIREMENT -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-3">
+            Yêu cầu đề tài
+          </label>
+
+          <div id="requirementList" class="space-y-3"></div>
+
+          <button type="button"
+            onclick="addRequirement()"
+            class="mt-3 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+            ➕ Thêm yêu cầu
+          </button>
         </div>
 
         <!-- GIẢNG VIÊN -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-          <!-- GVHD -->
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-3">
               Giảng viên hướng dẫn
             </label>
-            <select class="teacher__instruct w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
-              {{!-- <option>Chọn giảng viên</option>
-              <option>Nguyễn Văn C</option>
-              <option>Trần Văn D</option> --}}
+            <select class="teacher__instruct w-full border border-gray-300 rounded-xl px-5 py-3">
             </select>
           </div>
 
-          <!-- GVPB -->
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-3">
               Giảng viên phản biện
             </label>
-            <select class="teacher__feedback w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
-              {{!-- <option>Chọn giảng viên</option>
-              <option>Phạm Văn E</option>
-              <option>Lê Văn F</option> --}}
+            <select class="teacher__feedback w-full border border-gray-300 rounded-xl px-5 py-3">
             </select>
           </div>
 
@@ -72,26 +102,23 @@
         <!-- SỐ LƯỢNG + DEADLINE -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-          <!-- MAX STUDENT -->
           <div>
-            <label class=" block text-sm font-semibold text-gray-700 mb-3">
+            <label class="block text-sm font-semibold text-gray-700 mb-3">
               Số sinh viên tối đa
             </label>
             <input 
               type="number"
               min="1"
-              placeholder="Ví dụ: 10"
-              class="number__student w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
+              class="number__student w-full border border-gray-300 rounded-xl px-5 py-3">
           </div>
 
-          <!-- DEADLINE -->
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-3">
               Deadline đăng ký
             </label>
             <input 
               type="date"
-              class="date w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
+              class="date w-full border border-gray-300 rounded-xl px-5 py-3">
           </div>
 
         </div>
@@ -101,7 +128,7 @@
           <label class="block text-sm font-semibold text-gray-700 mb-3">
             Trạng thái
           </label>
-          <select class="status w-full border border-gray-300 rounded-xl px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
+          <select class="status w-full border border-gray-300 rounded-xl px-5 py-3">
             <option value="open">Đang mở đăng ký</option>
             <option value="closed">Đóng đăng ký</option>
           </select>
@@ -111,12 +138,12 @@
         <div class="flex justify-end gap-4 pt-6 border-t">
 
           <button type="button"
-            class="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+            class="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-100">
             Hủy
           </button>
 
           <button type="submit"
-            class="submit bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl shadow-lg transition">
+            class="submit bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl shadow-lg">
             💾 Lưu đồ án
           </button>
 
@@ -130,4 +157,30 @@
 
 </div>
 
-<!-- DANH SÁCH ĐỒ ÁN ADMIN ĐÃ TẠO -->
+<script>
+function addRequirement(value = "") {
+    const list = document.getElementById("requirementList");
+
+    const div = document.createElement("div");
+    div.className = "flex gap-3";
+
+    div.innerHTML = `
+        <input type="text"
+            value="${value}"
+            placeholder="Nhập yêu cầu..."
+            class="requirementText w-full border border-gray-300 rounded-xl px-4 py-2">
+
+        <button type="button"
+            onclick="this.parentElement.remove()"
+            class="bg-red-500 text-white px-3 rounded-lg">
+            ❌
+        </button>
+    `;
+
+    list.appendChild(div);
+}
+
+// tạo sẵn 1 dòng
+addRequirement();
+</script>
+

@@ -10,6 +10,19 @@ class feedbackController{
             if(!req.session.student){
                 return res.redirect('/accounts/singger')
             }
+            const studentId = req.session.student
+            const conversation = await contentConversation.findOne({ studentId: studentId })
+            const feedback = await content_feedback.updateMany(
+                {
+                    conversationId: conversation._id,
+                    status: 'false'
+                },
+                {
+                    status: 'true',
+            })
+
+            console.log('feedback:', feedback)
+
             let data_feedback = await content_feedback.find()
             data_feedback = data_feedback.map(item => item.toObject())
             res.render('student/feedback', {
@@ -35,11 +48,11 @@ class feedbackController{
             console.log('dữ liệu studentId:', studentId)
             console.log('dữ liệu teacherId:', teacherId)
 
-            const conversation = new contentConversation({
-                studentId: studentId,
-                teacherId: teacherId,
-            })
-            await conversation.save()
+            // const conversation = new contentConversation({
+            //     studentId: studentId,
+            //     teacherId: teacherId,
+            // })
+            // await conversation.save()
             return res.json({ success: true, message: 'Conversation created' })
         }
         catch(err) {

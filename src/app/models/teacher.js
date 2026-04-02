@@ -8,31 +8,19 @@ const dashboardSchema = new schema({
     fullName: {
         type: 'String'
     },
-    teacherRole: {
-        type: 'String'
-    },
     teacherEmail: {
         type: 'String'
     },
-    teacherPhone: {
+    phone: {
         type: 'String'
     },
-    teacherDate: {
+    role: {
         type: 'String'
     },
-    teacherGender: { 
+    department: {
         type: 'String'
     },
-    // teacherAddress: {
-    //     type: 'String'
-    // },
-    teacherAvatar: {
-        type: 'String'
-    },
-    teacherDepartment: {
-        type: 'String'
-    },
-    teacherDegree: {
+    degree: {
         type: 'String'
     },
     status: {

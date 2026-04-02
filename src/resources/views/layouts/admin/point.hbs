@@ -14,14 +14,14 @@
           <th class="p-4 rounded-tl-xl">Sinh viên</th>
           <th class="p-4 text-center">Điểm GVHD</th>
           <th class="p-4 text-center">Điểm phản biện</th>
-          <th class="p-4 text-center">Điểm hội đồng</th>
+          {{!-- <th class="p-4 text-center">Điểm hội đồng</th> --}}
           <th class="p-4 text-center rounded-tr-xl">Trung bình</th>
         </tr>
       </thead>
 
       <!-- Body -->
       <tbody id="scoreTable">
-        <tr class="border-t hover:bg-gray-50 transition">
+        {{!-- <tr class="border-t hover:bg-gray-50 transition">
           
           <td class="p-4 font-medium text-gray-800">
             Nguyễn Văn A
@@ -49,14 +49,14 @@
             0.0
           </td>
 
-        </tr>
+        </tr> --}}
       </tbody>
     </table>
   </div>
 
   <!-- Footer -->
   <div class="flex justify-end mt-6">
-    <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md transition duration-300">
+    <button class="submit bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md transition duration-300">
       💾 Lưu điểm
     </button>
   </div>
@@ -64,7 +64,7 @@
 </div>
 
 
-<script>
+{{!-- <script>
 function calculateAverage(input) {
   const row = input.closest("tr");
   const inputs = row.querySelectorAll(".score-input");
@@ -86,4 +86,4 @@ function calculateAverage(input) {
     averageCell.textContent = "0.0";
   }
 }
-</script>
+</script> --}}

@@ -18,6 +18,11 @@ const dashboardSchema = new schema({
     content: {
         type: String,
     },
+    status: {
+        type: String,
+        enum: ['true', 'false'],
+        default: 'false',
+    }
    
 }, {
     timestamps: true,

@@ -59,22 +59,9 @@ class feedbackController {
         try{
             const teacherId = req.session.teacher
             console.log('Teacher ID:', teacherId)
-            const conversation = await conversationData.find({ teacherId: teacherId })
-            if(!conversation || conversation.length === 0){
-                return res.status(404).json({ error: 'Conversation not found' })
-            }
-            console.log('Conversation:', conversation)
-            let students = []
-            for(let i=0; i<conversation.length; i++){
-                const student = await StudentData.findById(conversation[i].studentId)
-                if(student){
-                    students.push(student.toObject())
-                }
-            }
-
-            if(students.length === 0){
-                return res.status(404).json({ error: 'Student not found' })
-            }
+            const students = await StudentData.find({
+                teacherId: teacherId,
+            })
             res.json(students)
         }
         catch(err){

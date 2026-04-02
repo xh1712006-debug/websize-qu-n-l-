@@ -11,6 +11,14 @@ const dashboardSchema = new schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'student',
     },
+    teacherFeedbackId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'teacher',
+        required: true,
+    },
+    teacherFeedbackName: {
+        type: String,
+    },
     inputProject: {
         type: String,
     },
@@ -18,9 +26,6 @@ const dashboardSchema = new schema({
         type: String,
     },
     teacherInstruct: {
-        type: String,
-    },
-    teacherFeedback: {
         type: String,
     },
     date: {
@@ -32,6 +37,12 @@ const dashboardSchema = new schema({
     numberStudent: {
         type: Number,
     },
+    numberSubmit: {
+        type: Number,
+    },
+    technology: {
+        type: [String],
+    }
 }, {
     timestamps: true,
 })
