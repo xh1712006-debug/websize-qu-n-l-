@@ -7,7 +7,7 @@ class microsoftController {
     async index(req, res) {
         try {
             const clientId = '3a9bfba0-264d-4637-bb62-f84f32ea413b'
-            const redirectUrl = 'http://localhost:3000/auth/microsoft/callback'
+            const redirectUrl = 'https://tu-unstainable-nontransgressively.ngrok-free.dev/auth/microsoft/callback'
             
             const url = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUrl}&response_mode=query&scope=openid%20profile%20email%20User.Read`
 
@@ -32,7 +32,7 @@ class microsoftController {
                     client_id: '3a9bfba0-264d-4637-bb62-f84f32ea413b',                   
                     CLIENT_SECRET: 'ZVU8Q~CwaQZzqQwcQGNgZUg1tMQ1J8CaZrrJ9dx6',
                     code: code,
-                    redirect_uri: 'http://localhost:3000/auth/microsoft/callback',
+                    redirect_uri: 'https://tu-unstainable-nontransgressively.ngrok-free.dev/auth/microsoft/callback',
                     grant_type: 'authorization_code'
                 }),
                 {
