@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const microsoftRouter = require('../../app/contraller/microsoft/test')
+const microsoftRouter = require('../../app/controller/microsoft/test')
 
 router.get('/', microsoftRouter.index)
 

@@ -36,56 +36,46 @@
       </tr>
     </thead>
 
-    <tbody class="divide-y">
+    <tbody class="divide-y relative">
 
+      {{#each students}}
       <tr class="hover:bg-gray-50 transition">
-        <td class="p-4 font-medium text-gray-700">SV001</td>
-        <td class="p-4">Nguyễn Văn A</td>
-        <td class="p-4 text-gray-600">a@gmail.com</td>
-        <td class="p-4">Website bán hàng</td>
+        <td class="p-4 font-medium text-gray-700">{{this.studentCode}}</td>
+        <td class="p-4">{{this.fullName}}</td>
+        <td class="p-4 text-gray-600">{{this.studentEmail}}</td>
+        <td class="p-4 text-blue-600 font-medium">{{this.projectName}}</td>
 
         <!-- Status -->
         <td class="p-4">
-          <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-600 rounded-full">
-            Đã đăng ký
+          {{#if (eq this.projectStatuss 'Chưa đăng ký')}}
+          <span class="px-3 py-1 text-xs font-medium bg-red-100 text-red-600 rounded-full">
+            {{this.projectStatuss}}
           </span>
+          {{else}}
+          <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-600 rounded-full">
+            {{this.projectStatuss}}
+          </span>
+          {{/if}}
         </td>
 
         <!-- Action -->
         <td class="p-4 text-center space-x-2">
-
           <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs transition">
             ✏️ Sửa
           </button>
 
-          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs transition">
-            🗑 Xóa
-          </button>
-
-        </td>
-      </tr>
-
-      <tr class="hover:bg-gray-50 transition">
-        <td class="p-4 font-medium text-gray-700">SV002</td>
-        <td class="p-4">Trần Thị B</td>
-        <td class="p-4 text-gray-600">b@gmail.com</td>
-        <td class="p-4">Hệ thống quản lý</td>
-
-        <td class="p-4">
-          <span class="px-3 py-1 text-xs font-medium bg-red-100 text-red-600 rounded-full">
-            Chưa đăng ký
-          </span>
-        </td>
-
-        <td class="p-4 text-center space-x-2">
-          <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs transition">
-            ✏️ Sửa
-          </button>
-          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs transition">
+          <button onclick="deleteStudent('{{this._id}}')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs transition">
             🗑 Xóa
           </button>
         </td>
       </tr>
+      {{/each}}
+      
+      {{#unless students}}
+      <tr>
+          <td colspan="6" class="p-8 text-center text-gray-500">Chưa có sinh viên nào.</td>
+      </tr>
+      {{/unless}}
 
     </tbody>
 

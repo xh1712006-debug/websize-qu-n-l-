@@ -15,7 +15,7 @@ const dashboardSchema = new schema({
     givenName: {
         type: 'String'
     },
-    phont: {
+    phone: {
         type: 'String'
     },
     studentEmail: {

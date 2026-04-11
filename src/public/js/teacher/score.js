@@ -5,23 +5,24 @@ const commentInput = document.querySelector('#commentInput')
 const closeModalBtn = document.querySelector('#closeModalBtn')
 const saveScoreBtn = document.querySelector('#saveScoreBtn')
 
-async function openModal(scoreId) {
+async function openModal(studentId, projectId) {
     try {
-        console.log('scoreId: ', scoreId)
         modal.classList.remove('hidden')
         modal.classList.add('flex')
         closeModalBtn.addEventListener('click', () => {
             modal.classList.add('hidden')
             modal.classList.remove('flex')
         })
-        saveScoreBtn.addEventListener('click', async () => {
+        // Use onclick to avoid multiple event listeners stacking up
+        saveScoreBtn.onclick = async () => {
             const res = await fetch('/teacher/score/postScore', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    scoreId: scoreId,
+                    studentId: studentId,
+                    projectId: projectId,
                     score: scoreInput.value,
                     comment: commentInput.value,
                 }),
@@ -31,7 +32,7 @@ async function openModal(scoreId) {
             modal.classList.add('hidden')
             modal.classList.remove('flex')
             getScore()
-        })
+        };
 
     }
     catch (err) {
@@ -40,24 +41,23 @@ async function openModal(scoreId) {
 }
 
 function renderScore(data) {
-    console.log('hello', data)
-    studentTable.innerHTML = ''
+    // Removed the clear so we can append correctly
     let status = data.status
-        ? '<span class="text-green-500 font-semibold">Đã nộp</span>'
-        : '<span class="text-red-500 font-semibold">Chưa nộp</span>';
+        ? '<span class="text-green-500 font-semibold">Đủ điều kiện</span>'
+        : '<span class="text-red-500 font-semibold">Chưa đủ ĐK</span>';
 
     let score = data.score !== null
         ? `<span class="font-bold text-blue-600">${data.score}</span>`
         : '<span class="text-gray-400">Chưa có</span>';
 
     let button = data.status
-        ? `<button onclick="openModal('${data.id}')"
-                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                ${data.score === null ? "Chấm điểm" : data.status === false ? "sữa điểm" : "đã duyệt"}
+        ? `<button onclick="openModal('${data.studentId}', '${data.projectId}')"
+                class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-600 transition">
+                ${data.score === null || data.score === 'Chưa có điểm' ? "Chấm điểm" : "Sửa điểm"}
               </button>`
         : `<button disabled
-                class="bg-gray-300 text-gray-500 px-4 py-2 rounded cursor-not-allowed">
-                Chưa nộp
+                class="bg-gray-200 text-gray-400 px-4 py-2 rounded-xl text-sm font-semibold cursor-not-allowed">
+                Chưa đủ ĐK
               </button>`;
 
     studentTable.innerHTML += `
@@ -76,6 +76,7 @@ async function getScore() {
         const res = await fetch('/teacher/score/getScore')
         const data = await res.json()
         console.log('data: ', data)
+        studentTable.innerHTML = '' // Clear table before rendering
         data.forEach(item => {
             console.log('item: ', item)
             renderScore(item)

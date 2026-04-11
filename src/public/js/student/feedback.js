@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   
   const listContent = document.querySelector('#list__content')
+  let currentMessageCount = 0;
 
   // create feedback
 
@@ -39,21 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  async function getFeedbackData() {
+  async function getFeedbackData(isPolling = false) {
     const res = await fetch('/student/feedback/data',{
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
     const data = await res.json()
 
-    console.log('dư liệu :', data.feedbacks)
+    if (!isPolling) {
+      const teacherNameHeader = document.getElementById('teacherNameHeader')
+      if(teacherNameHeader && data.fullName) {
+        teacherNameHeader.innerText = data.fullName
+      }
+      listContent.innerHTML = '';
+      currentMessageCount = 0;
+    }
+    
+    if (isPolling && data.feedbacks.length <= currentMessageCount) {
+        return; // nothing new
+    }
 
-    // if(!data) return
-    data.feedbacks.forEach(item => {
-      console.log('giá trị: ',item)
+    for(let i = currentMessageCount; i < data.feedbacks.length; i++) {
+      const item = data.feedbacks[i];
       // in nhận xét của student 
       if(item.contentType === 'student') {
-        console.log(item._id)
         const newBox = document.createElement('div')
         newBox.className =
           'ml-auto max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500'
@@ -67,12 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ${new Date(item.createdAt).toLocaleDateString()}
           </p>
         `
-
         listContent.appendChild(newBox)
-
       }
       // in nhận xét của teacher 
-    
       else if(item.contentType === 'teacher') {
         const textTeacher = document.createElement('div')
         textTeacher.className = 
@@ -84,17 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
             ${item.content}
           </p>
           <p class="text-xs text-gray-400 mt-2">
-            ${new Date(item.createdAt).toLocaleDateString()} · Báo cáo tiến độ
+            ${new Date(item.createdAt).toLocaleDateString()}
           </p>
         `
-
         listContent.appendChild(textTeacher)
-
       }
-    });
+    }
+    
+    currentMessageCount = data.feedbacks.length;
+    setTimeout(() => {
+        listContent.scrollTop = listContent.scrollHeight;
+    }, 50);
   }
 
   getFeedbackData()
+  
+  setInterval(() => { getFeedbackData(true); }, 2000);
 
 
   const deleteBtn = document.querySelectorAll('.delete-btn')
@@ -112,40 +124,44 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
 
-  // click create feedback
-  text.addEventListener('keydown', async (e) => {
-    
-    // gửi sự kiến input
-    if(e.key == 'Enter' && !e.shiftKey){
-      e.preventDefault()
-      
-      const textContent = document.querySelector('.text__content').value.trim()
+  async function handleSend() {
+      const textContent = text.value.trim()
       if(!textContent) {
         alert('Vui lòng nhập nội dung phản hồi')
         return
       }
-
-      // gửi lên database
-      postMessage(textContent)
-    
+      
       const newBox = document.createElement('div')
       newBox.className =
-        'ml-auto max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500'
+        'ml-auto max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500 opacity-70'
       newBox.innerHTML += 
       `
         <p class="font-semibold text-green-700 mb-1">👨‍🎓 Bạn</p>
-        <p>
-          ${textContent}
-        </p>
-        <p class="text-xs text-gray-400 mt-2 text-right">
-          16/02/2026
-        </p>
+        <p>${textContent}</p>
+        <p class="text-xs text-gray-400 mt-2 text-right">Đang gửi...</p>
       `
       listContent.appendChild(newBox)
       text.value = ''
       listContent.scrollTop = listContent.scrollHeight
-    }
+      
+      await postMessage(textContent)
+      // will be replaced cleanly by next poll
+      getFeedbackData(true);
+      newBox.remove();
+  }
 
+  fromFeedback.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await handleSend();
+  });
+
+  // click create feedback
+  text.addEventListener('keydown', async (e) => {
+    // gửi sự kiến input
+    if(e.key == 'Enter' && !e.shiftKey){
+      e.preventDefault()
+      await handleSend()
+    }
   })
   
 })

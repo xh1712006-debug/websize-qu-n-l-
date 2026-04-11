@@ -2,6 +2,6 @@ const express = require('express')
 const router = express.Router()
 
 
-router.use('/singger', require('./singger'))
+router.use('/loggin', require('./loggin'))
 
 module.exports = router

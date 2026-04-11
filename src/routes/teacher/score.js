@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const scoreRouter = require('../../app/contraller/teacher/score')
+const scoreRouter = require('../../app/controller/teacher/score')
 
 router.get('/', scoreRouter.index)
 router.get('/getScore', scoreRouter.getScore)

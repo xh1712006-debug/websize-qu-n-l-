@@ -29,24 +29,27 @@
     <nav class="mt-4 px-2">
       <ul class="space-y-1 text-sm">
 
+        {{#if hasProject}}
         <li>
           <a href="/student/dashboard" class="menu {{#if (eq active 'dashboard')}} active {{/if}} ">
             🏠 <span class="ml-3 sidebar-text">Dashboard</span>
           </a>
         </li>
+        {{/if}}
 
         <li>
-          <a href="/student/project" class="menu {{#if (eq active 'project')}} active {{/if}} ">
-            📘 <span class="ml-3 sidebar-text">Đồ án của tôi</span>
-          </a>
+          {{#if hasProject}}
+            <a href="/student/project" class="menu {{#if (eq active 'project')}} active {{/if}}">
+              📘 <span class="ml-3 sidebar-text">Đồ án của tôi</span>
+            </a>
+          {{else}}
+            <a href="/student/addproject" class="menu {{#if (eq active 'addproject')}} active {{/if}}">
+              📘 <span class="ml-3 sidebar-text">Đăng ký đồ án</span>
+            </a>
+          {{/if}}
         </li>
 
-        <li>
-          <a href="/student/progress" class="menu {{#if (eq active 'progress')}} active {{/if}} ">
-            ⏳ <span class="ml-3 sidebar-text">Tiến độ</span>
-          </a>
-        </li>
-
+        {{#if hasProject}}
         <li>
           <a href="/student/report" class="menu {{#if (eq active 'report')}} active {{/if}} ">
             📤 <span class="ml-3 sidebar-text">Nộp báo cáo</span>
@@ -64,6 +67,7 @@
             📊 <span class="ml-3 sidebar-text">Kết quả</span>
           </a>
         </li>
+        {{/if}}
 
         <li class="border-t border-blue-600 mt-3 pt-2">
           <a href="/student/account" class="menu {{#if (eq active 'account')}} active {{/if}} ">

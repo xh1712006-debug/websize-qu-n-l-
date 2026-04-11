@@ -13,8 +13,15 @@
 
   <!-- CHAT HEADER -->
   <div class="px-6 py-4 border-b">
-    <h2 class="font-semibold text-lg">📨 Trao đổi với giảng viên</h2>
-    <p class="text-sm text-gray-500">Giảng viên ↔ Sinh viên</p>
+    <h2 class="font-semibold text-lg flex items-center gap-2">
+      📨 Trao đổi với: <span id="teacherNameHeader">Đang tải...</span>
+      <!-- Chấm tròn online -->
+      <span title="Đang trực tuyến" class="relative flex h-3 w-3 ml-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+      </span>
+    </h2>
+    <p class="text-sm text-gray-500">Online</p>
   </div>
 
   <!-- ================= MESSAGE LIST ================= -->

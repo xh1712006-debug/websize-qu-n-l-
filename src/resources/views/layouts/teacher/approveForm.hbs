@@ -1,0 +1,97 @@
+<div class="max-w-4xl mx-auto mt-6 mb-10">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        
+        <div class="flex items-center justify-between border-b pb-4 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+                📝 Khởi tạo chi tiết Đồ án
+            </h2>
+            <a href="/teacher/request" class="text-blue-600 hover:text-blue-800 font-semibold">
+                &larr; Quay lại
+            </a>
+        </div>
+        
+        <form id="approveProjectForm" class="space-y-6">
+            <input type="hidden" id="projectId" value="{{project._id}}">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Tên Giáo viên</label>
+                    <input type="text" id="teacherName" value="{{teacherName}}" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Tên Đồ án (SV đề xuất)</label>
+                    <input type="text" id="projectName" value="{{project.inputProject}}" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Nội dung đồ án</label>
+                <textarea id="contentProject" rows="4" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500" required placeholder="Nhập mô tả tổng quan về đồ án..."></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Số lượng sinh viên</label>
+                    <input type="number" id="numberStudent" value="1" min="1" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Công nghệ sử dụng</label>
+                    <input type="text" id="technology" placeholder="NodeJS, React, MongoDB..." class="w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+            </div>
+
+            <!-- Các yêu cầu cần làm đã bị xoá theo cơ chế 10 Tuần -->
+
+            <div class="pt-6 border-t mt-8">
+                <button type="button" onclick="submitApproveForm()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition duration-200">
+                    ✅ Lưu & Chính thức Khởi tạo Đồ án
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Removed addRequirement and removeRequirement
+async function submitApproveForm() {
+    const projectId = document.getElementById('projectId').value;
+    const teacherName = document.getElementById('teacherName').value;
+    const projectName = document.getElementById('projectName').value;
+    const contentProject = document.getElementById('contentProject').value;
+    const numberStudent = document.getElementById('numberStudent').value;
+    const technology = document.getElementById('technology').value;
+    if(!teacherName || !projectName || !contentProject || !technology) {
+        alert("Vui lòng điền đầy đủ các trường thông tin!");
+        return;
+    }
+
+    try {
+        const response = await fetch('/teacher/request/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                projectId,
+                teacherName,
+                projectName,
+                contentProject,
+                numberStudent,
+                technology
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(data.message);
+            window.location.href = "/teacher/request";
+        } else {
+            alert(data.message);
+        }
+    } catch(err) {
+        console.error(err);
+        alert('Có lỗi xảy ra khi lưu!');
+    }
+}
+</script>

@@ -1,7 +1,6 @@
 // filepath: d:\hoc_html\on_html\project2\src\public\js\student\report.js
 const submitContent = document.querySelector('.submit__content')
-const typeReport = document.querySelector('.type__report')
-const titleReport = document.querySelector('.title__report')
+const weekReport = document.querySelector('.hidden__week')
 const contentReport = document.querySelector('.content__report')
 const fileReport = document.querySelector('.file__report')
 const tableContent = document.querySelector('.table__content')
@@ -12,9 +11,8 @@ async function uploadFile(){
     try {
         const formData = new FormData()
 
-        formData.append('title', titleReport.value)
         formData.append('content', contentReport.value)
-        formData.append('type', typeReport.value)
+        formData.append('week', weekReport.value)
         formData.append('file_url', fileReport.files[0])
 
         const res = await fetch('/student/report/upload', {
@@ -50,9 +48,10 @@ async function createTable() {
             tbody.innerHTML += `
                 <tr>
                     <td class="border p-2 text-center">${item.title}</td>
-                    <td class="border p-2 text-center">${item.type}</td>
+                    <td class="border p-2 text-center font-bold">Tuần ${item.week}</td>
                     <td class="border p-2 text-center">${createDate}</td>
                     <td class="border p-2 text-${color}-600 font-semibold text-center">${item.status}</td>
+                    <td class="border p-2 text-sm italic text-gray-700">${item.teacherFeedback || 'Chưa có'}</td>
                     <td class="border p-2 text-blue-600 underline cursor-pointer text-center">
                         <a href="/student/report/upload/file/${item.fileUrl}" target="_blank">Tải xuống</a> 
                     </td>
@@ -70,8 +69,8 @@ createTable()
 submitContent.addEventListener('click', async (e) => {
     e.preventDefault()
     const file = fileReport.files[0]
-    if (!titleReport.value || !contentReport.value || !file) {
-        alert('Vui lòng điền đầy đủ thông tin và chọn file!')
+    if (!contentReport.value || !file) {
+        alert('Vui lòng điền đầy đủ nội dung và chọn file!')
         return
     }
 

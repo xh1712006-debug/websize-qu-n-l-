@@ -1,32 +1,27 @@
-
 const tableHeader = document.querySelector('.table__header')
 const modals = document.querySelector('#modal')
 const reportListAdd = document.querySelector('#reportList')
 
-   let add = []
 function closeModal(){
-    
-    add = []
     modals.classList.add('hidden')
-    
 }
 
-async function submitReview(id,reportId){
-    try{
-        
-        const res = await fetch('/teacher/report/postRequirement', {
+async function submitReview(id, reportId, action){
+    const feedback = document.getElementById('teacherFeedback').value;
+    const url = action === 'approve' ? '/teacher/report/postRequirement' : '/teacher/report/postRemove';
+    
+    try {
+        const res = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                listRequirementId: add,
                 studentId: id,
                 reportId: reportId,
+                feedback: feedback
             })
         })
-        add = [] 
-        console.log('hello')
+        const data = await res.json()
         modals.classList.add('hidden')
-        // tableHeader.innerHTML = ''
         getReport()
     }
     catch(err){
@@ -34,94 +29,34 @@ async function submitReview(id,reportId){
     }
 }
 
-function updateProgress(data, requirementId){
-    if(data.checked == true){
-        console.log(requirementId)
-        add.push(requirementId)
-    }
-    else{
-        const index = add.indexOf(requirementId)
-        if(index !== -1){
-            add.splice(index, 1)
-        }
-    }
+function createrModal(id, reportId, action) {
+    modals.innerHTML = ''
+    const div = document.createElement('div')
+    div.className = 'bg-white w-full max-w-xl p-6 rounded-2xl shadow-xl'
+    
+    const title = action === 'approve' ? '✅ Duyệt báo cáo' : '❌ Yêu cầu nộp lại';
+    const btnClass = action === 'approve' ? 'bg-green-600' : 'bg-red-600';
+    const btnText = action === 'approve' ? 'Duyệt & Lưu lời phê' : 'Từ chối & Gửi lời phê';
+
+    div.innerHTML = `
+        <h3 class="text-xl font-bold mb-4 text-center">
+            ${title}
+        </h3>
+
+        <div class="space-y-3">
+            <label class="block font-semibold">Nhận xét / Lời phê của Giáo viên:</label>
+            <textarea id="teacherFeedback" rows="4" class="w-full border rounded-lg p-3" placeholder="Nhập lời phê..."></textarea>
+        </div>
+        <div class="flex justify-end gap-3 mt-6">
+            <button onclick="closeModal()" class="px-4 py-2 border rounded-lg">Hủy</button>
+            <button onclick="submitReview('${id}','${reportId}','${action}')" class="px-5 py-2 ${btnClass} text-white rounded-lg">
+                ${btnText}
+            </button>
+        </div>
+    `
+    modals.appendChild(div)
+    modals.classList.remove('hidden')
 }
-
-function addRequirementStudent(data){
-    return data.map(item => {
-        return `
-            <div  class="flex justify-between border p-3 rounded-xl text-center">
-                <p>${item.name}</p>
-                <input type="checkbox" ${item.status == 'pass' ? 'checked disabled' : ''} onchange="updateProgress(this,'${item._id}')"></input>
-            </div>
-        `
-    }).join('')
-}
-
-async function createrModal(id,reportId) {
-    try{
-        const res = await fetch(`/teacher/report/getRequirement?studentId=${id}`)
-        const data = await res.json()
-        console.log('data: ', data.requirementStudent)
-        const requirementStudent = data.requirementStudent
-        console.log('data: ', data)
-        modals.innerHTML = ''
-        const div = document.createElement('div')
-        div.className = 'bg-white w-full max-w-xl p-6 rounded-2xl shadow-xl'
-        div.innerHTML = `
-            <h3 class="text-xl font-bold mb-4 text-center">
-                📋 Duyệt: ${data.project.inputProject}
-            </h3>
-
-            <div class="space-y-3">
-                ${addRequirementStudent(requirementStudent)}
-            </div>
-            <div class="flex justify-end gap-3 mt-6">
-                <button onclick="closeModal()" class="px-4 py-2 border rounded-lg">Hủy</button>
-                <button onclick="submitReview('${id}','${reportId}')" class="px-5 py-2 bg-blue-600 text-white rounded-lg">
-                    💾 Lưu
-                </button>
-            </div>
-        `
-        console.log('chào cả nhà')
-        modals.appendChild(div)
-        modals.classList.remove('hidden')
-    }
-    catch(err){
-        console.log(err)
-    }
-}
-
-async function postRemove(reportId){
-    try{
-        const res = await fetch('/teacher/report/postRemove',{
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                reportId: reportId,
-            })
-        })
-    }
-    catch(err){
-        console.log(err)
-    }
-}
-
-// async function postReport(id,status){
-//     try{
-//         const res = await fetch('/teacher/report/postReport', {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({
-//                 id: id,
-//                 status: status,
-//             })
-//         })
-//     }
-//     catch(err){
-//         console.log(err)
-//     }
-// }
 
 async function getReport(){
     try{
@@ -215,27 +150,14 @@ tableHeader.addEventListener('click', (e) => {
         window.open(`/teacher/report/viewFile/${fileUrl}`, '_blank')
     }
     else if(e.target.classList.contains('accept')){
-        // e.preventDefault()
-        console.log('bạn đã click vào chấp nhận')
-   
         const id = e.target.dataset.id
         const studentId = e.target.dataset.studentid
-        console.log('id: ', studentId)
-        
-        createrModal(studentId,id)
-        // postReport(id, text)
-        
+        createrModal(studentId, id, 'approve')
     }
     else if(e.target.classList.contains('refuse')){
-        
-        console.log('bạn đã click vào từ chối')
-        const text = 'từ chối'
         const id = e.target.dataset.id
-        console.log('id: ', id)
-        postRemove(id)
-        // postReport(id, text)
-        // tableHeader.innerHTML = ''
-        // getReport()
+        const studentId = e.target.dataset.studentid
+        createrModal(studentId, id, 'reject')
     }
     
 })

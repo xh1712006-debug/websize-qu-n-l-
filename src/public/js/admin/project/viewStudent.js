@@ -10,29 +10,10 @@ function listStudent(data){
 
     if (data.status === "pending") {
       badge = `<span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-600">Chờ duyệt</span>`
-
-      actions = `
-        <button onclick="approve('${data._id}')"
-          class="bg-green-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-green-600 transition">
-          ✅ Duyệt
-        </button>
-
-        <button onclick="reject('${data._id}')"
-          class="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition">
-          ❌ Loại
-        </button>
-      `
     }
 
     if (data.status === "approved") {
       badge = `<span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600">Đã duyệt</span>`
-
-      actions = `
-        <button onclick="reject('${data._id}')"
-          class="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition">
-          ❌ Loại
-        </button>
-      `
     }
 
     if (data.status === "rejected") {
@@ -58,43 +39,6 @@ function listStudent(data){
     `
 }
 
-
-// ========================
-// DUYỆT
-// ========================
-async function approve(id){
-    console.log('giá trị kiếm được: ', id)
-    try{
-        await fetch(`/admin/project/approveStudent`,{
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ studentId: id })
-        })
-
-        getApi(projectId) // reload lại danh sách
-
-    }catch(err){
-        console.log(err)
-    }
-}
-
-
-// ========================
-// LOẠI
-// ========================
-async function reject(id){
-  console.log("ID gửi đi:", id)
-    try{
-        await fetch(`/admin/project/rejectStudent?studentId=${id}`,{
-            method: "POST",
-        })
-
-        getApi(projectId)
-
-    }catch(err){
-        console.log(err)
-    }
-}
 
 
 // ========================

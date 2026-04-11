@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
@@ -70,5 +71,5 @@ router(app)
 // router_teacher(app)
 
 app.listen(port,  '0.0.0.0',() => {
-    console.log(`chao ca nha http://localhost:${port}/accounts/singger`)
+    console.log(`chao ca nha http://localhost:${port}/loggin`)
 })

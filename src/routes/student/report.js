@@ -1,7 +1,7 @@
 // filepath: d:\hoc_html\on_html\project2\src\routes\student\report.js
 const express = require('express')
 const router = express.Router()
-const reportRouter = require('../../app/contraller/student/report')
+const reportRouter = require('../../app/controller/student/report')
 
 
 router.get('/', reportRouter.controller.index)

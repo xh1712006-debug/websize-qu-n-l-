@@ -33,20 +33,14 @@
       👨‍🎓 Thông tin sinh viên
     </h2>
 
-    <div class="info__student flex items-center gap-4 mb-6">
-      {{!-- <img src="https://i.pravatar.cc/100?img=18"
-           class="w-16 h-16 rounded-full border object-cover">
-      <div>
-        <p class="font-semibold text-lg">Nguyễn Văn A</p>
-        <p class="text-sm text-gray-500">MSSV: 20123456</p>
-        <p class="text-sm text-gray-500">Lớp: CNTT-K18</p>
-      </div> --}}
-    </div>
+    <div id="studentInfoBox" class="hidden">
+      <div class="info__student flex items-center gap-4 mb-6">
+      </div>
 
-    <div class="text-sm space-y-3 text-gray-700">
-      <p><b>📘 Đồ án:</b> Hệ thống quản lý đồ án tốt nghiệp</p>
-      <p><b>📄 Báo cáo:</b> Tuần 5</p>
-      <p><b>📅 Nộp:</b> 14/02/2026</p>
+      <div class="text-sm space-y-3 text-gray-700 bg-gray-50 border p-4 rounded-xl">
+        <p><b>📘 Đề tài:</b> <span id="infoProjectName" class="text-indigo-600 font-semibold"></span></p>
+        <p><b>📥 Trạng thái:</b> <span id="infoStatus" class="font-medium">Đang thực hiện</span></p>
+      </div>
     </div>
 
   </div>
@@ -61,7 +55,7 @@
     </div>
 
     <!-- ================= HISTORY ================= -->
-    <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4 text-sm bg-gray-50 form__content">
+    <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4 text-sm bg-gray-50 form__content hidden">
 
       <!-- STUDENT (sample) -->
       {{!-- <div class="max-w-[75%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500">
@@ -84,7 +78,7 @@
     </div>
 
     <!-- ================= INPUT FORM ================= -->
-    <form class="text__form p-4 border-t bg-white rounded-b-2xl">
+    <form class="text__form p-4 border-t bg-white rounded-b-2xl hidden">
       <div class="flex gap-3 items-end">
 
         <textarea

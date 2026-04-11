@@ -14,20 +14,15 @@
   <div class="bg-white p-6 rounded-lg shadow mb-8">
     <h2 class="text-lg font-semibold mb-4">📝 Thông tin báo cáo</h2>
     <div class="space-y-4">
-      <!-- REPORT TYPE -->
+      <!-- REPORT WEEK -->
       <div>
-        <label class="block text-sm font-semibold mb-1">Loại báo cáo</label>
-        <select class="type__report w-full border rounded px-3 py-2 focus:outline-none focus:ring">
-          <option>Báo cáo tiến độ</option>
-          <option>Báo cáo giữa kỳ</option>
-          <option>Báo cáo cuối kỳ</option>
+        <label class="block text-sm font-semibold mb-1">Báo cáo tuần</label>
+        <select class="week__report w-full border rounded px-3 py-2 bg-gray-100 focus:outline-none" disabled>
+          <option value="{{currentWeek}}">Tuần {{currentWeek}}</option>
         </select>
+        <input type="hidden" name="week" class="hidden__week" value="{{currentWeek}}">
       </div>
-      <!-- REPORT TITLE -->
-      <div>
-        <label class="block text-sm font-semibold mb-1">Tiêu đề báo cáo</label>
-        <input name="title" type="text" placeholder="Ví dụ: Báo cáo tiến độ tuần 6" class="title__report w-full border rounded px-3 py-2 focus:outline-none focus:ring">
-      </div>
+
       <!-- DESCRIPTION -->
       <div>
         <label class="block text-sm font-semibold mb-1">Mô tả nội dung</label>
@@ -40,8 +35,13 @@
         <p class="text-xs text-gray-500 mt-1">Dung lượng tối đa: 10MB</p>
       </div>
       <!-- SUBMIT BUTTON -->
-      <div class="flex justify-end">
-        <button type="submit" class="submit__content bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Nộp báo cáo</button>
+      <div class="flex flex-col items-end gap-2">
+        {{#if canSubmit}}
+            <button type="submit" class="submit__content bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Nộp báo cáo</button>
+        {{else}}
+            <button type="button" disabled class="bg-gray-400 text-white px-6 py-2 rounded cursor-not-allowed">Đang chờ giáo viên duyệt</button>
+            <p class="text-sm text-red-500 italic">Bạn phải chờ giáo viên duyệt báo cáo trước đó mới có thể nộp tiếp.</p>
+        {{/if}}
       </div>
     </div>
   </div>
@@ -55,9 +55,10 @@
       <thead class="bg-gray-100">
         <tr>
           <th class="border p-2">Tiêu đề</th>
-          <th class="border p-2">Loại</th>
+          <th class="border p-2 w-20">Tuần</th>
           <th class="border p-2">Ngày nộp</th>
           <th class="border p-2">Trạng thái</th>
+          <th class="border p-2">Giáo viên phản hồi</th>
           <th class="border p-2">File</th>
         </tr>
       </thead>

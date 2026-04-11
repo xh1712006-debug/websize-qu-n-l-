@@ -26,6 +26,9 @@ const dashboardSchema = new schema({
     status: {
         type: 'String'
     },
+    password: {
+        type: 'String'
+    },
 
 }, {
     timestamps: true,

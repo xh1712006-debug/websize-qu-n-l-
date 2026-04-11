@@ -6,9 +6,9 @@
 <div class="bg-white p-6 rounded shadow mb-6 flex justify-between items-center">
 
   <div>
-    <h2 class="text-lg font-semibold">👤 ThS. Trần Văn B</h2>
+    <h2 class="text-lg font-semibold">👤 {{teacherName}}</h2>
     <p class="text-sm text-gray-600">
-      Khoa Công nghệ thông tin • Giáo viên hướng dẫn
+      {{teacherDept}}
     </p>
   </div>
 
@@ -19,31 +19,21 @@
 </div>
 
 <!-- STATISTICS -->
-<div class="grid grid-cols-5 gap-6 mb-6">
+<div class="grid grid-cols-3 gap-6 mb-6">
 
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-blue-600">12</p>
-    <p class="text-sm text-gray-600">Sinh viên</p>
+  <div class="bg-white p-5 rounded shadow text-center border-b-4 border-blue-600">
+    <p class="text-3xl font-bold text-blue-600">{{studentsCount}}</p>
+    <p class="text-sm text-gray-600 tracking-wide uppercase mt-1 font-semibold">Sinh viên</p>
   </div>
 
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-green-600">8</p>
-    <p class="text-sm text-gray-600">Đồ án</p>
+  <div class="bg-white p-5 rounded shadow text-center border-b-4 border-yellow-500">
+    <p class="text-3xl font-bold text-yellow-600">{{pendingReportsCount}}</p>
+    <p class="text-sm text-gray-600 tracking-wide uppercase mt-1 font-semibold">Báo cáo chờ duyệt</p>
   </div>
 
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-yellow-600">5</p>
-    <p class="text-sm text-gray-600">Báo cáo chờ</p>
-  </div>
-
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-purple-600">18</p>
-    <p class="text-sm text-gray-600">Phản hồi</p>
-  </div>
-
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-red-600">2</p>
-    <p class="text-sm text-gray-600">Quá hạn</p>
+  <div class="bg-white p-5 rounded shadow text-center border-b-4 border-purple-600">
+    <p class="text-3xl font-bold text-purple-600">{{unreadFeedbacksCount}}</p>
+    <p class="text-sm text-gray-600 tracking-wide uppercase mt-1 font-semibold">Tin nhắn chưa đọc</p>
   </div>
 
 </div>
@@ -63,17 +53,6 @@
     </a>
   </div>
 
-  <!-- PROJECTS -->
-  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-    <h3 class="font-semibold mb-2">📘 Đồ án</h3>
-    <p class="text-sm text-gray-600 mb-4">
-      Theo dõi đề tài & tiến độ đồ án
-    </p>
-    <a href="/teacher/project"
-       class="inline-block bg-green-600 text-white px-4 py-2 rounded text-sm">
-      Quản lý đồ án
-    </a>
-  </div>
 
   {{!-- <!-- PROGRESS -->
   <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">

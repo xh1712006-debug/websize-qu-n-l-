@@ -25,7 +25,10 @@ const dashboardSchema = new schema({
     title: {
         type: String,
     },
-    type: {
+    week: {
+        type: Number,
+    },
+    teacherFeedback: {
         type: String,
     },
 

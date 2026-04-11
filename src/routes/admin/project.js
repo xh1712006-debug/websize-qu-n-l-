@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const projectRouter = require('../../app/contraller/admin/project')
+const projectRouter = require('../../app/controller/admin/project')
 
 router.delete('/:id', projectRouter.deleteProject)
 router.get('/', projectRouter.index)
@@ -11,8 +11,5 @@ router.put('/fixStudent/:id', projectRouter.putFixStudent)
 router.post('/create', projectRouter.createProject)
 router.get('/viewStudent/:id', projectRouter.viewStudent)
 router.get('/getListViewStudent', projectRouter.getListViewStudent)
-router.post('/approveStudent', projectRouter.approveStudent)
-router.post('/rejectStudent', projectRouter.rejectStudent)
-
 
 module.exports = router;
