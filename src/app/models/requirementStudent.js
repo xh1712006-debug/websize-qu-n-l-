@@ -4,16 +4,19 @@ const schema = mongoose.Schema
 const dashboardSchema = new schema({
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'project',
+        ref: 'projects',
         required: true,
     },
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'student',
+        ref: 'students',
         required: true,
     },
     name: {
         type: String,
+    },
+    deadline: {
+        type: Date,
     },
     status: {
         type: String,

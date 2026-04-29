@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const studentRouter = require('../../app/contraller/teacher/student')
+const studentController = require('../../app/contraller/teacher/student')
 
-router.use('/', studentRouter.index)
+router.get('/', studentController.index)
+
 
 module.exports = router;

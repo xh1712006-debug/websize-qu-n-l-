@@ -13,7 +13,11 @@ const dashboardSchema = new schema({
     },
     role: {
         type: String,
-    }
+    },
+    savedProjects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'projects'
+    }]
 }, {
     timestamps: true,
 })

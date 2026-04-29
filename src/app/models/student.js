@@ -4,7 +4,7 @@ const schema = mongoose.Schema
 const dashboardSchema = new schema({
     teacherId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'teacher',
+        ref: 'teachers',
     },
     fullName: {
         type: 'String'
@@ -12,26 +12,44 @@ const dashboardSchema = new schema({
     studentCode: {
         type: 'String'
     },
-    givenName: {
-        type: 'String'
-    },
-    phont: {
-        type: 'String'
-    },
     studentEmail: {
+        type: 'String'
+    },
+    studentPhone: {
+        type: 'String'
+    },
+    studentMajor: {
+        type: 'String'
+    },
+    studentClass: {
+        type: 'String'
+    },
+    studentCourse: {
+        type: 'String'
+    },
+    studentAvatar: {
         type: 'String'
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'project',
-    },
-    status: {
-        type: 'String'
+        ref: 'projects',
     },
     password: {
         type: 'String'
+    },
+    periodId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'period',
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected', 'waiting_confirm'],
+        default: null
+    },
+    isMicrosoft: {
+        type: Boolean,
+        default: false
     }
-
 }, {
     timestamps: true,
 })

@@ -1,157 +1,96 @@
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
 
-<div class="mt-12">
-
-  <!-- Header -->
-  <div class="flex justify-between items-center mb-6">
-    <h3 class="text-2xl font-bold text-gray-800">
-      📚 Danh sách đồ án đã tạo
-    </h3>
-
-    <button class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition text-sm">
-      <a href="/admin/project/create">
-        ➕ Tạo đồ án mới
-      </a>
-      
-    </button>
-  </div>
-
-  <!-- CARD CONTAINER -->
-  <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-
-    <table class="w-full text-sm text-left">
-
-      <!-- TABLE HEADER -->
-      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
-        <tr>
-          <th class="p-4">Tên đồ án</th>
-          <th class="p-4">Giảng viên phụ trách</th>
-          <th class="p-4">Số sinh viên</th>
-          <th class="p-4">Ngày tạo</th>
-          <th class="p-4">Trạng thái</th>
-          <th class="p-4 text-center">Hành động</th>
-        </tr>
-      </thead>
-
-      <!-- TABLE BODY -->
-      <tbody class="table__body divide-y">
-
-        {{!-- <!-- PROJECT 1 -->
-        <tr class="hover:bg-gray-50 transition">
-
-          <td class="p-4">
-            <p class="font-semibold text-gray-800">
-              Website thương mại điện tử
-            </p>
-            <p class="text-xs text-gray-500 mt-1">
-              Xây dựng hệ thống bán hàng online với thanh toán trực tuyến
-            </p>
-          </td>
-
-          <td class="p-4 text-gray-600">
-            Nguyễn Văn C
-          </td>
-
-          <td class="p-4">
-
-            <div class="text-xs mb-1 text-gray-600">
-              5 / 10 sinh viên
+    <!-- PAGE HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl flex items-center justify-center text-3xl shadow-xl shadow-blue-100">
+                📚
             </div>
-
-            <div class="w-32 bg-gray-200 rounded-full h-2">
-              <div class="bg-blue-500 h-2 rounded-full"
-                   style="width: 50%">
-              </div>
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Kho Đồ án Hệ thống</h1>
+                <p class="text-slate-500 font-medium mt-1">Danh sách đề tài, quản lý phân bổ sinh viên và giám sát tiến độ</p>
             </div>
-
-          </td>
-
-          <td class="p-4 text-gray-600">
-            12/02/2026
-          </td>
-
-          <td class="p-4">
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600">
-              Đang mở
-            </span>
-          </td>
-
-          <td class="p-4 text-center space-x-2">
-
-            <button class="view__project bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition">
-              👁 Xem
+        </div>
+        
+        <div class="flex gap-4">
+            <button onclick="finalizeBatch()" class="bg-indigo-50 border border-indigo-100 text-indigo-600 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                CHỐT DANH SÁCH (Bước 5)
             </button>
+            <a href="/admin/project/create" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-blue-100 transition-all hover:-translate-y-1 hover:shadow-2xl flex items-center gap-2">
+                <span>+ TẠO ĐỀ TÀI MỚI</span>
+            </a>
+        </div>
+    </div>
 
-            <button class="fix__project bg-yellow-400 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-500 transition">
-              ✏️ Sửa
-            </button>
-
-            <button class="delete__project bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition">
-              🗑 Xóa
-            </button>
-
-          </td>
-
-        </tr>
-
-
-        <!-- PROJECT 2 -->
-        <tr class="hover:bg-gray-50 transition">
-
-          <td class="p-4">
-            <p class="font-semibold text-gray-800">
-              Hệ thống quản lý sinh viên
-            </p>
-            <p class="text-xs text-gray-500 mt-1">
-              Ứng dụng quản lý hồ sơ và điểm số sinh viên
-            </p>
-          </td>
-
-          <td class="p-4 text-gray-600">
-            Trần Thị D
-          </td>
-
-          <td class="p-4">
-
-            <div class="text-xs mb-1 text-gray-600">
-              10 / 10 sinh viên
+    <!-- STATS ROW -->
+    <div class="grid grid-cols-3 gap-6">
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 flex items-center gap-5">
+            <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">📋</div>
+            <div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tổng đề tài</p>
+                <p id="stat-total" class="text-3xl font-black text-slate-900 mt-0.5">--</p>
             </div>
-
-            <div class="w-32 bg-gray-200 rounded-full h-2">
-              <div class="bg-green-500 h-2 rounded-full"
-                   style="width: 100%">
-              </div>
+        </div>
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 flex items-center gap-5">
+            <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-2xl">✅</div>
+            <div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Đang thực hiện</p>
+                <p id="stat-active" class="text-3xl font-black text-emerald-600 mt-0.5">--</p>
             </div>
+        </div>
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 flex items-center gap-5">
+            <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">🔓</div>
+            <div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mở đăng ký</p>
+                <p id="stat-open" class="text-3xl font-black text-blue-600 mt-0.5">--</p>
+            </div>
+        </div>
+    </div>
 
-          </td>
-
-          <td class="p-4 text-gray-600">
-            05/02/2026
-          </td>
-
-          <td class="p-4">
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-600">
-              Đã đóng
-            </span>
-          </td>
-
-          <td class="p-4 text-center space-x-2">
-
-            <button class="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition">
-              👁 Xem
+    <!-- TABS NAVIGATION -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-100 pb-4">
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
+            <button onclick="filterByCategory('all')" data-category="all" class="tab-btn px-6 py-3 rounded-xl font-black text-[11px] uppercase tracking-wider transition-all bg-slate-900 text-white shadow-lg shadow-slate-200">
+                Tất cả
             </button>
-
-            <button class="bg-yellow-400 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-500 transition">
-              ✏️ Sửa
+            {{#each majors}}
+            <button onclick="filterByCategory('{{this}}')" data-category="{{this}}" class="tab-btn px-6 py-3 rounded-xl font-black text-[11px] uppercase tracking-wider transition-all text-slate-500 hover:bg-slate-100 whitespace-nowrap">
+                {{this}}
             </button>
+            {{/each}}
+        </div>
 
-          </td>
+        <!-- SEARCH BAR (Real-time) -->
+        <div class="relative w-full md:w-80 group">
+            <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                <svg class="w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <input type="text" id="project-search" oninput="handleSearch(this.value)" placeholder="Tìm đề tài, công nghệ..." 
+                class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-transparent focus:bg-white focus:border-blue-600 rounded-2xl outline-none transition-all font-bold text-slate-700 text-xs shadow-inner focus:shadow-sm">
+        </div>
+    </div>
 
-        </tr> --}}
+    <!-- CARDS GRID -->
+    <div id="project-cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 relative z-10 transition-all duration-500">
+         <!-- Loaded via AJAX (admin-project.js) -->
+        <div class="col-span-full py-20 text-center animate-pulse">
+            <p class="text-slate-400 font-bold">Đang tải dữ liệu đồ án...</p>
+        </div>
+    </div>
 
-      </tbody>
-
-    </table>
-
-  </div>
+    <!-- EMPTY STATE -->
+    <div id="emptyProjectsState" class="hidden py-24 bg-white rounded-[3.5rem] border border-slate-100 text-center">
+        <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl opacity-40">🕳️</div>
+        <h3 class="text-2xl font-black text-slate-900">Không có đồ án nào</h3>
+        <p class="text-slate-500 font-medium mt-2">Hãy bắt đầu bằng việc khởi tạo một đề tài mới cho học kỳ này.</p>
+        <a href="/admin/project/create" class="inline-block mt-6 px-8 py-3 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-colors">
+            + Tạo đề tài đầu tiên
+        </a>
+    </div>
 
 </div>
+
+<script src="/js/admin-project.js"></script>

@@ -4,16 +4,23 @@ const schema = mongoose.Schema
 const dashboardSchema = new schema({
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'student',
+        ref: 'students',
         required: true,
     },
     teacherId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'teacher',
+        ref: 'teachers',
         required: true,
-    },  
+    },
+    requirementId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'requirementstudents',
+    },
 
     fileUrl: {
+        type: String,
+    },
+    externalLink: { // [NEW] Link Github/Drive
         type: String,
     },
     content: {
@@ -25,8 +32,14 @@ const dashboardSchema = new schema({
     title: {
         type: String,
     },
-    type: {
+    week: {
+        type: Number,
+    },
+    teacherFeedback: {
         type: String,
+    },
+    progressScore: { // [NEW] Điểm thành phần (optional)
+        type: Number,
     },
 
 }, {

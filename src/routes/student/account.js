@@ -5,5 +5,6 @@ const accountRouter = require('../../app/contraller/student/account')
 router.get('/', accountRouter.index)
 router.get('/data', accountRouter.getAccount)
 router.patch('/data', accountRouter.upAccount)
+router.post('/update-contact', accountRouter.updateContact)
 
 module.exports = router;

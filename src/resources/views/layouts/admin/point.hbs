@@ -1,89 +1,133 @@
-<div class="bg-white p-6 rounded-2xl shadow-lg">
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-20 font-sans text-slate-900">
 
-  <!-- Title -->
-  <h2 class="text-xl font-bold text-gray-800 mb-4">
-    Bảng chấm điểm đồ án
-  </h2>
+    <!-- 1. PREMIUM HEADER & STATS -->
+    <div class="relative overflow-hidden rounded-[4rem] bg-slate-950 p-12 text-white shadow-2xl shadow-indigo-900/20 group">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] -mr-48 -mt-48 transition-all duration-1000 group-hover:bg-indigo-600/20"></div>
+        
+        <div class="relative z-10 flex flex-col xl:flex-row xl:items-end justify-between gap-12">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400">
+                    <span class="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></span>
+                    Hệ quản trị Điểm cuối
+                </div>
+                <h1 class="text-5xl font-black tracking-tighter italic">
+                    Bảng điểm <span class="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Kết quả Đồ án</span>
+                </h1>
+                <p class="text-white/40 font-medium text-lg tracking-tight max-w-xl italic">Phê duyệt, hiệu chỉnh và công bố kết quả đánh giá cho toàn bộ sinh viên chuyên ngành.</p>
+            </div>
 
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm text-left border-collapse">
-      
-      <!-- Header -->
-      <thead>
-        <tr class="bg-gray-100 text-gray-700 uppercase text-xs">
-          <th class="p-4 rounded-tl-xl">Sinh viên</th>
-          <th class="p-4 text-center">Điểm GVHD</th>
-          <th class="p-4 text-center">Điểm phản biện</th>
-          {{!-- <th class="p-4 text-center">Điểm hội đồng</th> --}}
-          <th class="p-4 text-center rounded-tr-xl">Trung bình</th>
-        </tr>
-      </thead>
+            <div class="grid grid-cols-3 gap-6 w-full xl:w-auto">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-[2.5rem] backdrop-blur-md">
+                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest mb-2">Chờ duyệt</p>
+                    <p id="stat-pending" class="text-3xl font-black text-white">0</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-6 rounded-[2.5rem] backdrop-blur-md">
+                    <p class="text-[9px] font-black text-amber-400 uppercase tracking-widest mb-2">Đã duyệt</p>
+                    <p id="stat-approved" class="text-3xl font-black text-white">0</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-6 rounded-[2.5rem] backdrop-blur-md border-emerald-500/20">
+                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-2">Đã Công bố</p>
+                    <p id="stat-published" class="text-3xl font-black text-white">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <!-- Body -->
-      <tbody id="scoreTable">
-        {{!-- <tr class="border-t hover:bg-gray-50 transition">
-          
-          <td class="p-4 font-medium text-gray-800">
-            Nguyễn Văn A
-          </td>
+    <!-- 2. CONTROL HUB: SEARCH & TABS -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white p-6 rounded-[3rem] border border-slate-100 shadow-sm">
+        <!-- Workflow Tabs -->
+        <div class="flex items-center gap-2 bg-slate-50 p-2 rounded-[2.5rem]">
+            <button onclick="switchTab('pending')" id="tab-pending" class="tab-btn px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all bg-slate-950 text-white shadow-lg">
+                Chờ duyệt
+            </button>
+            <button onclick="switchTab('approved')" id="tab-approved" class="tab-btn px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all text-slate-400 hover:text-slate-900">
+                Đã phê duyệt
+            </button>
+            <button onclick="switchTab('published')" id="tab-published" class="tab-btn px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all text-slate-400 hover:text-slate-900">
+                Đã công bố
+            </button>
+        </div>
 
-          <td class="p-4 text-center">
-            <input type="number" min="0" max="10" step="0.1"
-              oninput="calculateAverage(this)"
-              class="score-input border border-gray-300 rounded-lg px-2 py-1 w-20 text-center focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
-          </td>
+        <div class="flex items-center gap-4">
+             <!-- Search -->
+            <div class="relative group">
+                <input type="text" id="score-search" oninput="handleSearch(this.value)" placeholder="Tìm Mã số SV hoặc Tên..." class="pl-12 pr-6 py-4 bg-slate-50 border border-transparent focus:border-indigo-500 rounded-2xl outline-none transition-all font-bold text-slate-700 text-xs w-64">
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+            <!-- Bulk Action -->
+            <button id="btn-publish-all" style="display: none;" onclick="bulkPublish()" class="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black text-[10px] tracking-widest uppercase shadow-xl shadow-indigo-100 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                Công bố Toàn bộ
+            </button>
+        </div>
+    </div>
 
-          <td class="p-4 text-center">
-            <input type="number" min="0" max="10" step="0.1"
-              oninput="calculateAverage(this)"
-              class="score-input border border-gray-300 rounded-lg px-2 py-1 w-20 text-center focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
-          </td>
+    <!-- 3. GRADE LEDGER TABLE -->
+    <div class="bg-white rounded-[4rem] shadow-sm border border-slate-100 overflow-hidden relative min-h-[500px]">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="text-slate-400 text-[10px] uppercase tracking-[0.3em] font-black border-b border-slate-50">
+                        <th class="px-10 py-8">Thông tin Sinh viên & Đề tài</th>
+                        <th class="px-4 py-8 text-center bg-slate-50/50">Nội dung</th>
+                        <th class="px-4 py-8 text-center bg-slate-50/50">Hình thức</th>
+                        <th class="px-4 py-8 text-center bg-slate-50/50">Phản biện</th>
+                        <th class="px-8 py-8 text-center bg-indigo-50/30 text-indigo-600">Tổng kết</th>
+                        <th class="px-10 py-8 text-right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="scoreTable" class="divide-y divide-slate-50">
+                    <!-- Data injected here -->
+                </tbody>
+            </table>
+        </div>
 
-          <td class="p-4 text-center">
-            <input type="number" min="0" max="10" step="0.1"
-              oninput="calculateAverage(this)"
-              class="score-input border border-gray-300 rounded-lg px-2 py-1 w-20 text-center focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
-          </td>
+        <!-- Empty State -->
+        <div id="empty-state" style="display: none;" class="py-32 text-center space-y-4">
+             <div class="text-6xl grayscale">🏜️</div>
+             <p class="text-sm font-black text-slate-300 uppercase tracking-widest italic">Chưa có kết quả nào trong mục này</p>
+        </div>
 
-          <td class="p-4 text-center font-bold text-blue-600 average">
-            0.0
-          </td>
+        <!-- Loading -->
+        <div id="loading-state" class="py-32 text-center">
+            <div class="inline-block w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-4 text-[10px] font-black text-slate-400 uppercase tracking-widest animate-pulse">Đang nạp hồ sơ điểm...</p>
+        </div>
+    </div>
 
-        </tr> --}}
-      </tbody>
-    </table>
-  </div>
+    <!-- 4. MODAL: GRADE INSPECTOR -->
+    <div id="modal-inspector" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 lg:p-12">
+        <div class="bg-white w-full max-w-6xl h-full rounded-[4rem] overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-500 shadow-2xl relative">
+             <button onclick="closeInspector()" class="absolute top-8 right-8 w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center hover:bg-rose-50 hover:text-rose-600 transition-all z-20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+             </button>
 
-  <!-- Footer -->
-  <div class="flex justify-end mt-6">
-    <button class="submit bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md transition duration-300">
-      💾 Lưu điểm
-    </button>
-  </div>
+             <!-- Modal Content Wrapper -->
+             <div id="inspector-content" class="flex-1 overflow-y-auto p-12 lg:p-20 custom-scrollbar">
+                <!-- Injected via JS -->
+             </div>
+
+             <!-- Modal Footer -->
+             <div class="p-10 border-t border-slate-50 bg-slate-50/50 flex items-center justify-end gap-4">
+                <button onclick="closeInspector()" class="px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all">Đóng</button>
+                <div id="modal-actions" class="flex items-center gap-4">
+                    <!-- Buttons injected via JS -->
+                </div>
+             </div>
+        </div>
+    </div>
 
 </div>
 
+{{#section 'script'}}
+<script src="/js/admin/score.js"></script>
+{{/section}}
 
-{{!-- <script>
-function calculateAverage(input) {
-  const row = input.closest("tr");
-  const inputs = row.querySelectorAll(".score-input");
-  let total = 0;
-  let count = 0;
-
-  inputs.forEach(i => {
-    if (i.value !== "") {
-      total += parseFloat(i.value);
-      count++;
-    }
-  });
-
-  const averageCell = row.querySelector(".average");
-
-  if (count > 0) {
-    averageCell.textContent = (total / count).toFixed(2);
-  } else {
-    averageCell.textContent = "0.0";
-  }
-}
-</script> --}}
+<style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+</style>

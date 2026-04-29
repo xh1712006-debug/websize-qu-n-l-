@@ -73,3 +73,55 @@ body {
 .btn-outline:hover {
   background: var(--primary);
   color: white; }
+
+/* PREMIUM KINETIC AURA TABS */
+.premium-tabs {
+    display: inline-flex;
+    position: relative;
+    background: rgba(241, 245, 249, 0.5);
+    padding: 6px;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    backdrop-filter: blur(8px);
+    gap: 4px;
+}
+
+.tab-item {
+    position: relative;
+    padding: 0.625rem 1.5rem;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 10;
+    border: none;
+    background: transparent;
+}
+
+.tab-item:hover {
+    color: #1e293b;
+}
+
+.tab-item.active {
+    color: white;
+}
+
+.tab-indicator {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    height: calc(100% - 12px);
+    background: #4f46e5; /* Indigo-600 */
+    border-radius: 1rem;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 5;
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+}
+
+.tab-item:active {
+    transform: scale(0.95);
+}

@@ -12,7 +12,7 @@ class reportController {
             let data_report = await report__Data.find()
             data_report = data_report.map(item => item.toObject())
             res.render('teacher/report', {
-                layout: 'teacher/main',
+                layout: 'base',
                 active: 'report',
                 data_report: data_report,
                 figure: 'teacher',
@@ -29,42 +29,58 @@ class reportController {
         try {
             const teacherId = req.session.teacher
             console.log('teacherId: ', teacherId)
-            const report = await report__Data.find({
+            const reports = await report__Data.find({
                 teacherId: teacherId,
                 status: { $ne : 'loại'}
-            })
-            console.log('report: ', report)
-
+            }).sort({ createdAt: -1 }) // Sắp xếp báo cáo mới nhất lên đầu
+            
+            let reportData = []
             let students = []
-            for(let i=0;i<report.length;i++){
-                console.log('report[i].studentId: ',report[i].studentId)
-                let studentId = await student__Data.findById(report[i].studentId)
-                console.log('student: ', studentId)
-                const progress = await progressData.findOne({
-                    studentId: report[i].studentId,
-                })
-                const project = await projectData.findById(progress.projectId)
-                const projectName = project.inputProject
-                console.log('projectName: ', project.inputProject)
+
+            for(let i=0; i < reports.length; i++){
+                const r = reports[i]
+                
+                // Lấy thông tin sinh viên
+                const student = await student__Data.findById(r.studentId)
+                if (!student) {
+                    console.warn(`Report ${r._id} missing student record. skipping.`)
+                    continue
+                }
+
+                // Lấy thông tin tiến độ và tên đồ án (An toàn)
+                let projectName = 'Chưa có thông tin đồ án'
+                const progress = await progressData.findOne({ studentId: r.studentId })
+                
+                if (progress && progress.projectId) {
+                    const project = await projectData.findById(progress.projectId)
+                    if (project) {
+                        projectName = project.inputProject
+                    }
+                } else if (student.projectId) {
+                    // Fallback: Lấy trực tiếp từ student.projectId nếu progress chưa có
+                    const project = await projectData.findById(student.projectId)
+                    if (project) {
+                        projectName = project.inputProject
+                    }
+                }
+
                 students.push({
-                    id: studentId._id,
-                    fullName: studentId.fullName,
-                    studentCode: studentId.studentCode,
+                    id: student._id,
+                    fullName: student.fullName,
+                    studentCode: student.studentCode,
                     projectName: projectName,
                 })
+                reportData.push(r)
             }
 
-            console.log('giá trị sinh viên: ', students)
-
-            console.log(report)
             return res.json({
                 students,
-                report,
+                report: reportData,
             })
         }
         catch(err){
-            console.log(err)
-            res.status(500).send('loi')
+            console.error('getReport Error:', err)
+            res.status(500).json({ error: 'Lỗi nạp báo cáo: ' + err.message })
         }
     }
 
@@ -99,112 +115,84 @@ class reportController {
         }
     }
 
-    async postAct(req, res){
-        try {
-            const id = req.body.id
-            const report = await report__Data.findById(id)
-            const student = await student__Data.findById(id)
-            const newReport = new progressData({
-                studentId: report.studentId,
-                projectId: student.projectId,
-                
-            })
-        }
-        catch(err){
-            
-        }
-
-    }
-    async getRequirement(req, res){
-        try{
-            const studentId = req.query.studentId
-            console.log('studentId: ', studentId)
-            const requirementStudent = await requirementStudentData.find({
-                studentId: studentId,
-            })
-            const student = await student__Data.findById(studentId)
-            const projectId = student.projectId
-            const project = await projectData.findById(projectId)
-            console.log('project: ', project.inputProject)
-            console.log('requirementStudent: ', requirementStudent)
-            return res.json({
-                requirementStudent,
-                project,
-            })
-
-        }
-        catch(err){
-            console.log(err)
-        }
-    }
 
     async postRequirement(req, res){
         try{
-            const listRequirement = req.body.listRequirementId
-            const reportId = req.body.reportId
-            console.log('reportId:: ', reportId)
-            console.log('listRequirement: ', listRequirement)
-            const studentId = req.body.studentId
-            console.log(listRequirement)
-            console.log(studentId)
-
+            const { reportId, studentId, feedback } = req.body 
+            
             const report = await report__Data.findOneAndUpdate({
                 _id: reportId,
             },{
                 status: 'đã duyệt',
-            })
-            console.log('report:', report)
+                teacherFeedback: feedback,
+            },{ new: true })
 
-
-           for (const item of (listRequirement || [])) {
-                await requirementStudentData.findByIdAndUpdate(
-                    item,
-                    { status: 'pass' },
-                    { new: true } // optional
-                )
+            // Cập nhật trạng thái lộ trình nếu có liên kết
+            if (report && report.requirementId) {
+                await requirementStudentData.findByIdAndUpdate(report.requirementId, {
+                    status: 'completed'
+                })
             }
-            let dem = 0
-            const requirement = await requirementStudentData.find({
-                studentId: studentId,
-            })
-            requirement.forEach(item => {
-                console.log('item: ', item)
-                if(item.status == 'pass'){
-                    dem++;
-                }
 
-            })
-            console.log('(dem/requirement.status.length)*100 = ', Math.round((dem/requirement.length)*100))
-            const progress = await progressData.findOneAndUpdate({
+            // Cập nhật tiến độ: (Số mốc hoàn thành / Tổng số mốc) * 100
+            const totalRequirements = await requirementStudentData.countDocuments({ studentId: studentId })
+            const completedRequirements = await requirementStudentData.countDocuments({ studentId: studentId, status: 'completed' })
+            
+            let percent = totalRequirements > 0 ? Math.round((completedRequirements / totalRequirements) * 100) : 0
+            if(percent > 100) percent = 100
+
+            await progressData.findOneAndUpdate({
                 studentId: studentId,
             },{
-                precent: Math.round((dem/requirement.length)*100)
-            })
+                percent: percent
+            }, { upsert: true })
 
-            return res.json({ message: 'Cập nhật thành công' })
+            // [NEW] Cập nhật trạng thái khi đạt 100% (Không tự động phê duyệt điều kiện bảo vệ)
+            if (percent === 100) {
+                // 1. Cập nhật trạng thái Progress (pass)
+                await progressData.findOneAndUpdate({ studentId: studentId }, { status: 'pass' })
+
+                // 2. Gửi thông báo nhắc nhở sinh viên chờ GVHD duyệt hồ sơ bảo vệ
+                const notificationModel = require('../../models/notification')
+                const notification = new notificationModel({
+                    receiverId: studentId,
+                    title: '✨ Hoàn thành 100% báo cáo',
+                    message: 'Bạn đã hoàn thành tất cả yêu cầu báo cáo. Hãy chờ GVHD phê duyệt chính thức để đủ điều kiện ra Phản biện & Bảo vệ.',
+                    type: 'success',
+                    link: '/student/project'
+                })
+                await notification.save()
+            }
+
+            return res.json({ 
+                message: 'Đã duyệt báo cáo thành công',
+                isCompleted: percent === 100 
+            })
         }
         catch(err){
             console.log(err)
+            res.status(500).json({ error: 'Lỗi server' })
         }
     }
 
     async postRemove(req, res){
         try{
-            const reportId = req.body.reportId
+            const { reportId, feedback } = req.body
             const report = await report__Data.findOneAndUpdate({
                 _id: reportId,
             },{
-                status: 'loại'
+                status: 'yêu cầu nộp lại',
+                teacherFeedback: feedback
             },{
                 new: true,
             })
-            console.log('report khi loại: ', report)
             return res.json({
-                message: 'cập nhật thành công thành remove'
+                message: 'Đã từ chối báo cáo'
             })
         }
         catch(err){
             console.log(err)
+            res.status(500).json({ error: 'Lỗi server' })
         }
     }
 }

@@ -1,60 +1,127 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700 pb-10">
 
-  <!-- Tổng sinh viên -->
-  <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-l-4 border-blue-500">
-    <div class="flex justify-between items-start">
-      <div>
-        <p class="text-gray-500 text-sm">Tổng sinh viên</p>
-        <h2 class="text-3xl font-bold text-gray-800 mt-2">120</h2>
-        <p class="text-xs text-green-500 mt-1">↑ 12% so với tháng trước</p>
-      </div>
-      <div class="bg-blue-100 text-blue-600 p-3 rounded-xl text-xl">
-        👨‍🎓
-      </div>
+    <!-- HERO SECTION -->
+    <div class="relative overflow-hidden bg-[#0F172A] p-10 md:p-14 rounded-[3.5rem] shadow-2xl text-white group border border-white/5">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600 rounded-full blur-[100px] -mr-48 -mt-48 opacity-20 hover:opacity-30 transition-opacity"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-600 rounded-full blur-[80px] -ml-32 -mb-32 opacity-10"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="max-w-2xl text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-xl mb-6 backdrop-blur-md">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-blue-400">Đại học Mỏ - Địa chất (HUMG)</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">Cổng Quản lý <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Đồ án CNTT</span></h1>
+                <p class="text-slate-400 font-medium mt-4 text-lg">Hệ thống điều hành và giám sát chất lượng đào tạo chuyên ngành Công nghệ thông tin.</p>
+                
+                <div class="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
+                    <div class="px-5 py-2.5 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-2 backdrop-blur-md">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-300">Hệ thống: Live</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Tổng giảng viên -->
-  <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-l-4 border-green-500">
-    <div class="flex justify-between items-start">
-      <div>
-        <p class="text-gray-500 text-sm">Tổng giảng viên</p>
-        <h2 class="text-3xl font-bold text-gray-800 mt-2">15</h2>
-        <p class="text-xs text-green-500 mt-1">↑ 5% so với tháng trước</p>
-      </div>
-      <div class="bg-green-100 text-green-600 p-3 rounded-xl text-xl">
-        👨‍🏫
-      </div>
-    </div>
-  </div>
+    <!-- STATISTICS GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-  <!-- Tổng đồ án -->
-  <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-l-4 border-purple-500">
-    <div class="flex justify-between items-start">
-      <div>
-        <p class="text-gray-500 text-sm">Tổng đồ án</p>
-        <h2 class="text-3xl font-bold text-gray-800 mt-2">25</h2>
-        <p class="text-xs text-green-500 mt-1">↑ 8% so với tháng trước</p>
-      </div>
-      <div class="bg-purple-100 text-purple-600 p-3 rounded-xl text-xl">
-        📚
-      </div>
-    </div>
-  </div>
+        <!-- STUDENT CARD -->
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+            <div class="relative z-10">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                    👨‍🎓
+                </div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinh viên</p>
+                <h2 class="text-4xl font-extrabold text-slate-900 mt-1">{{stats.totalStudents}}</h2>
+            </div>
+            <div class="absolute -right-4 -bottom-4 text-7xl opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">🎓</div>
+        </div>
 
-  <!-- Chưa đăng ký -->
-  <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-l-4 border-red-500">
-    <div class="flex justify-between items-start">
-      <div>
-        <p class="text-gray-500 text-sm">Chưa đăng ký</p>
-        <h2 class="text-3xl font-bold text-gray-800 mt-2">20</h2>
-        <p class="text-xs text-red-500 mt-1">↓ 3% so với tháng trước</p>
-      </div>
-      <div class="bg-red-100 text-red-600 p-3 rounded-xl text-xl">
-        ⚠️
-      </div>
+        <!-- TEACHER CARD -->
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+            <div class="relative z-10">
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">
+                    👨‍🏫
+                </div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Giảng viên</p>
+                <h2 class="text-4xl font-extrabold text-slate-900 mt-1">{{stats.totalTeachers}}</h2>
+            </div>
+            <div class="absolute -right-4 -bottom-4 text-7xl opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">🏫</div>
+        </div>
+
+        <!-- PROJECT CARD -->
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+            <div class="relative z-10">
+                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:bg-purple-600 group-hover:text-white transition-all duration-500">
+                    📚
+                </div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Đồ án</p>
+                <h2 class="text-4xl font-extrabold text-slate-900 mt-1">{{stats.totalProjects}}</h2>
+            </div>
+            <div class="absolute -right-4 -bottom-4 text-7xl opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">📊</div>
+        </div>
+
+        <!-- WARNING CARD -->
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+            <div class="relative z-10">
+                <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:bg-rose-600 group-hover:text-white transition-all duration-500">
+                    ⚠️
+                </div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Chưa đăng ký</p>
+                <h2 class="text-4xl font-extrabold text-slate-900 mt-1">{{stats.unregisteredCount}}</h2>
+            </div>
+            <div class="absolute -right-4 -bottom-4 text-7xl opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">🚨</div>
+        </div>
+
     </div>
-  </div>
+
+    <!-- MAJOR & SCORE DISTRIBUTION -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
+            <h3 class="text-lg font-black text-slate-900 mb-8 flex items-center gap-3">
+                <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                Sinh viên theo Chuyên ngành
+            </h3>
+            <div class="h-64">
+                <canvas id="majorChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
+            <h3 class="text-lg font-black text-slate-900 mb-8 flex items-center gap-3">
+                <span class="w-1.5 h-6 bg-rose-500 rounded-full"></span>
+                Phổ điểm Đồ án (Success)
+            </h3>
+            <div class="h-64">
+                <canvas id="scoreChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADVISOR STATS -->
+    <div class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
+        <h3 class="text-lg font-black text-slate-900 mb-8 flex items-center gap-3">
+            <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span>
+            Top Giảng viên Hướng dẫn (Đồ án Đang thực hiện)
+        </h3>
+        <div class="h-80">
+            <canvas id="advisorChart"></canvas>
+        </div>
+    </div>
 
 </div>
 
+<!-- DATA BRIDGE FOR JS -->
+<div id="dashboardData" class="hidden"
+    data-major-labels='{{charts.majorLabels}}'
+    data-major-values='{{charts.majorValues}}'
+    data-advisor-labels='{{charts.advisorLabels}}'
+    data-advisor-values='{{charts.advisorValues}}'
+    data-score-dist='{{charts.scoreDist}}'
+></div>
+
+{{#section 'script'}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/admin/dashboard.js"></script>
+{{/section}}

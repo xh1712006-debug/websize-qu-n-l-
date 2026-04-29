@@ -3,29 +3,57 @@ const schema = mongoose.Schema
 
 const dashboardSchema = new schema({
     teacherCode: {
-        type: 'String'
+        type: 'String',
+        unique: true
     },
     fullName: {
         type: 'String'
     },
     teacherEmail: {
+        type: 'String',
+        unique: true
+    },
+    teacherPhone: {
         type: 'String'
     },
-    phone: {
+    // Vai trò chính (Teacher)
+    teacherRole: {
+        type: 'String',
+        default: 'Teacher'
+    },
+    // Vai trò nghiệp vụ đa nhiệm
+    subRoles: {
+        isLeader: { type: Boolean, default: false },
+        isGVHD: { type: Boolean, default: false },
+        isGVPB: { type: Boolean, default: false },
+        isCouncil: { type: Boolean, default: false }
+    },
+    // Thông tin hội đồng (nếu thuộc hội đồng)
+    councilPosition: {
+        type: String, // 'Chairman' (Chủ tịch), 'Secretary' (Thư ký), 'Member' (Thành viên)
+        enum: ['Chairman', 'Secretary', 'Member', null],
+        default: null
+    },
+    teacherMajor: { // Chuyên ngành quản lý/phụ trách
         type: 'String'
     },
-    role: {
+    teacherDepartment: { // Đơn vị công tác/Bộ môn
         type: 'String'
     },
-    department: {
+    teacherDegree: {
         type: 'String'
     },
-    degree: {
+    teacherAvatar: {
         type: 'String'
     },
     status: {
-        type: 'String'
+        type: 'String',
+        default: 'active'
     },
+    isMicrosoft: {
+        type: Boolean,
+        default: false
+    }
 
 }, {
     timestamps: true,

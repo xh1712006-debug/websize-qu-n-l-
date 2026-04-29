@@ -1,127 +1,157 @@
-<h1 class="text-2xl font-bold mb-6 flex items-center gap-2">
-  🗄️ Dashboard quản lý – Giáo viên
-</h1>
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
 
-<!-- TEACHER INFO -->
-<div class="bg-white p-6 rounded shadow mb-6 flex justify-between items-center">
+    <!-- WELCOME & PROFILE UNIT -->
+    <div class="bg-white p-8 md:p-10 rounded-[3rem] shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden group">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60"></div>
+        
+        <div class="flex items-center gap-6 relative z-10">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center text-3xl shadow-lg shadow-emerald-50">
+                👨‍ teacher
+            </div>
+            <div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">{{teacherName}}</h2>
+                <p class="text-slate-500 font-medium mt-1 uppercase tracking-widest text-xs">{{teacherDept}}</p>
+            </div>
+        </div>
 
-  <div>
-    <h2 class="text-lg font-semibold">👤 ThS. Trần Văn B</h2>
-    <p class="text-sm text-gray-600">
-      Khoa Công nghệ thông tin • Giáo viên hướng dẫn
-    </p>
-  </div>
-
-  <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded">
-    Đang hoạt động
-  </span>
-
-</div>
-
-<!-- STATISTICS -->
-<div class="grid grid-cols-5 gap-6 mb-6">
-
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-blue-600">12</p>
-    <p class="text-sm text-gray-600">Sinh viên</p>
-  </div>
-
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-green-600">8</p>
-    <p class="text-sm text-gray-600">Đồ án</p>
-  </div>
-
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-yellow-600">5</p>
-    <p class="text-sm text-gray-600">Báo cáo chờ</p>
-  </div>
-
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-purple-600">18</p>
-    <p class="text-sm text-gray-600">Phản hồi</p>
-  </div>
-
-  <div class="bg-white p-5 rounded shadow text-center">
-    <p class="text-2xl font-bold text-red-600">2</p>
-    <p class="text-sm text-gray-600">Quá hạn</p>
-  </div>
-
-</div>
-
-<!-- MAIN MANAGEMENT -->
-<div class="grid grid-cols-3 gap-6">
-
-  <!-- STUDENTS -->
-  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-    <h3 class="font-semibold mb-2">👨‍🎓 Sinh viên</h3>
-    <p class="text-sm text-gray-600 mb-4">
-      Quản lý sinh viên được phân công
-    </p>
-    <a href="/teacher/student"
-       class="inline-block bg-blue-600 text-white px-4 py-2 rounded text-sm">
-      Quản lý sinh viên
-    </a>
-  </div>
-
-  <!-- PROJECTS -->
-  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-    <h3 class="font-semibold mb-2">📘 Đồ án</h3>
-    <p class="text-sm text-gray-600 mb-4">
-      Theo dõi đề tài & tiến độ đồ án
-    </p>
-    <a href="/teacher/project"
-       class="inline-block bg-green-600 text-white px-4 py-2 rounded text-sm">
-      Quản lý đồ án
-    </a>
-  </div>
-
-  {{!-- <!-- PROGRESS -->
-  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-    <h3 class="font-semibold mb-2">⏳ Tiến độ</h3>
-    <p class="text-sm text-gray-600 mb-4">
-      Đánh giá tiến độ thực hiện
-    </p>
-    <a href="/teacher/progress"
-       class="inline-block bg-yellow-500 text-white px-4 py-2 rounded text-sm">
-      Xem tiến độ
-    </a>
-  </div> --}}
-
-  <!-- REPORT -->
-  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-    <h3 class="font-semibold mb-2">📄 Báo cáo</h3>
-    <p class="text-sm text-gray-600 mb-4">
-      Duyệt báo cáo sinh viên
-    </p>
-    <a href="/teacher/report"
-       class="inline-block bg-indigo-600 text-white px-4 py-2 rounded text-sm">
-      Duyệt báo cáo
-    </a>
-  </div>
-
-  <!-- FEEDBACK -->
-  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-    <h3 class="font-semibold mb-2">💬 Phản hồi</h3>
-    <p class="text-sm text-gray-600 mb-4">
-      Gửi & quản lý phản hồi
-    </p>
-    <a href="/teacher/feedback"
-       class="inline-block bg-purple-600 text-white px-4 py-2 rounded text-sm">
-      Phản hồi
-    </a>
-  </div>
-
-  <!-- SYSTEM -->
-  {{!-- <div class="bg-white p-6 rounded shadow flex flex-col justify-between hover:shadow-lg transition">
-    <div>
-      <h3 class="font-semibold mb-2">🔐 Hệ thống</h3>
-      <p class="text-sm text-gray-600 mb-4">
-        Tài khoản & đăng xuất
-      </p>
+        <div class="flex items-center gap-3 px-6 py-3 bg-emerald-50 text-emerald-700 rounded-2xl font-black text-xs border border-emerald-100/50 shadow-sm relative z-10 transition-transform group-hover:scale-105">
+            <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+            GIẢNG VIÊN ĐANG TRỰC TUYẾN
+        </div>
     </div>
-    <button class="bg-red-600 text-white px-4 py-2 rounded text-sm">
-      Đăng xuất
-    </button>
-  </div> --}}
+
+    <!-- STATISTICS GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="relative overflow-hidden bg-[#0F172A] p-8 rounded-[2.5rem] shadow-2xl text-white group hover:-translate-y-1 transition-all duration-300">
+            <div class="absolute -right-4 -top-4 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+            <p class="text-[10px] uppercase tracking-[0.2em] font-black text-indigo-300 mb-4">Tổng số sinh viên</p>
+            <div class="flex items-baseline gap-3">
+                <span class="text-6xl font-black tracking-tighter">{{studentsCount}}</span>
+                <span class="text-sm font-bold text-emerald-400 italic">Sinh viên hướng dẫn</span>
+            </div>
+            <div class="mt-8 flex items-center gap-2 text-xs font-bold text-slate-400">
+                <div class="p-2 bg-white/10 rounded-xl text-indigo-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
+                Đang trực thuộc quản lý
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div class="absolute -right-4 -top-4 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+            <p class="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 mb-4">Báo cáo chờ duyệt</p>
+            <div class="flex items-baseline gap-3">
+                <span class="text-6xl font-black tracking-tighter text-slate-900">{{pendingReportsCount}}</span>
+                <span class="text-sm font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-lg italic">Cần xử lý</span>
+            </div>
+            <div class="mt-8 flex items-center gap-2 text-xs font-bold text-slate-400">
+                <div class="p-2 bg-amber-50 rounded-xl text-amber-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                </div>
+                Cần phản hồi kịp thời
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div class="absolute -right-4 -top-4 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+            <p class="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 mb-4">Tin nhắn chưa đọc</p>
+            <div class="flex items-baseline gap-3">
+                <span class="text-6xl font-black tracking-tighter text-slate-900">{{unreadFeedbacksCount}}</span>
+                <span class="text-sm font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded-lg italic">Trao đổi mới</span>
+            </div>
+            <div class="mt-8 flex items-center gap-2 text-xs font-bold text-slate-400">
+                <div class="p-2 bg-rose-50 rounded-xl text-rose-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                </div>
+                Phản hồi từ sinh viên
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN MANAGEMENT GRID -->
+    <div class="grid grid-cols-1 gap-10">
+        
+        <div class="space-y-8">
+            <!-- MONITORING TABLE -->
+            <div class="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden animate-in slide-in-from-bottom-10 duration-700">
+                <div class="p-10 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <h3 class="text-xl font-black text-slate-900 uppercase tracking-tight">Giám sát Sinh viên Hướng dẫn</h3>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Theo dõi tiến độ thực hiện đồ án thời gian thực</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50">
+                                <th class="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinh viên</th>
+                                <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tiến độ công việc</th>
+                                <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Báo cáo mới</th>
+                                <th class="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Thao tác nhanh</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            {{#each supervisedStudents}}
+                            <tr class="group hover:bg-slate-50/50 transition-colors">
+                                <td class="px-10 py-8">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-black text-xs italic">
+                                            {{substring this.fullName 0 1}}
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-black text-slate-900 uppercase tracking-tight truncate">{{this.fullName}}</p>
+                                            <p class="text-[9px] font-bold text-emerald-500 uppercase tracking-widest mt-0.5">{{this.studentCode}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-8">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden min-w-[200px]">
+                                            <div class="h-full bg-emerald-500 rounded-full transition-all duration-1000" style="width: {{this.progress}}%"></div>
+                                        </div>
+                                        <span class="text-[10px] font-black text-slate-700 italic">{{this.progress}}%</span>
+                                    </div>
+                                    <p class="text-[9px] font-medium text-slate-400 mt-2 italic truncate max-w-[300px]">Đề tài: "{{this.projectName}}"</p>
+                                </td>
+                                <td class="px-6 py-8 text-center">
+                                    {{#if this.pendingReports}}
+                                        <span class="px-3 py-1.5 bg-amber-50 text-amber-600 rounded-xl text-[8px] font-black uppercase tracking-widest border border-amber-100">+{{this.pendingReports}} tin mới</span>
+                                    {{else}}
+                                        <span class="text-[8px] font-bold text-slate-300 uppercase tracking-widest italic">Hoàn tất</span>
+                                    {{/if}}
+                                </td>
+                                <td class="px-10 py-8 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="/teacher/report?studentId={{this._id}}" class="px-4 py-2 bg-white border border-slate-200 text-slate-400 rounded-xl hover:text-emerald-600 hover:border-emerald-200 transition-all shadow-sm text-[9px] font-black uppercase tracking-widest">
+                                            Duyệt bài
+                                        </a>
+                                        <a href="/teacher/feedback?studentId={{this._id}}" class="px-4 py-2 bg-white border border-slate-200 text-slate-400 rounded-xl hover:text-indigo-600 hover:border-indigo-200 transition-all shadow-sm text-[9px] font-black uppercase tracking-widest">
+                                            Phản hồi
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/each}}
+                            {{#unless supervisedStudents}}
+                            <tr>
+                                <td colspan="4" class="px-10 py-24 text-center">
+                                    <div class="opacity-20 flex flex-col items-center">
+                                        <div class="text-6xl mb-4">📂</div>
+                                        <p class="text-slate-900 font-black uppercase tracking-[0.3em] text-xs">Danh sách trống</p>
+                                        <p class="text-slate-500 text-[10px] mt-2 italic font-medium">Bạn chưa hướng dẫn sinh viên nào trong kỳ này.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/unless}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>

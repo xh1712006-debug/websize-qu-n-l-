@@ -1,100 +1,136 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Quản trị - Admin Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .menu-item.active { background: rgba(59, 130, 246, 0.1); border-right: 4px solid #3b82f6; color: #3b82f6; }
+        .sidebar-collapsed { width: 88px; }
+        .sidebar-collapsed .sidebar-text { display: none; }
+        .sidebar-collapsed .sidebar-logo { justify-content: center; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+    </style>
 </head>
-<body class="bg-gray-100">
+
+<body class="bg-[#F8FAFC] text-slate-900 overflow-hidden text-[13px]">
 
 <div class="flex h-screen overflow-hidden">
 
-  <!-- SIDEBAR -->
-  <aside class="w-64 bg-gray-900 text-white flex flex-col justify-between">
-
-    <div>
-      <!-- Logo -->
-      <div class="p-6 border-b border-gray-700">
-        <h1 class="text-2xl font-bold text-blue-400">🎓 Admin Panel</h1>
-        <p class="text-gray-400 text-xs mt-1">Quản lý hệ thống</p>
-      </div>
-
-      <!-- Menu -->
-      <nav class="p-4 space-y-2 text-sm">
-
-        <a href="/admin/dashboard"
-           class="flex items-center gap-3 px-4 py-2 rounded-lg bg-blue-600 text-white">
-          📊 Dashboard
-        </a>
-
-        <a href="/admin/student"
-           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-          👨‍🎓 Sinh viên
-        </a>
-
-        <a href="/admin/teacher"
-           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-          👨‍🏫 Giảng viên
-        </a>
-
-        <a href="/admin/project"
-           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-          📚 Đồ án
-        </a>
-
-        <a href="/admin/point"
-           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-          ⭐ Điểm
-        </a>
-
-        <a href="/admin/report"
-           class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-          🔔 Thông báo
-        </a>
-
-      </nav>
-    </div>
-
-    <!-- Footer -->
-    <div class="p-4 border-t border-gray-700 text-xs text-gray-400">
-      © 2026 Admin System
-    </div>
-
-  </aside>
-
-
-  <!-- MAIN CONTENT -->
-  <div class="flex-1 flex flex-col">
-
-    <!-- HEADER -->
-    {{!-- <header class="bg-white shadow px-8 py-4 flex justify-between items-center">
-
-      <h2 class="text-xl font-semibold text-gray-700">
-        Dashboard
-      </h2>
-
-      <div class="flex items-center gap-3">
-        <span class="text-sm text-gray-600">Xin chào, Admin</span>
-        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-          A
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="w-72 bg-white border-r border-slate-200 transition-all duration-300 flex-shrink-0 flex flex-col z-50">
+        
+        <!-- LOGO -->
+        <div class="sidebar-logo flex items-center gap-3 p-8">
+            <div class="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            </div>
+            <div class="sidebar-text">
+                <span class="font-black text-lg tracking-tight text-slate-900 uppercase">Admin</span>
+                <span class="block text-[9px] font-bold text-blue-500 uppercase tracking-widest -mt-1">Project OS</span>
+            </div>
         </div>
-      </div>
 
-    </header> --}}
+        <!-- MENU -->
+        <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+            <a href="/admin/dashboard" class="menu-item group flex items-center px-4 py-3.5 rounded-2xl transition-all duration-200 {{#if (eq active 'dashboard')}} active {{else}} text-slate-500 hover:bg-slate-50 {{/if}}">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path></svg>
+                <span class="ml-4 font-bold sidebar-text">Dashboard</span>
+            </a>
 
+            <div class="py-4 sidebar-text">
+                <span class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Cơ sở dữ liệu</span>
+            </div>
 
-    <!-- CONTENT -->
-    <main class="p-8 overflow-auto">
+            <a href="/admin/student" class="menu-item group flex items-center px-4 py-3.5 rounded-2xl transition-all duration-200 {{#if (eq active 'student')}} active {{else}} text-slate-500 hover:bg-slate-50 {{/if}}">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <span class="ml-4 font-bold sidebar-text">Sinh viên</span>
+            </a>
 
-      {{{body}}}
+            <a href="/admin/teacher" class="menu-item group flex items-center px-4 py-3.5 rounded-2xl transition-all duration-200 {{#if (eq active 'teacher')}} active {{else}} text-slate-500 hover:bg-slate-50 {{/if}}">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                <span class="ml-4 font-bold sidebar-text">Giảng viên</span>
+            </a>
 
-    </main>
+            <a href="/admin/project" class="menu-item group flex items-center px-4 py-3.5 rounded-2xl transition-all duration-200 {{#if (eq active 'project')}} active {{else}} text-slate-500 hover:bg-slate-50 {{/if}}">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                <span class="ml-4 font-bold sidebar-text">Kho Đồ án</span>
+            </a>
 
-  </div>
+            <div class="py-4 sidebar-text">
+                <span class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Hệ thống</span>
+            </div>
+
+            <a href="/admin/point" class="menu-item group flex items-center px-4 py-3.5 rounded-2xl transition-all duration-200 {{#if (eq active 'point')}} active {{else}} text-slate-500 hover:bg-slate-50 {{/if}}">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+                <span class="ml-4 font-bold sidebar-text">Kết quả điểm</span>
+            </a>
+
+            <a href="/admin/config" class="menu-item group flex items-center px-4 py-3.5 rounded-2xl transition-all duration-200 {{#if (eq active 'config')}} active {{else}} text-slate-500 hover:bg-slate-50 {{/if}}">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
+                <span class="ml-4 font-bold sidebar-text">Cấu hình</span>
+            </a>
+
+            <a href="/admin/logs" class="menu-item group flex items-center px-4 py-3.5 rounded-2xl transition-all duration-200 {{#if (eq active 'logs')}} active {{else}} text-slate-500 hover:bg-slate-50 {{/if}}">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span class="ml-4 font-bold sidebar-text">Nhật ký</span>
+            </a>
+        </nav>
+
+        <!-- FOOTER -->
+        <div class="p-6 border-t border-slate-100">
+            <a href="/loggin/logout?role=admin" class="flex items-center gap-3 p-4 bg-rose-50 text-rose-600 rounded-2xl font-bold hover:bg-rose-100 transition-all group">
+                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <span class="sidebar-text">Đăng xuất</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-10 z-10">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="p-2.5 bg-slate-50 text-slate-600 rounded-xl hover:bg-slate-100 transition-all border border-slate-100">
+                    <svg id="menu-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <div class="h-4 w-px bg-slate-200 mx-2"></div>
+                <span class="text-slate-400 font-medium">Hệ thống</span>
+                <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <span class="text-slate-900 font-bold uppercase tracking-widest text-[11px]">{{active}}</span>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <div class="flex flex-col items-end mr-2">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Máy chủ</span>
+                    <span class="text-emerald-500 font-bold flex items-center gap-1.5 leading-none mt-0.5">
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                        Hoạt động ổn định
+                    </span>
+                </div>
+                <div class="w-px h-10 bg-slate-200"></div>
+                <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shadow-inner">👤</div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+            <div class="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+                {{{body}}}
+            </div>
+        </main>
+    </div>
 
 </div>
 
-</body>
-<script src="/{{figure}}/{{active}}.js"></script>
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('sidebar-collapsed');
+    }
+</script>
 
+</body>
 </html>

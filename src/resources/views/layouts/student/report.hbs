@@ -1,69 +1,157 @@
-{{! filepath: d:\hoc_html\on_html\project2\src\resources\views\layouts\student\report.hbs }}
-<!-- TITLE -->
-<div class="mb-6">
-  <h1 class="text-2xl font-bold flex items-center gap-2">
-    📤 Nộp báo cáo đồ án
-  </h1>
-  <p class="text-gray-600 text-sm mt-1">
-    Sinh viên nộp báo cáo tiến độ và báo cáo cuối kỳ cho giảng viên hướng dẫn
-  </p>
-</div>
-
-<!-- SUBMIT FORM -->
-<form method="post" action="" enctype="multipart/form-data">  <!-- Added enctype -->
-  <div class="bg-white p-6 rounded-lg shadow mb-8">
-    <h2 class="text-lg font-semibold mb-4">📝 Thông tin báo cáo</h2>
-    <div class="space-y-4">
-      <!-- REPORT TYPE -->
-      <div>
-        <label class="block text-sm font-semibold mb-1">Loại báo cáo</label>
-        <select class="type__report w-full border rounded px-3 py-2 focus:outline-none focus:ring">
-          <option>Báo cáo tiến độ</option>
-          <option>Báo cáo giữa kỳ</option>
-          <option>Báo cáo cuối kỳ</option>
-        </select>
-      </div>
-      <!-- REPORT TITLE -->
-      <div>
-        <label class="block text-sm font-semibold mb-1">Tiêu đề báo cáo</label>
-        <input name="title" type="text" placeholder="Ví dụ: Báo cáo tiến độ tuần 6" class="title__report w-full border rounded px-3 py-2 focus:outline-none focus:ring">
-      </div>
-      <!-- DESCRIPTION -->
-      <div>
-        <label class="block text-sm font-semibold mb-1">Mô tả nội dung</label>
-        <textarea rows="4" placeholder="Mô tả ngắn gọn nội dung đã thực hiện..." class="content__report w-full border rounded px-3 py-2 focus:outline-none focus:ring"></textarea>
-      </div>
-      <!-- FILE -->
-      <div>
-        <label class="block text-sm font-semibold mb-1">File báo cáo (PDF / DOCX)</label>
-        <input name="file_url" type="file" class="file__report w-full border rounded px-3 py-2 bg-gray-50">
-        <p class="text-xs text-gray-500 mt-1">Dung lượng tối đa: 10MB</p>
-      </div>
-      <!-- SUBMIT BUTTON -->
-      <div class="flex justify-end">
-        <button type="submit" class="submit__content bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Nộp báo cáo</button>
-      </div>
+<div class="max-w-5xl mx-auto py-10 px-4 space-y-12">
+    
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center text-3xl shadow-xl shadow-blue-100">
+                📤
+            </div>
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Nộp báo cáo</h1>
+                <p class="text-slate-500 font-medium mt-1">Cập nhật tiến độ đồ án và tài liệu nghiên cứu định kỳ</p>
+            </div>
+        </div>
+        
+        <div class="px-5 py-3 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
+             <span class="p-2 bg-indigo-50 text-indigo-500 rounded-xl">📅</span>
+             <div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Trạng thái</p>
+                <p class="text-sm font-black text-indigo-600">
+                    {{#if isFinished}}
+                        Đã hoàn tất
+                    {{else}}
+                        Tuần {{currentWeek}}
+                    {{/if}}
+                </p>
+             </div>
+        </div>
     </div>
-  </div>
-</form>
 
-<!-- SUBMISSION HISTORY -->
-<div class="bg-white p-6 rounded-lg shadow">
-  <h2 class="text-lg font-semibold mb-4">📚 Lịch sử nộp báo cáo</h2>
-  <div class="overflow-x-auto">
-    <table class="table__content w-full border text-sm">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border p-2">Tiêu đề</th>
-          <th class="border p-2">Loại</th>
-          <th class="border p-2">Ngày nộp</th>
-          <th class="border p-2">Trạng thái</th>
-          <th class="border p-2">File</th>
-        </tr>
-      </thead>
-      <tbody class="out__content">
-        <!-- Dynamic content loaded via JS -->
-      </tbody>
-    </table>
-  </div>
+    <!-- SUBMIT FORM OR COMPLETED STATE -->
+    {{#if isFinished}}
+        <div class="bg-white rounded-[3rem] shadow-sm border border-slate-100 p-8 md:p-12 relative overflow-hidden group text-center">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/20 via-transparent to-purple-50/20 opacity-60"></div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full -mr-32 -mt-32 opacity-40 group-hover:scale-110 transition-transform duration-1000"></div>
+            
+            <div class="relative z-10 space-y-8 py-6">
+                <div class="w-24 h-24 bg-gradient-to-tr from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-4xl shadow-2xl shadow-emerald-100 mx-auto transform group-hover:rotate-12 transition-all duration-500">
+                    ✨
+                </div>
+                
+                <div class="space-y-3">
+                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">Tất cả báo cáo đã hoàn tất!</h2>
+                    <p class="text-slate-500 font-medium max-w-md mx-auto">Chúc mừng bạn đã hoàn thành 100% lộ trình báo cáo tiến độ. Bạn hiện đã đủ điều kiện để tiến xa hơn trong đồ án tốt nghiệp.</p>
+                </div>
+
+
+
+                <div class="pt-4">
+                    <div class="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
+                        Đã sẵn sàng cho giai đoạn tiếp theo
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        <div class="bg-white rounded-[3rem] shadow-sm border border-slate-100 p-8 md:p-12 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full -mr-32 -mt-32 opacity-40 group-hover:scale-110 transition-transform duration-700"></div>
+            
+            <h2 class="text-xl font-black text-slate-900 mb-10 flex items-center gap-3 relative z-10">
+                <span class="p-2 bg-indigo-50 text-indigo-500 rounded-xl font-normal">📝</span>
+                Chi tiết báo cáo
+            </h2>
+
+            <form method="post" action="" enctype="multipart/form-data" class="space-y-8 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- REPORT WEEK -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Báo cáo cho mốc lộ trình</label>
+                        <div class="relative group">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">🔢</span>
+                            <div class="w-full pl-11 pr-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-bold italic shadow-inner">
+                                {{weekLabel}}
+                            </div>
+                            <input type="hidden" name="week" value="{{currentWeek}}">
+                            <input type="hidden" name="weekLabel" value="{{weekLabel}}">
+                            <input type="hidden" name="requirementId" value="{{requirementId}}">
+                        </div>
+                    </div>
+
+                    <!-- FILE UPLOAD -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-black text-slate-900 uppercase tracking-widest ml-1">Tài liệu đính kèm (PDF/DOCX) <span class="text-rose-500">*</span></label>
+                        <div class="relative group/file">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover/file:text-indigo-500 transition-colors">📂</span>
+                            <input name="file_url" type="file" required
+                                class="file__report w-full pl-11 pr-4 py-[0.85rem] bg-white border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all font-bold text-slate-600 text-sm">
+                        </div>
+                        <p class="text-[10px] text-slate-400 font-medium ml-1">Dung lượng tối đa: 10MB. Ưu tiên định dạng PDF.</p>
+                    </div>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="space-y-2">
+                    <label class="text-xs font-black text-slate-900 uppercase tracking-widest ml-1">Nội dung đã thực hiện <span class="text-rose-500">*</span></label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400">✒️</span>
+                        <textarea rows="4" placeholder="Mô tả tóm tắt các công việc bạn đã hoàn thành và khó khăn gặp phải (nếu có)..." 
+                            class="content__report w-full pl-11 pr-5 py-4 bg-white border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all font-bold text-slate-700 shadow-sm resize-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <div class="pt-6 flex flex-col items-end gap-3">
+                    {{#if canSubmit}}
+                        <button type="submit" class="submit__content w-full md:w-auto px-12 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-[1.5rem] font-black text-sm shadow-xl shadow-indigo-100 hover:scale-105 transition-transform">
+                            NỘP BÁO CÁO NGAY
+                        </button>
+                        <p class="text-[10px] font-bold text-slate-400">Đảm bảo thông tin chính xác trước khi gửi.</p>
+                    {{else}}
+                        <button type="button" disabled class="w-full md:w-auto px-12 py-5 bg-slate-200 text-slate-400 rounded-[1.5rem] font-black text-sm cursor-not-allowed">
+                            ĐANG CHỜ PHÊ DUYỆT
+                        </button>
+                        <div class="flex items-center gap-2 bg-rose-50 px-4 py-2 rounded-xl text-rose-500 text-xs font-bold border border-rose-100 animate-pulse">
+                            ⚠️ Bạn cần đợi giáo viên phê duyệt bản báo cáo trước mới có thể nộp tiếp.
+                        </div>
+                    {{/if}}
+                </div>
+            </form>
+        </div>
+    {{/if}}
+
+    <!-- SUBMISSION HISTORY -->
+    <div class="bg-white rounded-[3rem] shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 md:p-10 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-3">
+                <span class="p-2 bg-emerald-50 text-emerald-500 rounded-xl">📚</span>
+                Lịch sử nộp bài
+            </h2>
+            <div class="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-[10px] font-black text-slate-400 tracking-widest">
+                ĐÃ NỘP {{report.length}} BÁO CÁO
+            </div>
+        </div>
+
+        <div class="overflow-x-auto overflow-y-hidden">
+            <table class="table__content w-full text-left">
+                <thead>
+                    <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-black border-b border-slate-50">
+                        <th class="px-8 py-6">Tuần</th>
+                        <th class="px-8 py-6">Mô tả nội dung</th>
+                        <th class="px-8 py-6">Thời gian nộp</th>
+                        <th class="px-8 py-6">Trạng thái</th>
+                        <th class="px-8 py-6 text-right">Tài liệu</th>
+                    </tr>
+                </thead>
+                <tbody class="out__content divide-y divide-slate-50">
+                    <!-- Dynamic content loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
+
+{{#section 'script'}}
+<script src="/js/student/report.js"></script>
+{{/section}}

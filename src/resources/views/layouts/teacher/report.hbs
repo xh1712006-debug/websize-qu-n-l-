@@ -1,255 +1,88 @@
+<div class="animate-in pb-20">
+    <!-- PAGE HEADER -->
+    <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-wider">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Hệ thống Quản lý Báo cáo
+            </div>
+            <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Trung tâm <span class="text-indigo-600">Kiểm định Tiến độ</span></h1>
+            <p class="text-slate-500 font-medium italic">Đánh giá chuyên môn và phản hồi các bản báo cáo định kỳ từ sinh viên hướng dẫn.</p>
+        </div>
+        
+        <div class="flex items-center gap-3 px-6 py-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
+             <div class="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+             <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Cần xử lý: <span id="header-pending-count">0</span> Báo cáo</span>
+        </div>
+    </div>
 
+    <!-- TABS NAVIGATION -->
+    <div class="flex flex-wrap gap-4 mb-8">
+        <button onclick="switchTab('chờ duyệt')" id="tab-waiting" class="tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            Chờ xét duyệt
+            <span id="count-waiting" class="ml-2 px-2 py-0.5 bg-amber-100 text-amber-700 rounded-md text-[8px]">0</span>
+        </button>
+        <button onclick="switchTab('đã duyệt')" id="tab-approved" class="tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Đã đủ điều kiện
+            <span id="count-approved" class="ml-2 px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-md text-[8px]">0</span>
+        </button>
+        <button onclick="switchTab('yêu cầu nộp lại')" id="tab-rejected" class="tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            Yêu cầu sửa đổi
+            <span id="count-rejected" class="ml-2 px-2 py-0.5 bg-rose-100 text-rose-700 rounded-md text-[8px]">0</span>
+        </button>
+    </div>
 
-<h1 class="text-2xl font-bold mb-6 flex items-center gap-2">
-  📤 Báo cáo sinh viên
-</h1>
+    <!-- DATA TABLE CONTAINER -->
+    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden relative">
+        <div id="tab-indicator" class="absolute top-0 left-0 h-1.5 bg-gradient-to-r transition-all duration-500"></div>
+        
+        <div class="overflow-x-auto relative z-10">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-black border-b border-slate-50">
+                        <th class="px-8 py-7 bg-slate-50/50">Sinh viên</th>
+                        <th class="px-8 py-7 bg-slate-50/50">Đồ án / Tiếu đề báo cáo</th>
+                        <th class="px-8 py-7 bg-slate-50/50 text-center">Thời gian nộp</th>
+                        <th class="px-8 py-7 bg-slate-50/50 text-center">Trạng thái</th>
+                        <th class="px-8 py-7 bg-slate-50/50 text-right">Phản hồi & Duyệt</th>
+                    </tr>
+                </thead>
+                <tbody id="reportList" class="divide-y divide-slate-50">
+                    <!-- Dynamic from JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<div class="table__header bg-white p-6 rounded shadow">
-  
-
-  <!-- HEADER -->
-  <div class="grid grid-cols-6 font-semibold text-sm border-b pb-3 mb-4">
-    <span class="text-center">Sinh viên</span>
-    <span class="text-center">Đồ án</span>
-    <span class="text-center">Loại báo cáo</span>
-    <span class="text-center">Ngày nộp</span>
-    <span class="text-center">Trạng thái</span>
-    <span class="text-center">Hành động</span>
-  </div>
-
-  <!-- LIST -->
-  <div id="reportList"></div>
-
+    <!-- EMPTY STATE -->
+    <div id="emptyReport" class="hidden py-40 text-center bg-white rounded-[3rem] border border-dashed border-slate-200 mt-8">
+        <div class="w-32 h-32 bg-slate-50 rounded-[3rem] flex items-center justify-center mx-auto mb-8 text-6xl opacity-30">📦</div>
+        <h3 class="text-2xl font-black text-slate-300 uppercase tracking-widest">Hộp thư trống</h3>
+        <p class="text-slate-400 font-medium mt-3 italic">Hiện không có bản báo cáo nào trong mục này.</p>
+    </div>
 </div>
 
-<!-- MODAL DUYỆT -->
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center">
-
-  {{!-- <div class="bg-white w-full max-w-xl p-6 rounded-2xl shadow-xl">
-
-    <h3 class="text-xl font-bold mb-4">📋 Duyệt yêu cầu</h3>
-
-    <div id="requirementContainer" class="space-y-3 max-h-80 overflow-y-auto"></div>
-
-    <div class="flex justify-end gap-3 mt-6">
-      <button class="px-4 py-2 border rounded-lg">Hủy</button>
-      <button class="px-5 py-2 bg-blue-600 text-white rounded-lg">💾 Lưu</button>
-    </div> 
-
-  </div> --}}
+<!-- PREMIUM MODAL OVERLAY -->
+<div id="modal" class="fixed inset-0 z-[100] hidden flex flex-col items-center justify-center p-4">
+    <!-- Injected by JS -->
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{!-- <!-- MODAL -->
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center">
+<style>
+    .animate-in {
+        animation: animate-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes animate-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    #modal.flex { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); }
+</style>
 
-  <div class="bg-white w-full max-w-xl p-6 rounded-2xl shadow-xl">
-
-    <h3 class="text-xl font-bold mb-4">
-      📋 Duyệt: Nguyễn Văn A
-    </h3>
-
-    <div class="space-y-3">
-
-      <div class="flex justify-between border p-3 rounded-xl">
-        <p>CRUD sinh viên</p>
-        <input type="checkbox" onchange="updateProgress()">
-      </div>
-
-      <div class="flex justify-between border p-3 rounded-xl">
-        <p>Đăng ký đề tài</p>
-        <input type="checkbox" onchange="updateProgress()">
-      </div>
-
-      <div class="flex justify-between border p-3 rounded-xl">
-        <p>Quản lý tiến độ</p>
-        <input type="checkbox" onchange="updateProgress()">
-      </div>
-
-      <div class="flex justify-between border p-3 rounded-xl">
-        <p>Chấm điểm</p>
-        <input type="checkbox" onchange="updateProgress()">
-      </div>
-
-    </div>
-
-    <!-- PROGRESS -->
-    <div class="mt-4">
-      <div class="w-full bg-gray-200 h-2 rounded">
-        <div id="progressBar" class="bg-green-500 h-2 rounded" style="width:0%"></div>
-      </div>
-      <p id="percentText" class="text-sm mt-1">Tiến độ: 0%</p>
-    </div>
-
-    <div class="flex justify-end gap-3 mt-6">
-      <button onclick="closeModal()" class="px-4 py-2 border rounded-lg">Hủy</button>
-      <button onclick="submitReview()" class="px-5 py-2 bg-blue-600 text-white rounded-lg">
-        💾 Lưu
-      </button>
-    </div>
-
-  </div>
-</div> --}}
-
-{{!-- <script>
-
-/* ================= DATA ================= */
-let reports = [
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    code: "SV00123",
-    project: "Website quản lý đồ án",
-    type: "Báo cáo tuần 5",
-    date: "20/02/2026",
-    status: "pending"
-  },
-  {
-    id: 2,
-    name: "Trần Thị B",
-    code: "SV00456",
-    project: "App quản lý sinh viên",
-    type: "Báo cáo cuối kỳ",
-    date: "18/02/2026",
-    status: "approved"
-  }
-];
-
-let requirements = [
-  { id: 1, name: "CRUD sinh viên", status: "pending" },
-  { id: 2, name: "Đăng ký đề tài", status: "pending" },
-  { id: 3, name: "Quản lý tiến độ", status: "pending" },
-  { id: 4, name: "Chấm điểm", status: "pending" }
-];
-
-let currentReportId = null;
-
-/* ================= RENDER ================= */
-function renderReports() {
-  const container = document.getElementById("reportList");
-  container.innerHTML = "";
-
-  reports.forEach(r => {
-    const div = document.createElement("div");
-
-    div.className = "grid grid-cols-6 items-center text-sm py-3 border-b";
-
-    div.innerHTML = `
-      <div>
-        <p class="font-medium">${r.name}</p>
-        <p class="text-gray-500 text-xs">${r.code}</p>
-      </div>
-
-      <span>${r.project}</span>
-      <span>${r.type}</span>
-      <span>${r.date}</span>
-
-      <span class="px-2 py-1 text-xs rounded w-fit ${getStatusColor(r.status)}">
-        ${getStatusText(r.status)}
-      </span>
-
-      <div class="flex justify-center gap-2">
-        <button onclick="viewReport()"
-          class="px-3 py-1 bg-blue-600 text-white rounded text-xs">
-          Xem
-        </button>
-
-        ${r.status === "pending" ? `
-        <button onclick="openModal(${r.id})"
-          class="px-3 py-1 bg-green-600 text-white rounded text-xs">
-          Duyệt
-        </button>
-
-        <button onclick="rejectReport(${r.id})"
-          class="px-3 py-1 bg-red-600 text-white rounded text-xs">
-          Từ chối
-        </button>
-        ` : ""}
-      </div>
-    `;
-
-    container.appendChild(div);
-  });
-}
-
-/* ================= STATUS ================= */
-function getStatusText(status) {
-  if (status === "approved") return "Đã duyệt";
-  if (status === "rejected") return "Từ chối";
-  return "Chờ duyệt";
-}
-
-function getStatusColor(status) {
-  if (status === "approved") return "bg-green-100 text-green-700";
-  if (status === "rejected") return "bg-red-100 text-red-600";
-  return "bg-yellow-100 text-yellow-700";
-}
-
-/* ================= ACTION ================= */
-function viewReport() {
-  alert("Mở file báo cáo (sau này link PDF)");
-}
-
-function rejectReport(id) {
-  const r = reports.find(x => x.id === id);
-  r.status = "rejected";
-  renderReports();
-}
-
-/* ================= MODAL ================= */
-function openModal(id) {
-  currentReportId = id;
-  document.getElementById("modal").classList.remove("hidden");
-  document.getElementById("modal").classList.add("flex");
-  renderRequirements();
-}
-
-function closeModal() {
-  document.getElementById("modal").classList.add("hidden");
-}
-
-function renderRequirements() {
-  const container = document.getElementById("requirementContainer");
-  container.innerHTML = "";
-
-  requirements.forEach(req => {
-    const div = document.createElement("div");
-
-    div.className = "flex items-center justify-between border p-3 rounded-xl";
-
-    div.innerHTML = `
-      <p>${req.name}</p>
-      <input type="checkbox"
-        onchange="toggleRequirement(${req.id}, this.checked)">
-    `;
-
-    container.appendChild(div);
-  });
-}
-
-function toggleRequirement(id, checked) {
-  const req = requirements.find(r => r.id === id);
-  req.status = checked ? "pass" : "fail";
-}
-
-/* ================= SUBMIT ================= */
-function submitReview() {
-  const passed = requirements.filter(r => r.status === "pass").length;
-  const total = requirements.length;
-
-  const percent = Math.round((passed / total) * 100);
-
-  const report = reports.find(r => r.id === currentReportId);
-  report.status = "approved";
-
-  alert(`Đã duyệt!\nTiến độ: ${percent}%`);
-
-  closeModal();
-  renderReports();
-}
-
-/* INIT */
-renderReports();
-
-</script>
- --}}
+{{#section 'script'}}
+<script src="/js/teacher/report.js"></script>
+{{/section}}

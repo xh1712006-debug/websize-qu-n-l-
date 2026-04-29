@@ -4,7 +4,7 @@ class reportController{
     async index(req,res) {
         try {
             res.render('admin/report', {
-                layout: 'admin/main',
+                layout: 'base',
                 figure: 'admin',
             })
         }

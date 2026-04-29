@@ -4,15 +4,15 @@ const schema = mongoose.Schema
 const dashboardSchema = new schema({
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'student',
+        ref: 'students',
         required: true,
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'project',
+        ref: 'projects',
         required: true,
     },
-    precent: {
+    percent: {
         type: Number,
     },
     comment: {

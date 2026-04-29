@@ -1,65 +1,27 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Đăng ký mật khẩu</title>
-
-<style>
-body{
-font-family: Arial;
-background:#f4f4f4;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
-
-.container{
-background:white;
-padding:30px;
-border-radius:10px;
-width:350px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-h2{
-text-align:center;
-}
-
-input{
-width:100%;
-padding:10px;
-margin:10px 0;
-border:1px solid #ccc;
-border-radius:5px;
-}
-
-button{
-width:100%;
-padding:10px;
-background:#007bff;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
-}
-
-button:hover{
-background:#0056b3;
-}
-
-.error{
-color:red;
-font-size:14px;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiết lập Mật khẩu - Project OS</title>
+    
+    <!-- FONTS & TAILWIND -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .animate-in { animation: animateIn 0.5s ease-out forwards; }
+        @keyframes animateIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-slate-900">
 
-{{{body}}}
-
-<script src="/{{figure}}/{{active}}.js"></script>
+    {{{body}}}
 
 </body>
 </html>

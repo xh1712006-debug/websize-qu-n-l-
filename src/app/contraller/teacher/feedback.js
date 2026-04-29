@@ -12,7 +12,7 @@ class feedbackController {
             let data_feedback = await content_feedback.find()
             data_feedback = data_feedback.map(item => item.toObject())
             res.render('teacher/feedback', {
-                layout: 'teacher/main',
+                layout: 'base',
                 active: 'feedback',
                 data_feedback: data_feedback,
                 figure: 'teacher',
@@ -27,22 +27,23 @@ class feedbackController {
    
     async postFeedback(req, res){
         try{
-            
             const teacherContent = req.body.teacherContent
             const teacherId = req.session.teacher
             const studentId = req.query.studentId
-            console.log('dữ liệu phản hồi:', studentId)
+            
+            if (!studentId || !teacherContent) {
+                return res.status(400).json({ error: 'Missing data' })
+            }
+
             const conversation = await conversationData.findOne({ teacherId: teacherId, studentId: studentId })
 
-
-            console.log('dữ liệu:', conversation)
-
-            if(!teacherContent){
-                return res.status(400).json({ error: 'teacherContent is required' })
+            if(!conversation){
+                return res.status(404).json({ error: 'Conversation not found' })
             }
+
             const newFeedback = new content_feedback({
                 conversationId: conversation._id,
-                contentId: conversation.teacherId,
+                contentId: teacherId,
                 contentType: 'teacher',
                 content: teacherContent,
             })
@@ -50,86 +51,87 @@ class feedbackController {
             return res.json({ success: true, message: 'Feedback created' })
         }
         catch(err){
-            console.log('Conversation not found:', err)
-            console.error('Create error:', err)
+            console.error('postFeedback error:', err)
             return res.status(500).json({ error: 'Server error' })
         }
     }
-    async getStudent(req, res){
-        try{
-            const teacherId = req.session.teacher
-            console.log('Teacher ID:', teacherId)
+    async getStudent(req, res) {
+        try {
+            const teacherId = req.session.teacher;
             const students = await StudentData.find({
                 teacherId: teacherId,
-            })
-            res.json(students)
-        }
-        catch(err){
-            console.log('Failed to get student:', err)
-            return res.status(500).json({ error: 'Server error' })
+                status: 'approved'
+            }).select('fullName studentCode studentMajor studentClass projectId');
+            
+            let enrichedStudents = [];
+            for (let stu of students) {
+                const conversation = await conversationData.findOne({ studentId: stu._id, teacherId: teacherId });
+                let unreadCount = 0;
+                let lastMsg = null;
+                
+                if (conversation) {
+                    unreadCount = await content_feedback.countDocuments({
+                        conversationId: conversation._id,
+                        contentType: 'student',
+                        status: 'false'
+                    });
+                    
+                    lastMsg = await content_feedback.findOne({
+                        conversationId: conversation._id
+                    }).sort({ createdAt: -1 });
+                }
+
+                enrichedStudents.push({
+                    ...stu.toObject(),
+                    unreadCount,
+                    lastMessage: lastMsg ? (lastMsg.content.length > 40 ? lastMsg.content.substring(0, 40) + '...' : lastMsg.content) : 'Chưa có cuộc trò chuyện',
+                    lastMsgTime: lastMsg ? lastMsg.createdAt : stu.createdAt
+                });
+            }
+            
+            // Sắp xếp: có tin nhắn chưa đọc lên đầu, sau đó theo thời gian mới nhất
+            enrichedStudents.sort((a, b) => {
+                if (a.unreadCount !== b.unreadCount) return b.unreadCount - a.unreadCount;
+                return new Date(b.lastMsgTime) - new Date(a.lastMsgTime);
+            });
+            
+            res.json(enrichedStudents);
+        } catch (err) {
+            console.error('getStudent error:', err);
+            res.status(500).json({ error: 'Server error' });
         }
     }
 
-    async getFeedbackStudent(req, res){
-        try{
-            const studentId = req.query.student
-            const teacherId = req.session.teacher
-            console.log('Student ID:', studentId)
-            const conversation = await conversationData.find({ studentId: studentId, teacherId: teacherId })
-            if(!conversation || conversation.length === 0){
-                return res.status(404).json({ error: 'Conversation not found' })
-            }
-            console.log('Conversation:', conversation)
-            let feedbacks = []
-            for(let i=0; i<conversation.length; i++){
-                const feedback = await content_feedback.find({ conversationId: conversation[i]._id })
-                feedbacks = feedbacks.concat(feedback.map(item => item.toObject()))
-            }
-            if(feedbacks.length === 0){
-                return res.status(404).json({ error: 'Feedback not found' })
-            }
-            res.json(feedbacks)
-        }
-        catch(err){
-            console.log('Failed to get feedback:', err)
-            return res.status(500).json({ error: 'Server error' })
-        }
-    }
+    async getFeedback(req, res) {
+        try {
+            const teacherId = req.session.teacher;
+            const studentId = req.query.studentId;
+            
+            const student = await StudentData.findById(studentId).select('fullName studentCode studentClass studentMajor');
+            if (!student) return res.status(404).json({ error: 'Student not found' });
 
+            const conversation = await conversationData.findOne({ teacherId: teacherId, studentId: studentId });
+            if (!conversation) return res.status(404).json({ error: 'Conversation not found' });
+            
+            // Đánh dấu tin nhắn là đã đọc
+            await content_feedback.updateMany(
+                {
+                    conversationId: conversation._id,
+                    contentType: 'student',
+                    status: 'false'
+                },
+                { status: 'true' }
+            );
 
-    async getFeedback(req, res){
-        try{
-            const teacherId = req.session.teacher
-            const studentId = req.query.studentId
-            console.log('Teacher ID:', teacherId)
-            console.log('Student ID:', studentId)
-
-            // add student 
-            const student = await StudentData.findById(studentId).select('fullName')
-            console.log('Student:', student)
-            if(!student){
-                return res.status(404).json({ error: 'Student not found' })
-            }
-
-            const conversation = await conversationData.findOne({ teacherId: teacherId, studentId: studentId })
-            if(!conversation){
-                return res.status(404).json({ error: 'Conversation not found' })
-            }
-            console.log('ConversationID:', conversation)
-            const feedbacks = await content_feedback.find({ conversationId: conversation._id })
-            console.log('Feedbacks:', feedbacks)
-            if(!feedbacks || feedbacks.length === 0){
-                return res.status(404).json({ error: 'Feedback not found' })
-            }
+            const feedbacks = await content_feedback.find({ conversationId: conversation._id }).sort({ createdAt: 1 });
+            
             res.json({
-
                 ...student.toObject(),
                 feedbacks,
-            })
-        }
-        catch(err){
-            console.log('Failed to get feedback:', err)
-            return res.status(500).json({ error: 'Server error' })
+            });
+        } catch (err) {
+            console.error('getFeedback error:', err);
+            return res.status(500).json({ error: 'Server error' });
         }
     }
 }

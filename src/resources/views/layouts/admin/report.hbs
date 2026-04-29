@@ -1,105 +1,100 @@
-<div class="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto border border-gray-100">
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700 pb-20 max-w-4xl mx-auto">
 
-  <!-- Title -->
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">
-      📢 Gửi thông báo
-    </h2>
-  </div>
-
-  <!-- Form -->
-  <form id="notificationForm" class="space-y-4">
-
-    <!-- Title -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Tiêu đề
-      </label>
-      <input type="text"
-             id="title"
-             required
-             placeholder="Nhập tiêu đề thông báo..."
-             class="w-full border border-gray-300 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+    <!-- PAGE HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center text-3xl shadow-xl shadow-blue-100">
+                📢
+            </div>
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Gửi Thông báo Hệ thống</h1>
+                <p class="text-slate-500 font-medium mt-1">Phát hành chỉ thị, nhắc nhở hoặc cập nhật quan trọng cho toàn bộ người dùng</p>
+            </div>
+        </div>
     </div>
 
-    <!-- Receiver -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Gửi đến
-      </label>
-      <select class="w-full border border-gray-300 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-        <option value="">-- Chọn đối tượng --</option>
-        <option>Sinh viên</option>
-        <option>Giảng viên</option>
-        <option>Tất cả</option>
-      </select>
+    <!-- MAIN FORM CARD -->
+    <div class="bg-white rounded-[3.5rem] shadow-sm border border-slate-100 overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-80 h-80 bg-blue-50 rounded-full -mr-40 -mt-40 opacity-40"></div>
+        
+        <form id="notificationForm" class="relative z-10 p-10 md:p-14 space-y-10">
+            
+            <!-- TITLE SECTION -->
+            <div class="space-y-4">
+                <label class="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                    Tiêu đề thông báo
+                </label>
+                <input type="text" id="title" required placeholder="VD: Nhắc nhở nộp báo cáo tiến độ đồ án cuối HK1..."
+                    class="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white rounded-2xl p-5 text-sm font-bold text-slate-700 outline-none transition-all shadow-inner">
+            </div>
+
+            <!-- OPTIONS SECTION -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Đối tượng nhận tin</label>
+                    <select class="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none transition-all shadow-inner appearance-none cursor-pointer">
+                        <option value="">-- Chọn đối tượng --</option>
+                        <option>Sinh viên</option>
+                        <option>Giảng viên</option>
+                        <option>Tất cả (Hệ thống)</option>
+                    </select>
+                </div>
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mức độ ưu tiên</label>
+                    <select class="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white rounded-2xl p-4 text-sm font-bold text-slate-700 outline-none transition-all shadow-inner appearance-none cursor-pointer">
+                        <option>Bình thường</option>
+                        <option>Quan trọng</option>
+                        <option class="text-rose-600 font-bold uppercase">Khẩn cấp</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CONTENT SECTION -->
+            <div class="space-y-4">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nội dung chi tiết</label>
+                <textarea id="content" required rows="6" placeholder="Nhập chi tiết nội dung thông báo tại đây..."
+                    class="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white rounded-2xl p-6 text-sm font-bold text-slate-700 outline-none transition-all shadow-inner resize-none"></textarea>
+            </div>
+
+            <!-- ATTACHMENT SECTION -->
+            <div class="space-y-4">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Tài liệu đính kèm (Tùy chọn)</label>
+                <div class="flex items-center gap-4 p-4 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl hover:border-blue-200 transition-colors cursor-pointer group">
+                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm group-hover:scale-110 transition-transform">📎</div>
+                    <div class="flex-1">
+                        <input type="file" class="hidden" id="attachInput">
+                        <p onclick="document.getElementById('attachInput').click()" class="text-xs font-bold text-slate-500 group-hover:text-blue-600 transition-colors">Tải lên tài liệu liên quan (.pdf, .doc, .xlsx)</p>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase mt-0.5">Dung lượng tối đa: 10MB</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="pt-10 border-t border-slate-50 flex flex-col md:flex-row gap-4">
+                <button type="submit" class="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-100 transition-all hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-3">
+                    🚀 PHÁT HÀNH THÔNG BÁO NGAY
+                </button>
+                <button type="reset" class="px-10 bg-slate-100 text-slate-500 py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] hover:bg-slate-200 transition-colors">
+                    HỦY BỎ
+                </button>
+            </div>
+
+        </form>
     </div>
-
-    <!-- Priority -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Mức độ
-      </label>
-      <select class="w-full border border-gray-300 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-        <option>Bình thường</option>
-        <option>Quan trọng</option>
-        <option>Khẩn cấp</option>
-      </select>
-    </div>
-
-    <!-- Content -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Nội dung
-      </label>
-      <textarea
-        id="content"
-        required
-        rows="5"
-        placeholder="Nhập nội dung thông báo..."
-        class="w-full border border-gray-300 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition"></textarea>
-    </div>
-
-    <!-- Attachment -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Đính kèm (tùy chọn)
-      </label>
-      <input type="file"
-             class="w-full border border-gray-300 px-3 py-2 rounded-xl bg-gray-50">
-    </div>
-
-    <!-- Buttons -->
-    <div class="flex justify-end gap-3 pt-4">
-      <button type="reset"
-              class="px-5 py-2 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
-        Hủy
-      </button>
-
-      <button type="submit"
-              class="px-6 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-md transition">
-        🚀 Gửi thông báo
-      </button>
-    </div>
-
-  </form>
 
 </div>
 
-
 <script>
-document.getElementById("notificationForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const title = document.getElementById("title").value.trim();
-  const content = document.getElementById("content").value.trim();
-
-  if (!title || !content) {
-    alert("Vui lòng nhập đầy đủ tiêu đề và nội dung!");
-    return;
-  }
-
-  alert("Thông báo đã được gửi thành công!");
-  this.reset();
-});
+    document.getElementById("notificationForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const title = document.getElementById("title").value.trim();
+        const content = document.getElementById("content").value.trim();
+        if (!title || !content) {
+            alert("Vui lòng nhập đầy đủ tiêu đề và nội dung!");
+            return;
+        }
+        alert("🎉 Hệ thống: Thông báo đã được phát hành thành công!");
+        this.reset();
+    });
 </script>

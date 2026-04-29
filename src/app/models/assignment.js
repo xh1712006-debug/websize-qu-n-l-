@@ -4,15 +4,15 @@ const schema = mongoose.Schema
 const conversation = new schema({
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'student',
+        ref: 'students',
     }, 
     teacherId:  {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'teacher',
+        ref: 'teachers',
     },
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'project',
+        ref: 'projects',
     },
     role: {
         type: String,

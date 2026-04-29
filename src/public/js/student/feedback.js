@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   
   const listContent = document.querySelector('#list__content')
+  let currentMessageCount = 0;
 
   // create feedback
 
@@ -39,62 +40,85 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  async function getFeedbackData() {
+  async function getFeedbackData(isPolling = false) {
     const res = await fetch('/student/feedback/data',{
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
     const data = await res.json()
 
-    console.log('dư liệu :', data.feedbacks)
+    // Kiểm tra an toàn dữ liệu
+    if (!data || !data.feedbacks) {
+        return;
+    }
 
-    // if(!data) return
-    data.feedbacks.forEach(item => {
-      console.log('giá trị: ',item)
+    if (!isPolling) {
+      const teacherNameHeader = document.getElementById('teacherNameHeader')
+      const teacherNameSub = document.getElementById('teacherNameSub')
+      const teacherInitial = document.getElementById('teacherInitial')
+
+      if(data.fullName && data.fullName !== 'N/A') {
+        if(teacherNameHeader) teacherNameHeader.innerText = data.fullName
+        if(teacherNameSub) teacherNameSub.innerText = data.fullName
+        
+        if(teacherInitial) {
+            const nameParts = data.fullName.trim().split(' ');
+            const initial = nameParts.length > 0 ? nameParts[nameParts.length - 1].substring(0, 2).toUpperCase() : 'GV';
+            teacherInitial.innerText = initial;
+        }
+      }
+      listContent.innerHTML = '';
+      currentMessageCount = 0;
+    }
+    
+    if (data.feedbacks.length <= currentMessageCount) {
+        return; // nothing new
+    }
+
+    function formatTime(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' | ' + d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+    }
+
+    for(let i = currentMessageCount; i < data.feedbacks.length; i++) {
+      const item = data.feedbacks[i];
       // in nhận xét của student 
       if(item.contentType === 'student') {
-        console.log(item._id)
         const newBox = document.createElement('div')
-        newBox.className =
-          'ml-auto max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500'
-        newBox.innerHTML += 
+        newBox.className = 'w-full msg-group'
+        newBox.innerHTML = `
+          <p class="msg-author text-right">Bạn</p>
+          <div class="student-msg-bubble">
+            <p class="text-white text-sm leading-relaxed font-semibold">${item.content}</p>
+            <div class="msg-meta text-indigo-100/70 text-right">${formatTime(item.createdAt)}</div>
+          </div>
         `
-          <p class="font-semibold text-green-700 mb-1">👨‍🎓 Bạn</p>
-          <p>
-            ${item.content}
-          </p>
-          <p class="text-xs text-gray-400 mt-2 text-right">
-            ${new Date(item.createdAt).toLocaleDateString()}
-          </p>
-        `
-
         listContent.appendChild(newBox)
-
       }
       // in nhận xét của teacher 
-    
       else if(item.contentType === 'teacher') {
         const textTeacher = document.createElement('div')
-        textTeacher.className = 
-          'max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-blue-500'
-        textTeacher.innerHTML += `
-          
-          <p class="font-semibold text-blue-700 mb-1">👨‍🏫 ${data.fullName}</p>
-          <p>
-            ${item.content}
-          </p>
-          <p class="text-xs text-gray-400 mt-2">
-            ${new Date(item.createdAt).toLocaleDateString()} · Báo cáo tiến độ
-          </p>
+        textTeacher.className = 'w-full msg-group'
+        textTeacher.innerHTML = `
+          <p class="msg-author">${data.fullName}</p>
+          <div class="teacher-msg-bubble">
+            <p class="text-slate-700 text-sm leading-relaxed font-semibold">${item.content}</p>
+            <div class="msg-meta text-slate-400 font-bold">${formatTime(item.createdAt)}</div>
+          </div>
         `
-
         listContent.appendChild(textTeacher)
-
       }
-    });
+    }
+    
+    currentMessageCount = data.feedbacks.length;
+    setTimeout(() => {
+        listContent.scrollTop = listContent.scrollHeight;
+    }, 50);
   }
 
   getFeedbackData()
+  
+  setInterval(() => { getFeedbackData(true); }, 2000);
 
 
   const deleteBtn = document.querySelectorAll('.delete-btn')
@@ -112,40 +136,44 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
 
-  // click create feedback
-  text.addEventListener('keydown', async (e) => {
-    
-    // gửi sự kiến input
-    if(e.key == 'Enter' && !e.shiftKey){
-      e.preventDefault()
-      
-      const textContent = document.querySelector('.text__content').value.trim()
+  async function handleSend() {
+      const textContent = text.value.trim()
       if(!textContent) {
         alert('Vui lòng nhập nội dung phản hồi')
         return
       }
-
-      // gửi lên database
-      postMessage(textContent)
-    
+      
       const newBox = document.createElement('div')
-      newBox.className =
-        'ml-auto max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500'
-      newBox.innerHTML += 
-      `
-        <p class="font-semibold text-green-700 mb-1">👨‍🎓 Bạn</p>
-        <p>
-          ${textContent}
-        </p>
-        <p class="text-xs text-gray-400 mt-2 text-right">
-          16/02/2026
-        </p>
+      newBox.className = 'w-full msg-group opacity-60'
+      newBox.innerHTML = `
+        <p class="msg-author text-right">Bạn</p>
+        <div class="student-msg-bubble">
+          <p class="text-white text-sm leading-relaxed font-semibold">${textContent}</p>
+          <div class="msg-meta text-indigo-100/70 text-right">Đang gửi...</div>
+        </div>
       `
       listContent.appendChild(newBox)
       text.value = ''
       listContent.scrollTop = listContent.scrollHeight
-    }
+      
+      await postMessage(textContent)
+      // will be replaced cleanly by next poll
+      getFeedbackData(true);
+      newBox.remove();
+  }
 
+  fromFeedback.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await handleSend();
+  });
+
+  // click create feedback
+  text.addEventListener('keydown', async (e) => {
+    // gửi sự kiến input
+    if(e.key == 'Enter' && !e.shiftKey){
+      e.preventDefault()
+      await handleSend()
+    }
   })
   
 })

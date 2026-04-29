@@ -2,6 +2,7 @@
 const Content = require('../../models/report')
 const multer = require('multer')
 const path = require('path')
+const progressData = require('../../models/progress')
 
 // Ensure upload directory exists
 
@@ -19,51 +20,126 @@ const upload = multer({ storage: storage })
 class reportController {
     async index(req, res) {
         try {
-            if (!req.session.student) {
+            const studentId = req.session.student
+            if (!studentId) {
                 return res.redirect('/accounts/singger')
             }
-            let data = await Content.find()
-            data = data.map(item => item.toObject())
+
+            const requirementStudentData = require('../../models/requirementStudent')
+            const reports = await Content.find({ studentId: studentId })
+            const requirements = await requirementStudentData.find({ studentId: studentId })
+
+            let targetRequirement = null
+            const requirementId = req.query.requirementId
+
+            if (requirementId) {
+                targetRequirement = await requirementStudentData.findById(requirementId)
+            }
+
+            // Nếu không có mốc chỉ định, tìm mốc chưa hoàn thành đầu tiên
+            if (!targetRequirement) {
+                targetRequirement = requirements.find(req => req.status !== 'completed')
+            }
+
+            // Tính toán tuần từ tên mốc (ví dụ: "Tuần 4" -> 4)
+            let currentWeek = 0
+            let weekLabel = '---'
+            if (targetRequirement) {
+                const match = targetRequirement.name.match(/\d+/)
+                currentWeek = match ? parseInt(match[0]) : 0
+                weekLabel = targetRequirement.name
+            } else {
+                // Mặc định nộp theo số lượng đã hoàn thành nếu không có lộ trình
+                const approvedReports = reports.filter(r => r.status === 'đã duyệt')
+                currentWeek = approvedReports.length + 1
+                weekLabel = `Tuần ${currentWeek}`
+            }
+
+            const hasPending = reports.some(r => r.status === 'chờ duyệt')
+            const canSubmit = !hasPending && !!targetRequirement
+
+            // Fetch progress for completion status
+            const progress = await progressData.findOne({ studentId: studentId })
+            const isFinished = progress && progress.percent === 100
+
             res.render('student/report', {
-                layout: 'student/main',
-                data: data,
+                layout: 'base',
+                data: reports.map(r => r.toObject()),
                 active: 'report',
                 figure: 'student',
+                currentWeek: currentWeek,
+                weekLabel: weekLabel,
+                requirementId: targetRequirement ? targetRequirement._id : null,
+                canSubmit: canSubmit,
+                isFinished: isFinished,
+                percent: progress ? progress.percent : 0
             })
         } catch (err) {
-            console.log(err)
+            console.error('Report Index Error:', err)
             res.status(500).send('Error loading page')
         }
     }
 
     async newReport(req, res) {
         try {
-
-            console.log('giá trị: ', req.body.title, ' ', req.body.content, ' ', req.file.filename, ' ', req.body.type)
-
             const studentId = req.session.student
-            const teacherId = req.session.teacherId
-            if (!studentId || !teacherId) {
-                return res.status(400).json({ error: 'Session invalid' })
+            const { week, content, requirementId, externalLink } = req.body
+            
+            if (!studentId) return res.status(400).json({ error: 'Session invalid' })
+
+            // [FIX] Lấy thông tin sinh viên và đồ án để tìm GVHD chính xác nhất
+            const studentData = require('../../models/student')
+            const projectData = require('../../models/project')
+            const notificationModel = require('../../models/notification')
+            
+            const student = await studentData.findById(studentId)
+            if (!student) return res.status(400).json({ error: 'Không tìm thấy sinh viên' })
+
+            let teacherId = student.teacherId
+
+            // Nếu student.teacherId bị reset (do đóng đợt), tìm từ Project
+            if (!teacherId && student.projectId) {
+                const project = await projectData.findById(student.projectId)
+                if (project) {
+                    teacherId = project.teacherId
+                }
             }
 
-            const fileUrl = req.file.filename  // Use the uploaded file's name
-            console.log('FileUrl: ', fileUrl)
+            if (!teacherId) return res.status(400).json({ error: 'Hệ thống không xác định được Giảng viên hướng dẫn của bạn. Vui lòng liên hệ Admin.' })
+            
+            if (!req.file && !externalLink) {
+                return res.status(400).json({ error: 'Vui lòng nộp tệp báo cáo hoặc cung cấp liên kết (Github/Drive)' })
+            }
+
+            const title = `Báo cáo: ${req.body.weekLabel || 'Báo cáo tuần ' + week}`
 
             const createReport = new Content({
                 studentId: studentId,
                 teacherId: teacherId,
+                requirementId: requirementId || null,
                 status: 'chờ duyệt',
-                fileUrl: req.file.filename,
-                title: req.body.title,
-                content: req.body.content,
-                type: req.body.type,
+                fileUrl: req.file ? req.file.filename : null,
+                externalLink: externalLink || null,
+                title: title,
+                content: content,
+                week: Number(week),
             })
             await createReport.save()
-            return res.json({ success: true, message: 'Report created successfully' })
+
+            // [NEW] Gửi thông báo cho GVHD
+            const teacherNotification = new notificationModel({
+                receiverId: teacherId,
+                title: '📩 Báo cáo tiến độ mới',
+                message: `Sinh viên ${student.fullName} vừa nộp "${title}". Vui lòng kiểm tra và phản hồi.`,
+                type: 'info',
+                link: '/teacher/report'
+            })
+            await teacherNotification.save()
+
+            return res.json({ success: true, message: 'Nộp báo cáo thành công và đã thông báo tới GVHD' })
         } catch (err) {
-            console.error('Create error:', err)
-            return res.status(500).json({ error: 'Server error: ' + err.message })
+            console.error('Create report error:', err)
+            return res.status(500).json({ error: 'Lỗi server: ' + err.message })
         }
     }
 

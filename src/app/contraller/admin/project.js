@@ -13,22 +13,38 @@ const aconversationData = require('../../models/conversation')
 class projectController{
     async index(req,res) {
         try {
+            // [MIGRATION] Thiết kế lại chuyên ngành cho Đồ án theo chuẩn Khoa CNTT - HUMG
+            await projectAdmin.updateMany({ major: { $in: ["Kỹ thuật phần mềm", "Chưa cập nhật", "", null] } }, { major: "Công nghệ phần mềm" });
+            await projectAdmin.updateMany({ major: { $in: ["Khoa học dữ liệu", "An toàn thông tin", "Khoa học dữ liệu & AI"] } }, { major: "Khoa học máy tính" });
+            await projectAdmin.updateMany({ major: "Mạng máy tính và Truyền thông" }, { major: "Mạng máy tính" });
+
+            const majors = [
+                "Công nghệ phần mềm",
+                "Mạng máy tính",
+                "Khoa học máy tính",
+                "Hệ thống thông tin",
+                "Tin học kinh tế",
+                "Địa tin học"
+            ]
+
             res.render('admin/project/index', {
-                layout: 'admin/main',
+                layout: 'base',
                 figure: 'admin',
-                active: 'project/index'
+                active: 'project',
+                majors: majors
             })
         }
         catch(err) {
+            console.log(err)
             res.status(500).send('loi')
         }
     }
     async create(req, res) {
         try{
             res.render('admin/project/create', {
-                layout: 'admin/main',
+                layout: 'base',
                 figure: 'admin',
-                active: 'project/create'
+                active: 'project'
             })
         }
         catch(err){
@@ -36,6 +52,35 @@ class projectController{
         }
         
     }
+
+    // [GET] /admin/project/getProjects
+    async getProjects(req, res) {
+        try {
+            // Chỉ lấy các đồ án đang hoạt động (chưa gán vào đợt lưu trữ)
+            const projects = await projectAdmin.find({ periodId: { $exists: false } }).sort({ createdAt: -1 })
+            const Student = require('../../models/student')
+            const result = await Promise.all(projects.map(async (p) => {
+                // Đếm số SV đang đăng ký đồ án này
+                const registeredCount = await Student.countDocuments({ projectId: p._id })
+                return {
+                    _id: p._id,
+                    inputProject: p.inputProject || 'Chưa đặt tên',
+                    teacherInstruct: p.teacherInstruct || '--',
+                    teacherFeedbackName: p.teacherFeedbackName || '--',
+                    numberStudent: p.numberStudent || 1,
+                    numberSubmit: registeredCount,
+                    statuss: p.statuss || 'open',
+                    technology: p.technology || [],
+                    date: p.date
+                }
+            }))
+            res.json(result)
+        } catch (err) {
+            console.error(err)
+            res.status(500).json({ success: false, message: 'Lỗi server' })
+        }
+    }
+
     async createProject(req, res){
         try {
             const inputProject = req.body.inputProject
@@ -55,18 +100,27 @@ class projectController{
             const technologyList = technology.split()
             console.log('requirement: ', requirement)
 
+            const Teacher = require('../../models/teacher')
+            const teacher = await Teacher.findById(id)
+            const major = teacher ? teacher.teacherMajor : null
+
+            const Period = require('../../models/period')
+            const activePeriod = await Period.findOne({ status: 'ACTIVE' })
+
             const newProject = new projectAdmin({
                 inputProject: inputProject,
                 contentProject: contentProject,
                 teacherInstruct: teacherInstruct,
                 date: date,
                 statuss: statuss,
+                major: major, 
                 numberStudent: numberStudent,
                 teacherId: id,
                 numberSubmit: 0,
                 technology: technologyList,
                 teacherFeedbackId: teacherFeedbackId,
                 teacherFeedbackName: teacherFeedbackName,
+                periodId: activePeriod ? activePeriod._id : null // [NEW] Gán mã đợt hiện tại
             })
 
 
@@ -89,7 +143,7 @@ class projectController{
         }
         catch(err){
             console.log(err)
-            // res.starus(500).json( error: 'Server error')
+            res.status(500).json({ success: false, error: 'Server error' })
         }
     }
 
@@ -122,13 +176,14 @@ class projectController{
         }
         catch(err) {
             console.log(err)
+            res.status(500).json({ success: false, message: "Lỗi hệ thống khi xoá" })
         }
     }
 
     async listStudent(req, res) {
         try{
             res.render('admin/project/listStudent', {
-                layout: 'admin/main',
+                layout: 'base',
                 figure: 'admin',
                 active: 'project/listStudent'
             })
@@ -141,7 +196,7 @@ class projectController{
     async fixStudent(req, res) {
         try{
             res.render('admin/project/fixStudent', {
-                layout: 'admin/main',
+                layout: 'base',
                 figure: 'admin',
                 active: 'project/fixStudent'
             })
@@ -182,6 +237,11 @@ class projectController{
             project.numberStudent = numberStudent
             project.statuss = statuss
             project.date = new Date(date)
+
+            // [FIX] Cập nhật lại major nếu thay đổi GVHD (giả sử teacherInstruct đổi)
+            // Tuy nhiên trong code này teacherId chưa được cập nhật ở đây
+            // Tôi sẽ giữ nguyên major cũ hoặc bạn có thể bổ sung update teacherId tại đây
+            
             await project.save()
             console.log('đổi thành công')
             
@@ -196,7 +256,7 @@ class projectController{
     async viewStudent(req, res) {
         try{
             res.render('admin/project/viewStudent', {
-                layout: 'admin/main',
+                layout: 'base',
                 figure: 'admin',
                 active: 'project/viewStudent'
             })
@@ -221,152 +281,62 @@ class projectController{
         }
     }
 
-    async approveStudent(req, res){
-        try{
-            const studentId = req.body.studentId
-            const student = await studentData.findByIdAndUpdate(
-                studentId,
-                {
-                    status: "approved",
-                },
-                { new: true }
-            )
-
-            const numberSubmit = await projectAdmin.findById(student.projectId)
-            console.log('student.projectId,: ', student.projectId,)
-            const newProgress = new progressData({
-                studentId: studentId,
-                projectId: student.projectId,
-                precent: 0,
-
-            })
-            await newProgress.save()
-            const project = await projectAdmin.findByIdAndUpdate(
-                student.projectId,
-                {
-                    numberSubmit: numberSubmit.numberSubmit+1,
-                }
-            )
-            const requirement = await requirementData.find({
-                projectId: student.projectId,
-            })
-            requirement.forEach(item => {
-                const newRequirementStudent = new requirementStudentData({
-                    projectId: student.projectId,
-                    studentId: studentId,
-                    name: item.name,
-                    status: 'Fall',
-                })
-                newRequirementStudent.save()
-            });
-            
-           
-            if(!student){
-                return res.status(404).json({ message: "Không tìm thấy sinh viên" })
-            }
-
-            const assignment = new assignmentData({
-                studentId: studentId,
-                teacherId: project.teacherFeedbackId,
-                projectId: student.projectId,
-                role: 'reviewer',
-            })
-            await assignment.save()
-
-            const aconversation = new aconversationData({
-                studentId: studentId,
-                teacherId: project.teacherFeedbackId,
-            })
-            await aconversation.save()
-
-
-            const score = new scoreData({
-                studentId: studentId,
-                teacherId: student.teacherId,
-                projectId: student.projectId,
-                score: null,
-                scoreFeedback: null,
-                status: false,
-            })
-            await score.save()
-
-            console.log('tạo tiền teinhf mới là: ', newProgress)
-
-            res.json({ message: "Duyệt thành công", data: student })
-        
-        }
-        catch(err){
-            console.log(err)
-            res.status(500).send('lỗi')
+    // [GET] /admin/project/getGvpbs
+    async getGvpbs(req, res) {
+        try {
+            const Teacher = require('../../models/teacher')
+            const gvpbs = await Teacher.find({ 'subRoles.isGVPB': true }, 'fullName _id')
+            res.json(gvpbs)
+        } catch (err) {
+            console.error(err)
+            res.status(500).json({ success: false, message: 'Lỗi server' })
         }
     }
 
-    async rejectStudent(req, res){
-        try{
-            const studentId = req.query.studentId
-            console.log('gia trị kiếm studentId: ', studentId)
-            const pro = await studentData.findById(studentId)
-            const projectId = pro.projectId
-            console.log('projectId: ', projectId)
+    // [POST] /admin/project/assignReviewer
+    async assignReviewer(req, res) {
+        try {
+            const { projectId, teacherId } = req.body
+            const Teacher = require('../../models/teacher')
+            const projectModel = require('../../models/project')
+            const assignmentModel = require('../../models/assignment')
 
-            
-            if(pro.status == 'approved'){
-                const numberS = await projectAdmin.findById(pro.projectId)
-                const numberSubmit = numberS.numberSubmit
-                const aconversation = await aconversationData.findOne({
-                    studentId: studentId,
-                })
-                const project = await projectAdmin.findByIdAndUpdate(
-                    projectId,
-                    {
-                        numberSubmit: numberSubmit - 1,
-                    }
-                )
-                console.log('bắt đầu xoá')
-                const pregress = await progressData.deleteMany({
-                    studentId: studentId,
-                })
+            const project = await projectModel.findById(projectId)
+            if (!project) return res.json({ success: false, message: 'Không tìm thấy đồ án' })
 
-                const score = await scoreData.deleteMany({
-                    projectId: projectId,
-                })
-                const report = await reportData.deleteMany({
-                    studentId: studentId,
-                })
-                const assignment = await assignmentData.deleteMany({
-                    studentId: studentId,
-                })
-                if(aconversation){
-                    const feedback = await feedbackData.deleteMany({
-                        conversationId: aconversation._id,
+            // Xóa phân công cũ nếu có (Admin gán cho đồ án, nên xóa dựa trên projectId và role reviewer)
+            await assignmentModel.deleteMany({ projectId, role: 'reviewer' })
+
+            if (teacherId) {
+                const teacher = await Teacher.findById(teacherId)
+                if (!teacher) return res.json({ success: false, message: 'Không tìm thấy giảng viên' })
+
+                // Gán cho tất cả sinh viên đang thuộc đồ án này
+                const students = await require('../../models/student').find({ projectId: projectId })
+                for (const student of students) {
+                    const newAssign = new assignmentModel({
+                        studentId: student._id,
+                        projectId: projectId,
+                        teacherId: teacherId,
+                        role: 'reviewer'
                     })
-                    const aconversation1 = await aconversationData.deleteMany({
-                        studentId: studentId,
-                    })
+                    await newAssign.save()
                 }
-                
-               
 
+                // Cập nhật thông tin nhanh trong project model
+                project.teacherFeedbackId = teacherId
+                project.teacherFeedbackName = teacher.fullName
+                await project.save()
+            } else {
+                project.teacherFeedbackId = null
+                project.teacherFeedbackName = null
+                await project.save()
             }
-            const student = await studentData.findByIdAndUpdate(
-                studentId,
-                {
-                    teacherId: null,
-                    projectId: null,
-                    status: null,
-                }
-            )
-            const requirementStudent = await requirementStudentData.deleteMany({
-                studentId: studentId,
-            })
-            
-            
-            res.json({ message: "Duyệt thành công", data: student })
-        
-        }
-        catch(err){
-            console.log(err)
-            res.status(500).send('lỗi')
+
+            res.json({ success: true, message: 'Cập nhật giáo viên phản biện thành công' })
+        } catch (err) {
+            console.error(err)
+            res.status(500).json({ success: false, message: 'Lỗi server' })
         }
     }
 

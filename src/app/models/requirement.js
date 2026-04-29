@@ -4,7 +4,7 @@ const schema = mongoose.Schema
 const dashboardSchema = new schema({
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'project',
+        ref: 'projects',
         required: true,
     },
     name: {

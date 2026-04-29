@@ -1,92 +1,184 @@
-<div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700 pb-10">
 
-  <!-- HEADER -->
-  <div class="flex justify-between items-center p-6 border-b">
-    <h2 class="text-xl font-bold">👨‍🏫 Quản lý giảng viên</h2>
-    <button class="create__Teacher bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-      + Thêm giảng viên
-    </button>
-  </div>
-
-  <!-- TABLE -->
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm text-left">
-
-      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
-        <tr>
-          <th class="p-4">Giảng viên</th>
-          <th class="p-4">Email</th>
-          <th class="p-4">Chức vụ</th>
-          <th class="p-4">Đồ án</th>
-          <th class="p-4 text-center">Hành động</th>
-        </tr>
-      </thead>
-
-      <tbody class="body__teacher divide-y">
-
-        {{!-- <!-- ROW -->
-        <tr class="hover:bg-gray-50 transition">
-
-          <!-- TÊN + AVATAR -->
-          <td class="p-4 flex items-center gap-3">
-            <img src="https://i.pravatar.cc/40"
-                 class="w-10 h-10 rounded-full">
+    <!-- PAGE HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl flex items-center justify-center text-3xl shadow-xl shadow-blue-100">
+                👨‍🏫
+            </div>
             <div>
-              <p class="font-medium">Trần Văn B</p>
-              <p class="text-gray-500 text-xs">Mã GV: GV001</p>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Quản lý Giảng viên</h1>
+                <p class="text-slate-500 font-medium mt-1 uppercase text-[10px] tracking-[0.2em]">Đội ngũ cán bộ & Phân quyền nghiệp vụ</p>
             </div>
-          </td>
-
-          <!-- EMAIL -->
-          <td class="p-4 text-gray-600">
-            b@gmail.com
-          </td>
-
-          <!-- CHỨC VỤ -->
-          <td class="p-4">
-            <span class="px-3 py-1 rounded-full text-xs font-medium
-              bg-green-100 text-green-700">
-              Lecturer
-            </span>
-          </td>
-
-          <!-- SỐ ĐỒ ÁN -->
-          <td class="p-4">
-            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">
-              3 đồ án
-            </span>
-          </td>
-
-          <!-- ACTION -->
-          <td class="p-4">
-            <div class="flex justify-center gap-2">
-
-              <!-- Dropdown Role -->
-              <select class="border rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <option>Lecturer</option>
-                <option>Senior</option>
-                <option>Head</option>
-                <option>Admin</option>
-              </select>
-
-              <!-- Update -->
-              <button class="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition">
-                Cập nhật
-              </button>
-
-              <!-- Khóa -->
-              <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition">
-                Khóa
-              </button>
-
+        </div>
+        
+        <!-- SEARCH BAR -->
+        <div class="relative w-full md:w-96 group">
+            <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-slate-400 group-focus-within:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
             </div>
-          </td>
+            <input type="text" id="teacher-search" placeholder="Tìm giảng viên theo mã (VD: GV001)..." 
+                class="w-full pl-14 pr-6 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-50 transition-all font-bold text-slate-700 shadow-sm text-sm">
+        </div>
+    </div>
 
-        </tr> --}}
+    <!-- TABS NAVIGATION -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar border-b border-slate-100">
+        <button onclick="filterByCategory('all')" data-category="all" class="tab-btn px-6 py-3 rounded-xl font-black text-[11px] uppercase tracking-wider transition-all bg-slate-900 text-white shadow-lg shadow-slate-200">
+            Tất cả
+        </button>
+        {{#each majors}}
+        <button onclick="filterByCategory('{{this}}')" data-category="{{this}}" class="tab-btn px-6 py-3 rounded-xl font-black text-[11px] uppercase tracking-wider transition-all text-slate-500 hover:bg-slate-100 whitespace-nowrap">
+            {{this}}
+        </button>
+        {{/each}}
+    </div>
 
-      </tbody>
-
-    </table>
-  </div>
+    <!-- CARDS GRID -->
+    <div id="teacher-cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 relative z-10">
+        <!-- Loaded via AJAX as Cards -->
+    </div>
 
 </div>
+
+<!-- MODAL TEACHER CRUD -->
+<div id="modal-teacher" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg mx-4 overflow-hidden transform scale-95 transition-transform duration-300">
+        <div class="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+            <h3 id="modal-teacher-title" class="text-2xl font-black text-slate-900 tracking-tight">Thêm giảng viên</h3>
+            <button onclick="closeTeacherModal()" class="text-slate-400 hover:text-slate-600 text-2xl">×</button>
+        </div>
+        
+        <form id="form-teacher" class="p-8 space-y-5">
+            <input type="hidden" id="teacher-id">
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mã giảng viên</label>
+                    <input type="text" id="t-code" required placeholder="VD: GV001" 
+                        class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl outline-none transition-all font-bold text-slate-700 shadow-inner">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Họ và tên</label>
+                    <input type="text" id="t-name" required placeholder="VD: GS.TS Nguyễn Văn A" 
+                        class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl outline-none transition-all font-bold text-slate-700 shadow-inner">
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email công tác</label>
+                <input type="email" id="t-email" required placeholder="name@university.edu" 
+                    class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl outline-none transition-all font-bold text-slate-700 shadow-inner">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Số điện thoại</label>
+                    <input type="text" id="t-phone" placeholder="0123.456.789" 
+                        class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl outline-none transition-all font-bold text-slate-700 shadow-inner">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Học hàm/Học vị</label>
+                    <input type="text" id="t-degree" placeholder="VD: Tiến sĩ" 
+                        class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl outline-none transition-all font-bold text-slate-700 shadow-inner">
+                </div>
+            </div>
+
+             <div class="space-y-1.5">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Chuyên ngành phụ trách</label>
+                <select id="t-major" required class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl outline-none transition-all font-bold text-slate-700 shadow-inner appearance-none cursor-pointer">
+                    <option value="">-- Chọn chuyên ngành --</option>
+                    {{#each majors}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="pt-6 flex gap-4">
+                <button type="button" onclick="closeTeacherModal()" class="flex-1 py-4 text-slate-400 font-black text-xs uppercase tracking-widest">HỦY</button>
+                <button type="submit" class="flex-1 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-blue-100 hover:scale-105 active:scale-95 transition-all">LƯU GIẢNG VIÊN</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL ROLES (PERMISSION CENTER) -->
+<div id="modal-roles" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-[3rem] shadow-2xl w-full max-w-xl mx-4 overflow-hidden transform scale-95 transition-transform duration-300">
+        <div class="p-10 border-b border-slate-100 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+            <h3 class="text-3xl font-black tracking-tight">Thiết lập Quyền hạn</h3>
+            <p id="role-teacher-name" class="text-blue-400 font-bold mt-2 font-mono uppercase tracking-tighter">NGUYỄN VĂN A</p>
+        </div>
+        
+        <div class="p-10 space-y-8">
+            <!-- System Role -->
+            <div class="space-y-4">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Vai trò hệ thống chính</label>
+                <select id="select-main-role" class="w-full p-5 bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl outline-none font-bold text-slate-800 transition-all appearance-none cursor-pointer">
+                    <option value="Teacher">Giảng viên (Mặc định)</option>
+                    <option value="Admin">Quản trị viên (Admin)</option>
+                </select>
+            </div>
+
+            <!-- Sub Roles -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Nghiệp vụ chuyên môn (Có thể chọn nhiều)</label>
+                    <button type="button" onclick="selectAllRoles()" class="text-[10px] font-black text-blue-500 hover:text-blue-700 uppercase tracking-wider transition-colors">Chọn tất cả</button>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-rose-200 cursor-pointer transition-all has-[:checked]:bg-rose-50 has-[:checked]:border-rose-400">
+                        <input type="checkbox" id="check-leader" class="w-5 h-5 accent-rose-500">
+                        <div>
+                            <p class="text-sm font-black text-slate-800">👑 Trưởng ngành</p>
+                            <p class="text-[10px] text-slate-400">Phân công hội đồng</p>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-blue-200 cursor-pointer transition-all has-[:checked]:bg-blue-50 has-[:checked]:border-blue-400">
+                        <input type="checkbox" id="check-gvhd" class="w-5 h-5 accent-blue-500">
+                        <div>
+                            <p class="text-sm font-black text-slate-800">📋 Hướng dẫn</p>
+                            <p class="text-[10px] text-slate-400">Nhận SV đăng ký</p>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-indigo-200 cursor-pointer transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-400">
+                        <input type="checkbox" id="check-gvpb" class="w-5 h-5 accent-indigo-500">
+                        <div>
+                            <p class="text-sm font-black text-slate-800">🔍 Phản biện</p>
+                            <p class="text-[10px] text-slate-400">Chấm phản biện</p>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-emerald-200 cursor-pointer transition-all has-[:checked]:bg-emerald-50 has-[:checked]:border-emerald-400">
+                        <input type="checkbox" id="check-council" class="w-5 h-5 accent-emerald-500">
+                        <div>
+                            <p class="text-sm font-black text-slate-800">⚖️ Hội đồng</p>
+                            <p class="text-[10px] text-slate-400">Chấm bảo vệ</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Council Position -->
+            <div id="council-pos-section" class="space-y-4 opacity-50 pointer-events-none transition-all">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Vị trí trong Hội đồng</label>
+                <select id="select-council-pos" class="w-full p-5 bg-slate-50 border-2 border-transparent focus:border-indigo-500 rounded-2xl outline-none font-bold text-slate-800 transition-all appearance-none cursor-pointer">
+                    <option value="">-- Chưa gán vị trí --</option>
+                    <option value="Chairman">Chủ tịch Hội đồng</option>
+                    <option value="Secretary">Thư ký Hội đồng</option>
+                    <option value="Member">Thành viên Hội đồng</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="p-10 bg-slate-50 flex gap-4">
+            <button onclick="closeRoleModal()" class="flex-1 py-5 text-slate-400 font-black text-xs uppercase tracking-widest">HỦY BỎ</button>
+            <button onclick="saveRoles()" class="flex-1 py-5 bg-slate-900 text-white rounded-3xl font-black text-xs uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all">CẬP NHẬT QUYỀN HẠN</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin-teacher.js"></script>
+
+

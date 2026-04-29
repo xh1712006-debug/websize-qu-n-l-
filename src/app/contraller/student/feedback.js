@@ -11,29 +11,47 @@ class feedbackController{
                 return res.redirect('/accounts/singger')
             }
             const studentId = req.session.student
+            const student = await contentStudent.findById(studentId)
+            
+            // Tìm cuộc trò chuyện và lấy thông tin giáo viên ngay từ đầu
             const conversation = await contentConversation.findOne({ studentId: studentId })
-            const feedback = await content_feedback.updateMany(
-                {
-                    conversationId: conversation._id,
-                    status: 'false'
-                },
-                {
-                    status: 'true',
-            })
+            
+            let teacherName = 'Chưa có giảng viên';
+            if (student && student.teacherId) {
+                const teacher = await teacherData.findById(student.teacherId);
+                if (teacher) teacherName = teacher.fullName;
+            } else if (conversation && conversation.teacherId) {
+                const teacher = await teacherData.findById(conversation.teacherId);
+                if (teacher) teacherName = teacher.fullName;
+            }
 
-            console.log('feedback:', feedback)
+            let data_feedback = []
+            if (conversation) {
+                await content_feedback.updateMany(
+                    {
+                        conversationId: conversation._id,
+                        contentType: 'teacher',
+                        status: 'false'
+                    },
+                    {
+                        status: 'true',
+                })
+                
+                data_feedback = await content_feedback.find({ conversationId: conversation._id })
+            }
 
-            let data_feedback = await content_feedback.find()
             data_feedback = data_feedback.map(item => item.toObject())
             res.render('student/feedback', {
-                layout: 'student/main',
+                layout: 'base',
                 data_feedback: data_feedback,
                 active: 'feedback',
                 figure: 'student',
+                teacherName: teacherName // Gửi tên giáo viên trực tiếp qua SSR
             })
         }
         catch(err) {
-            res.status(500).send('loi')
+            console.error('Feedback index error:', err)
+            res.status(500).send('Lỗi máy chủ')
         }
     }
     async createFeedback(req, res) {
@@ -64,12 +82,27 @@ class feedbackController{
         try {
             const content = req.body.content
             const studentId = req.session.student
-            const conversation = await contentConversation.findOne({ studentId: studentId })
+            const student = await contentStudent.findById(studentId)
 
-            
-            if (!conversation) {
-                return res.status(404).json({ error: 'Conversation not found' })
+            if (!student) {
+                return res.status(404).json({ error: 'Không tìm thấy thông tin sinh viên' })
             }
+
+            // Tìm hoặc Tự động tạo cuộc trò chuyện nếu chưa có
+            let conversation = await contentConversation.findOne({ studentId: studentId })
+            
+            if (!conversation && student.teacherId) {
+                conversation = new contentConversation({
+                    studentId: studentId,
+                    teacherId: student.teacherId,
+                })
+                await conversation.save()
+            }
+
+            if (!conversation) {
+                return res.status(404).json({ error: 'Bạn cần đăng ký giảng viên hướng dẫn trước khi trao đổi' })
+            }
+
             const feedback = new content_feedback({
                 conversationId: conversation._id,
                 contentId: studentId,
@@ -77,31 +110,41 @@ class feedbackController{
                 content: content,
             })
             await feedback.save()
-            return res.json({ success: true, message: 'Feedback posted' })
+            return res.json({ success: true, message: 'Gửi tin nhắn thành công' })
         }
         catch(err) {
             console.error('Post message error:', err)
-            return res.status(500).json({ error: 'Server error' })
+            return res.status(500).json({ error: 'Lỗi hệ thống khi gửi tin' })
         } 
     }
-
 
     async getFeedback(req, res) {
         try {
             const studentId = req.session.student
+            const student = await contentStudent.findById(studentId)
             const conversation = await contentConversation.findOne({ studentId: studentId })
-            console.log('conversation:', conversation)
-            const teacher = await teacherData.findOne({
-                _id: conversation.teacherId,
-            }).select('fullName')
-            console.log('teacher:', teacher)
+            
             if (!conversation) {
-                return res.status(404).json({ error: 'Conversation not found' })
+                // Trả về mảng rỗng thay vì lỗi 404 để client không bị gián đoạn polling
+                let teacherName = 'N/A';
+                if (student && student.teacherId) {
+                    const teacher = await teacherData.findById(student.teacherId).select('fullName')
+                    if (teacher) teacherName = teacher.fullName
+                }
+                return res.json({ fullName: teacherName, feedbacks: [] })
             }
+
+            let teacher = null;
+            if (student && student.teacherId) {
+                teacher = await teacherData.findById(student.teacherId).select('fullName')
+            } else if (conversation.teacherId) {
+                teacher = await teacherData.findById(conversation.teacherId).select('fullName')
+            }
+            
             const feedbacks = await content_feedback.find({ conversationId: conversation._id }).sort({ createdAt: 1 })
 
             return res.json({
-                ...teacher.toObject(),
+                fullName: teacher ? teacher.fullName : 'N/A',
                 feedbacks,
             })
         }

@@ -6,7 +6,7 @@ class projectController {
             let data_project = await content_project.find()
             data_project = data_project.map(item => item.toObject())
             res.render('teacher/project', {
-                layout: 'teacher/main',
+                layout: 'base',
                 active: 'project',
                 data_project: data_project,
                 figure: 'teacher',

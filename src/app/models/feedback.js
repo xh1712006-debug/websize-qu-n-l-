@@ -4,7 +4,7 @@ const schema = mongoose.Schema
 const dashboardSchema = new schema({
     conversationId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'aconversation',
+        ref: 'aconversations',
     },
     // contentId chính là id của sinh viên và giáo viên
     
