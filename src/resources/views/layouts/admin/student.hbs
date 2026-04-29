@@ -36,6 +36,7 @@
         {{/each}}
     </div>
 
+<<<<<<< HEAD
     <!-- TABS NAVIGATION (STATUS) -->
     <div class="flex items-center gap-4 bg-slate-50/50 p-2 rounded-2xl border border-slate-100">
         <button onclick="filterByStatus('all')" data-status="all" class="status-tab-btn flex-1 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all bg-white text-blue-600 shadow-sm border border-blue-100">
@@ -51,6 +52,76 @@
             Chưa đăng ký
         </button>
     </div>
+=======
+    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl shadow transition">
+      + Thêm sinh viên
+    </button>
+  </div>
+
+</div>
+
+
+<!-- TABLE -->
+<div class="bg-white rounded-2xl shadow overflow-hidden">
+
+  <table class="w-full text-sm text-left">
+
+    <thead class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+      <tr>
+        <th class="p-4">MSSV</th>
+        <th class="p-4">Tên sinh viên</th>
+        <th class="p-4">Email</th>
+        <th class="p-4">Đồ án</th>
+        <th class="p-4">Trạng thái</th>
+        <th class="p-4 text-center">Hành động</th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y relative">
+
+      {{#each students}}
+      <tr class="hover:bg-gray-50 transition">
+        <td class="p-4 font-medium text-gray-700">{{this.studentCode}}</td>
+        <td class="p-4">{{this.fullName}}</td>
+        <td class="p-4 text-gray-600">{{this.studentEmail}}</td>
+        <td class="p-4 text-blue-600 font-medium">{{this.projectName}}</td>
+
+        <!-- Status -->
+        <td class="p-4">
+          {{#if (eq this.projectStatuss 'Chưa đăng ký')}}
+          <span class="px-3 py-1 text-xs font-medium bg-red-100 text-red-600 rounded-full">
+            {{this.projectStatuss}}
+          </span>
+          {{else}}
+          <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-600 rounded-full">
+            {{this.projectStatuss}}
+          </span>
+          {{/if}}
+        </td>
+
+        <!-- Action -->
+        <td class="p-4 text-center space-x-2">
+          <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs transition">
+            ✏️ Sửa
+          </button>
+
+          <button onclick="deleteStudent('{{this._id}}')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs transition">
+            🗑 Xóa
+          </button>
+        </td>
+      </tr>
+      {{/each}}
+      
+      {{#unless students}}
+      <tr>
+          <td colspan="6" class="p-8 text-center text-gray-500">Chưa có sinh viên nào.</td>
+      </tr>
+      {{/unless}}
+
+    </tbody>
+
+  </table>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 
     <!-- CARDS GRID -->
     <div id="student-cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 relative z-10">

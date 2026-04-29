@@ -150,6 +150,27 @@
         </main>
     </div>
 
+<<<<<<< HEAD
+=======
+    <nav class="p-3 space-y-1 text-sm">
+      <a href="/teacher/dashboard" class="menu {{#if (eq active 'dashboard')}} active {{/if}} " >🏠 Dashboard</a>
+      <a href="/teacher/request"  class="menu {{#if (eq active 'request')}} active {{/if}} " >📝 Yêu cầu đăng ký</a>
+      <a href="/teacher/student"  class="menu {{#if (eq active 'student')}} active {{/if}} " >👨‍🎓 Sinh viên</a>
+      <a href="/teacher/report"   class="menu {{#if (eq active 'report')}} active {{/if}} " >📤 Báo cáo</a>
+      <a href="/teacher/feedback"  class="menu {{#if (eq active 'feedback')}} active {{/if}} " >💬 Phản hồi</a>
+
+      <div class="border-t border-indigo-600 mt-3 pt-2">
+        <a href="/teacher/account" class="menu {{#if (eq active 'account')}} active {{/if}} ">👤 Tài khoản</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-y-auto p-6">
+    {{{body}}}
+  </main>
+
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 </div>
 
 <script>

@@ -136,4 +136,8 @@ router(app)
 
 app.listen(port,  '0.0.0.0',() => {
     console.log(`chao ca nha http://localhost:${port}/loggin`)
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

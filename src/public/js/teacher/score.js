@@ -1,5 +1,6 @@
 let currentStuId = null;
 
+<<<<<<< HEAD
 async function fetchCouncilStudents() {
     try {
         const res = await fetch('/teacher/score/getStudents');
@@ -13,13 +14,67 @@ async function fetchCouncilStudents() {
 function renderCouncilTable(data) {
     const body = document.getElementById('council-list-body');
     body.innerHTML = '';
+=======
+async function openModal(studentId, projectId) {
+    try {
+        modal.classList.remove('hidden')
+        modal.classList.add('flex')
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        })
+        // Use onclick to avoid multiple event listeners stacking up
+        saveScoreBtn.onclick = async () => {
+            const res = await fetch('/teacher/score/postScore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    studentId: studentId,
+                    projectId: projectId,
+                    score: scoreInput.value,
+                    comment: commentInput.value,
+                }),
+            })
+            const data = await res.json()
+            alert('chấm điểm thành công')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+            getScore()
+        };
+
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+function renderScore(data) {
+    // Removed the clear so we can append correctly
+    let status = data.status
+        ? '<span class="text-green-500 font-semibold">Đủ điều kiện</span>'
+        : '<span class="text-red-500 font-semibold">Chưa đủ ĐK</span>';
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 
     data.forEach(item => {
         if (!item.isEligible) return;
 
+<<<<<<< HEAD
         const myScoreText = item.myScore !== null ? 
             `<span class="text-xl font-black text-emerald-600">${item.myScore}</span>` : 
             `<span class="text-slate-300 italic text-sm">Chưa chấm</span>`;
+=======
+    let button = data.status
+        ? `<button onclick="openModal('${data.studentId}', '${data.projectId}')"
+                class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-600 transition">
+                ${data.score === null || data.score === 'Chưa có điểm' ? "Chấm điểm" : "Sửa điểm"}
+              </button>`
+        : `<button disabled
+                class="bg-gray-200 text-gray-400 px-4 py-2 rounded-xl text-sm font-semibold cursor-not-allowed">
+                Chưa đủ ĐK
+              </button>`;
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 
         const finalScoreText = item.finalScore !== null ? 
             `<div class="mt-1"><span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-black rounded border border-blue-100 uppercase italic">TB: ${item.finalScore}</span></div>` : '';
@@ -148,10 +203,20 @@ async function saveMinutes() {
     const conclusion = document.getElementById('minutes-conclusion').value;
 
     try {
+<<<<<<< HEAD
         const res = await fetch('/teacher/score/submitMinutes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ studentId: currentStuId, questions, conclusion })
+=======
+        const res = await fetch('/teacher/score/getScore')
+        const data = await res.json()
+        console.log('data: ', data)
+        studentTable.innerHTML = '' // Clear table before rendering
+        data.forEach(item => {
+            console.log('item: ', item)
+            renderScore(item)
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         });
         const data = await res.json();
         if (data.success) {
@@ -251,6 +316,7 @@ async function saveCouncilScore() {
         console.error(err);
     }
 }
+<<<<<<< HEAD
 
 // Khởi tạo
 window.councilPos = document.getElementById('council-pos-indicator')?.value || (document.querySelector('.text-sm.font-black.text-emerald-600')?.innerText.includes('CHỦ TỊCH') ? 'Chairman' : (document.querySelector('.text-sm.font-black.text-emerald-600')?.innerText.includes('THƯ KÝ') ? 'Secretary' : 'Member'));
@@ -258,3 +324,6 @@ window.councilPos = document.getElementById('council-pos-indicator')?.value || (
 fetchCouncilStudents();
 
 fetchCouncilStudents();
+=======
+getScore()
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

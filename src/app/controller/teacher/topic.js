@@ -5,7 +5,11 @@ class topicController {
     async index(req, res) {
         try {
             if(!req.session.teacher){
+<<<<<<< HEAD:src/app/contraller/teacher/topic.js
                 return res.redirect('/accounts/singger')
+=======
+                return res.redirect('/loggin')
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/teacher/topic.js
             }
             const teacherId = req.session.teacher
             
@@ -16,7 +20,11 @@ class topicController {
             })
             
             res.render('teacher/topic', {
+<<<<<<< HEAD:src/app/contraller/teacher/topic.js
                 layout: 'base',
+=======
+                layout: 'teacher/main',
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/teacher/topic.js
                 active: 'topic',
                 figure: 'teacher',
                 data_topic: data_topic.map(doc => doc.toObject())

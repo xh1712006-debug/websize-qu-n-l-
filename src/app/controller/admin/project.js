@@ -281,6 +281,7 @@ class projectController{
         }
     }
 
+<<<<<<< HEAD:src/app/contraller/admin/project.js
     // [GET] /admin/project/getGvpbs
     async getGvpbs(req, res) {
         try {
@@ -340,6 +341,8 @@ class projectController{
         }
     }
 
+=======
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/admin/project.js
 }
 
 module.exports = new projectController

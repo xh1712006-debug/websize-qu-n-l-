@@ -8,7 +8,7 @@ class feedbackController{
     async index(req,res) {
         try {
             if(!req.session.student){
-                return res.redirect('/accounts/singger')
+                return res.redirect('/loggin')
             }
             const studentId = req.session.student
             const student = await contentStudent.findById(studentId)

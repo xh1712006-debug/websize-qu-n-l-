@@ -4,6 +4,7 @@ const scoreInput = document.querySelector('#scoreInput')
 const closeModalBtn = document.querySelector('#closeModalBtn')
 const saveScoreBtn = document.querySelector('#saveScoreBtn')
 
+<<<<<<< HEAD
 async function openModal(studentId, projectId, studentName, projectDesc, currentScore, currentComment) {
     try {
         const studentNameEl = document.querySelector('#studentName')
@@ -23,14 +24,23 @@ async function openModal(studentId, projectId, studentName, projectDesc, current
             projectArea.classList.toggle('hidden')
         }
 
+=======
+async function openModal(studentId, projectId) {
+    try {
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         modal.classList.remove('hidden')
         modal.classList.add('flex')
         
         closeModalBtn.onclick = () => {
             modal.classList.add('hidden')
             modal.classList.remove('flex')
+<<<<<<< HEAD
         }
 
+=======
+        })
+        // Use onclick to avoid multiple event listeners stacking up
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         saveScoreBtn.onclick = async () => {
             const res = await fetch('/teacher/scoreFeedback/postScoreFeedback', {
                 method: 'POST',
@@ -39,7 +49,10 @@ async function openModal(studentId, projectId, studentName, projectDesc, current
                     studentId: studentId,
                     projectId: projectId,
                     score: scoreInput.value,
+<<<<<<< HEAD
                     comment: commentInput.value
+=======
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
                 }),
             })
             const data = await res.json()
@@ -56,14 +69,22 @@ async function openModal(studentId, projectId, studentName, projectDesc, current
 }
 
 function renderScore(data) {
+<<<<<<< HEAD
     let statusBadge = data.status
         ? '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 text-purple-600 text-[10px] font-black uppercase tracking-wider border border-purple-100"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse"></span>Đủ điều điện PB</span>'
         : '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-600 text-[10px] font-black uppercase tracking-wider border border-rose-100"><span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span>Chưa đủ ĐK</span>';
+=======
+    console.log('hello', data)
+    let status = data.status
+        ? '<span class="text-green-500 font-semibold">Đủ điều kiện</span>'
+        : '<span class="text-red-500 font-semibold">Chưa đủ ĐK</span>';
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 
     let scoreDisplay = data.score !== null && data.score !== 'Chưa có điểm'
         ? `<span class="text-2xl font-black text-purple-600 tracking-tighter">${data.score}</span>`
         : '<span class="text-xs font-bold text-slate-300 uppercase tracking-widest italic">Trống</span>';
 
+<<<<<<< HEAD
     let reportDisplay = data.latestReport
         ? `<a href="/student/report/upload/file/${data.latestReport}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-wider border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path></svg>
@@ -88,6 +109,16 @@ function renderScore(data) {
         actionButton = `<button onclick="openModal('${data.studentId}', '${data.projectId}', '${data.fullName}', '${safeDesc}', '${data.score}', '${data.comment}')"
                 class="px-5 py-2.5 bg-purple-50 text-purple-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-all shadow-sm border border-purple-100">
                 ${data.score === null || data.score === 'Chưa có điểm' ? "CHẤM ĐIỂM" : "SỬA ĐIỂM"}
+=======
+    let button = data.status
+        ? `<button onclick="openModal('${data.studentId}', '${data.projectId}')"
+                class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-600 transition">
+                ${data.score === null || data.score === 'Chưa có điểm' ? "Chấm điểm" : "Sửa điểm"}
+              </button>`
+        : `<button disabled
+                class="bg-gray-200 text-gray-400 px-4 py-2 rounded-xl text-sm font-semibold cursor-not-allowed">
+                Chưa đủ ĐK
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
               </button>`;
     } else {
         actionButton = `<button disabled

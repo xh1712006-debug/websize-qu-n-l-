@@ -12,6 +12,15 @@ const dashboardSchema = new schema({
     studentCode: {
         type: 'String'
     },
+<<<<<<< HEAD
+=======
+    givenName: {
+        type: 'String'
+    },
+    phone: {
+        type: 'String'
+    },
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
     studentEmail: {
         type: 'String'
     },

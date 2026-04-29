@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const reportRouter = require('../../app/contraller/teacher/report')
+const reportRouter = require('../../app/controller/teacher/report')
 
 // router.post('/postReport', reportRouter.postReport)
 router.post('/postRequirement', reportRouter.postRequirement)

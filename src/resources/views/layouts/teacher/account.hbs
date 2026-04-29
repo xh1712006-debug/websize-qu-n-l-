@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="max-w-6xl mx-auto py-10 px-4 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
     
     <!-- PREMIUM HEADER -->
@@ -210,12 +211,104 @@
             <button onclick="saveProfile()" class="py-6 bg-indigo-600 text-white rounded-[1.8rem] font-black text-xs hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-100 uppercase tracking-widest">
                 LƯU THAY ĐỔI
             </button>
+=======
+<h1 class="text-2xl font-bold mb-6 flex items-center gap-2">
+  👤 Tài khoản giảng viên
+</h1>
+
+<div class="grid grid-cols-3 gap-6">
+
+  <!-- PROFILE -->
+  <div class="col-span-1 bg-white p-6 rounded-2xl shadow border flex flex-col items-center justify-center text-center">
+
+    <!-- Xoá Avatar vòng tròn cứng theo yêu cầu -->
+    <div class="w-24 h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-4xl font-bold shadow-inner">
+      {{teacherData.fullName.[0]}}
+    </div>
+
+    <h2 class="text-xl font-bold text-gray-800">{{teacherData.fullName}}</h2>
+    <p class="text-sm text-gray-500 mb-6 font-medium mt-1">{{teacherData.role}}</p>
+
+    <button onclick="openEditModal()" class="w-full bg-blue-600 hover:bg-blue-700 font-semibold text-white py-2.5 rounded-xl transition shadow-md hover:shadow-lg mb-3">
+      ✏️ Cập nhật hồ sơ
+    </button>
+
+    <a href="/loggin/logout" class="block w-full text-center bg-gray-100 hover:bg-red-50 hover:text-red-600 text-gray-700 font-semibold py-2.5 rounded-xl transition">
+      🚪 Đăng xuất
+    </a>
+  </div>
+
+  <!-- INFO -->
+  <div class="col-span-2 bg-white p-6 rounded-2xl shadow border">
+
+    <h3 class="text-lg font-bold mb-5 border-b pb-3 text-gray-800">
+      📄 Thông tin cá nhân
+    </h3>
+
+    <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-sm mb-8">
+      <p class="flex flex-col text-gray-800"><span class="text-gray-400 font-semibold mb-1 uppercase tracking-wider text-xs">Họ và tên</span><span class="font-medium text-lg">{{teacherData.fullName}}</span></p>
+      <p class="flex flex-col text-gray-800"><span class="text-gray-400 font-semibold mb-1 uppercase tracking-wider text-xs">Email</span><span class="font-medium text-lg">{{teacherData.teacherEmail}}</span></p>
+      <p class="flex flex-col text-gray-800"><span class="text-gray-400 font-semibold mb-1 uppercase tracking-wider text-xs">Số điện thoại</span><span class="font-medium text-lg">{{teacherData.phone}}</span></p>
+      <p class="flex flex-col text-gray-800"><span class="text-gray-400 font-semibold mb-1 uppercase tracking-wider text-xs">Mã Giảng viên</span><span class="font-medium text-lg font-mono">{{teacherData.teacherCode}}</span></p>
+    </div>
+
+    <h3 class="text-lg font-bold mb-5 border-b pb-3 text-gray-800">
+      🏫 Thông tin công tác
+    </h3>
+
+    <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-sm mb-8">
+      <p class="flex flex-col text-gray-800"><span class="text-gray-400 font-semibold mb-1 uppercase tracking-wider text-xs">Khoa</span><span class="font-medium text-lg">{{teacherData.department}}</span></p>
+      <p class="flex flex-col text-gray-800"><span class="text-gray-400 font-semibold mb-1 uppercase tracking-wider text-xs">Học vị</span><span class="font-medium text-lg">{{teacherData.degree}}</span></p>
+    </div>
+
+    <h3 class="text-lg font-bold mb-5 border-b pb-3 text-gray-800">
+      📊 Thống kê nhanh
+    </h3>
+
+    <div class="grid grid-cols-2 gap-4 text-center">
+      <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl">
+        <p class="text-2xl font-bold text-blue-600">{{studentsCount}}</p>
+        <p class="text-xs text-gray-600 font-semibold uppercase tracking-wide mt-1">Sinh viên hướng dẫn</p>
+      </div>
+
+      <div class="bg-yellow-50 border border-yellow-100 p-4 rounded-xl">
+        <p class="text-2xl font-bold text-yellow-600">{{pendingReportsCount}}</p>
+        <p class="text-xs text-gray-600 font-semibold uppercase tracking-wide mt-1">Báo cáo chờ duyệt</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Modal Edit Profile -->
+<div id="editModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-2xl w-full max-w-md shadow-lg">
+        <h2 class="text-xl font-bold mb-6">✏️ Cập nhật thông tin</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block text-gray-600 font-semibold mb-1">Email liên hệ</label>
+                <input id="editEmail" type="email" value="{{teacherData.teacherEmail}}" class="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-600 font-semibold mb-1">Số điện thoại</label>
+                <input id="editPhone" type="text" value="{{teacherData.phone}}" class="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-3 mt-8">
+            <button onclick="closeEditModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium">Huỷ</button>
+            <button onclick="saveProfile()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-sm">Lưu thay đổi</button>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         </div>
     </div>
 </div>
 
 <script>
 function openEditModal() {
+<<<<<<< HEAD
     const modal = document.getElementById('editModal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');
@@ -224,13 +317,25 @@ function closeEditModal() {
     const modal = document.getElementById('editModal');
     modal.classList.add('hidden');
     modal.classList.remove('flex');
+=======
+    document.getElementById('editModal').classList.remove('hidden');
+    document.getElementById('editModal').classList.add('flex');
+}
+function closeEditModal() {
+    document.getElementById('editModal').classList.add('hidden');
+    document.getElementById('editModal').classList.remove('flex');
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 }
 async function saveProfile() {
     const email = document.getElementById('editEmail').value.trim();
     const phone = document.getElementById('editPhone').value.trim();
     
     if(!email || !phone) {
+<<<<<<< HEAD
         Swal.fire({ icon: 'warning', title: 'Thiếu thông tin', text: 'Vui lòng điền đầy đủ các trường.' });
+=======
+        alert('Vui lòng điền đủ thông tin');
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         return;
     }
 
@@ -238,6 +343,7 @@ async function saveProfile() {
         const res = await fetch('/teacher/account/update', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
+<<<<<<< HEAD
             body: JSON.stringify({ teacherEmail: email, teacherPhone: phone })
         });
         const data = await res.json();
@@ -250,6 +356,20 @@ async function saveProfile() {
     } catch(err) {
         console.error(err);
         Swal.fire({ icon: 'error', title: 'Lỗi hệ thống', text: 'Không thể kết nối máy chủ' });
+=======
+            body: JSON.stringify({ teacherEmail: email, phone: phone })
+        });
+        const data = await res.json();
+        if(data.success) {
+            alert('Cập nhật thành công!');
+            window.location.reload();
+        } else {
+            alert('Có lỗi xảy ra');
+        }
+    } catch(err) {
+        console.error(err);
+        alert('Lỗi kết nối máy chủ');
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
     }
 }
 </script>

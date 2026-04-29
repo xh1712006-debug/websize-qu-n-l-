@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     const data = await res.json()
 
+<<<<<<< HEAD
     // Kiểm tra an toàn dữ liệu
     if (!data || !data.feedbacks) {
         return;
@@ -80,6 +81,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' | ' + d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
     }
 
+=======
+    if (!isPolling) {
+      const teacherNameHeader = document.getElementById('teacherNameHeader')
+      if(teacherNameHeader && data.fullName) {
+        teacherNameHeader.innerText = data.fullName
+      }
+      listContent.innerHTML = '';
+      currentMessageCount = 0;
+    }
+    
+    if (isPolling && data.feedbacks.length <= currentMessageCount) {
+        return; // nothing new
+    }
+
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
     for(let i = currentMessageCount; i < data.feedbacks.length; i++) {
       const item = data.feedbacks[i];
       // in nhận xét của student 
@@ -93,11 +109,23 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="msg-meta text-indigo-100/70 text-right">${formatTime(item.createdAt)}</div>
           </div>
         `
+<<<<<<< HEAD
+=======
+          <p class="font-semibold text-green-700 mb-1">👨‍🎓 Bạn</p>
+          <p>
+            ${item.content}
+          </p>
+          <p class="text-xs text-gray-400 mt-2 text-right">
+            ${new Date(item.createdAt).toLocaleDateString()}
+          </p>
+        `
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         listContent.appendChild(newBox)
       }
       // in nhận xét của teacher 
       else if(item.contentType === 'teacher') {
         const textTeacher = document.createElement('div')
+<<<<<<< HEAD
         textTeacher.className = 'w-full msg-group'
         textTeacher.innerHTML = `
           <p class="msg-author">${data.fullName}</p>
@@ -105,6 +133,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="text-slate-700 text-sm leading-relaxed font-semibold">${item.content}</p>
             <div class="msg-meta text-slate-400 font-bold">${formatTime(item.createdAt)}</div>
           </div>
+=======
+        textTeacher.className = 
+          'max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-blue-500'
+        textTeacher.innerHTML += `
+          
+          <p class="font-semibold text-blue-700 mb-1">👨‍🏫 ${data.fullName}</p>
+          <p>
+            ${item.content}
+          </p>
+          <p class="text-xs text-gray-400 mt-2">
+            ${new Date(item.createdAt).toLocaleDateString()}
+          </p>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         `
         listContent.appendChild(textTeacher)
       }
@@ -144,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       const newBox = document.createElement('div')
+<<<<<<< HEAD
       newBox.className = 'w-full msg-group opacity-60'
       newBox.innerHTML = `
         <p class="msg-author text-right">Bạn</p>
@@ -151,6 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="text-white text-sm leading-relaxed font-semibold">${textContent}</p>
           <div class="msg-meta text-indigo-100/70 text-right">Đang gửi...</div>
         </div>
+=======
+      newBox.className =
+        'ml-auto max-w-[80%] bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500 opacity-70'
+      newBox.innerHTML += 
+      `
+        <p class="font-semibold text-green-700 mb-1">👨‍🎓 Bạn</p>
+        <p>${textContent}</p>
+        <p class="text-xs text-gray-400 mt-2 text-right">Đang gửi...</p>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
       `
       listContent.appendChild(newBox)
       text.value = ''

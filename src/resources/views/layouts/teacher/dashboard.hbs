@@ -152,6 +152,101 @@
             </div>
         </div>
 
+<<<<<<< HEAD
+=======
+  <div>
+    <h2 class="text-lg font-semibold">👤 {{teacherName}}</h2>
+    <p class="text-sm text-gray-600">
+      {{teacherDept}}
+    </p>
+  </div>
+
+  <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded">
+    Đang hoạt động
+  </span>
+
+</div>
+
+<!-- STATISTICS -->
+<div class="grid grid-cols-3 gap-6 mb-6">
+
+  <div class="bg-white p-5 rounded shadow text-center border-b-4 border-blue-600">
+    <p class="text-3xl font-bold text-blue-600">{{studentsCount}}</p>
+    <p class="text-sm text-gray-600 tracking-wide uppercase mt-1 font-semibold">Sinh viên</p>
+  </div>
+
+  <div class="bg-white p-5 rounded shadow text-center border-b-4 border-yellow-500">
+    <p class="text-3xl font-bold text-yellow-600">{{pendingReportsCount}}</p>
+    <p class="text-sm text-gray-600 tracking-wide uppercase mt-1 font-semibold">Báo cáo chờ duyệt</p>
+  </div>
+
+  <div class="bg-white p-5 rounded shadow text-center border-b-4 border-purple-600">
+    <p class="text-3xl font-bold text-purple-600">{{unreadFeedbacksCount}}</p>
+    <p class="text-sm text-gray-600 tracking-wide uppercase mt-1 font-semibold">Tin nhắn chưa đọc</p>
+  </div>
+
+</div>
+
+<!-- MAIN MANAGEMENT -->
+<div class="grid grid-cols-3 gap-6">
+
+  <!-- STUDENTS -->
+  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
+    <h3 class="font-semibold mb-2">👨‍🎓 Sinh viên</h3>
+    <p class="text-sm text-gray-600 mb-4">
+      Quản lý sinh viên được phân công
+    </p>
+    <a href="/teacher/student"
+       class="inline-block bg-blue-600 text-white px-4 py-2 rounded text-sm">
+      Quản lý sinh viên
+    </a>
+  </div>
+
+
+  {{!-- <!-- PROGRESS -->
+  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
+    <h3 class="font-semibold mb-2">⏳ Tiến độ</h3>
+    <p class="text-sm text-gray-600 mb-4">
+      Đánh giá tiến độ thực hiện
+    </p>
+    <a href="/teacher/progress"
+       class="inline-block bg-yellow-500 text-white px-4 py-2 rounded text-sm">
+      Xem tiến độ
+    </a>
+  </div> --}}
+
+  <!-- REPORT -->
+  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
+    <h3 class="font-semibold mb-2">📄 Báo cáo</h3>
+    <p class="text-sm text-gray-600 mb-4">
+      Duyệt báo cáo sinh viên
+    </p>
+    <a href="/teacher/report"
+       class="inline-block bg-indigo-600 text-white px-4 py-2 rounded text-sm">
+      Duyệt báo cáo
+    </a>
+  </div>
+
+  <!-- FEEDBACK -->
+  <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
+    <h3 class="font-semibold mb-2">💬 Phản hồi</h3>
+    <p class="text-sm text-gray-600 mb-4">
+      Gửi & quản lý phản hồi
+    </p>
+    <a href="/teacher/feedback"
+       class="inline-block bg-purple-600 text-white px-4 py-2 rounded text-sm">
+      Phản hồi
+    </a>
+  </div>
+
+  <!-- SYSTEM -->
+  {{!-- <div class="bg-white p-6 rounded shadow flex flex-col justify-between hover:shadow-lg transition">
+    <div>
+      <h3 class="font-semibold mb-2">🔐 Hệ thống</h3>
+      <p class="text-sm text-gray-600 mb-4">
+        Tài khoản & đăng xuất
+      </p>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
     </div>
 
 </div>

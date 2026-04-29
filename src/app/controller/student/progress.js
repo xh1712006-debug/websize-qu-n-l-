@@ -5,7 +5,7 @@ class progressController{
     async index(req,res) {
         try {
             if(!req.session.student){
-                return res.redirect('/accounts/singger')
+                return res.redirect('/loggin')
             }
             const studentId = req.session.student
             let data = await progressData.find({ studentId: studentId })
@@ -40,6 +40,7 @@ class progressController{
     async getProgress(req, res){
         try{
             const studentId = req.session.student
+<<<<<<< HEAD:src/app/contraller/student/progress.js
             const report__Data = require('../../models/report')
             let [progress, reports, requirements] = await Promise.all([
                 progressData.findOne({ studentId: studentId }),
@@ -56,6 +57,17 @@ class progressController{
 
             return res.json({
                 progress: progress.toObject ? progress.toObject() : progress,
+=======
+            const progress = await progressData.findOne({
+                studentId: studentId,
+            })
+            const report__Data = require('../../models/report')
+            const reports = await report__Data.find({
+                studentId: studentId,
+            })
+            return res.json({
+                progress,
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/progress.js
                 reports,
             })
         }

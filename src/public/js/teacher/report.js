@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+const tableHeader = document.querySelector('.table__header')
+const modals = document.querySelector('#modal')
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 const reportListAdd = document.querySelector('#reportList')
 const modals = document.querySelector('#modal')
 let allReports = []
@@ -6,6 +11,7 @@ let currentTab = 'chờ duyệt'
 
 function closeModal(){
     modals.classList.add('hidden')
+<<<<<<< HEAD
     modals.classList.remove('flex')
 }
 
@@ -40,6 +46,62 @@ function switchTab(tab) {
     renderTable();
 }
 
+=======
+}
+
+async function submitReview(id, reportId, action){
+    const feedback = document.getElementById('teacherFeedback').value;
+    const url = action === 'approve' ? '/teacher/report/postRequirement' : '/teacher/report/postRemove';
+    
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                studentId: id,
+                reportId: reportId,
+                feedback: feedback
+            })
+        })
+        const data = await res.json()
+        modals.classList.add('hidden')
+        getReport()
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+function createrModal(id, reportId, action) {
+    modals.innerHTML = ''
+    const div = document.createElement('div')
+    div.className = 'bg-white w-full max-w-xl p-6 rounded-2xl shadow-xl'
+    
+    const title = action === 'approve' ? '✅ Duyệt báo cáo' : '❌ Yêu cầu nộp lại';
+    const btnClass = action === 'approve' ? 'bg-green-600' : 'bg-red-600';
+    const btnText = action === 'approve' ? 'Duyệt & Lưu lời phê' : 'Từ chối & Gửi lời phê';
+
+    div.innerHTML = `
+        <h3 class="text-xl font-bold mb-4 text-center">
+            ${title}
+        </h3>
+
+        <div class="space-y-3">
+            <label class="block font-semibold">Nhận xét / Lời phê của Giáo viên:</label>
+            <textarea id="teacherFeedback" rows="4" class="w-full border rounded-lg p-3" placeholder="Nhập lời phê..."></textarea>
+        </div>
+        <div class="flex justify-end gap-3 mt-6">
+            <button onclick="closeModal()" class="px-4 py-2 border rounded-lg">Hủy</button>
+            <button onclick="submitReview('${id}','${reportId}','${action}')" class="px-5 py-2 ${btnClass} text-white rounded-lg">
+                ${btnText}
+            </button>
+        </div>
+    `
+    modals.appendChild(div)
+    modals.classList.remove('hidden')
+}
+
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 async function getReport(){
     try{
         const res = await fetch('/teacher/report/getReport')
@@ -219,6 +281,7 @@ async function submitReview(studentId, reportId, action){
 
     const url = action === 'approve' ? '/teacher/report/postRequirement' : '/teacher/report/postRemove';
     
+<<<<<<< HEAD
     try {
         const res = await fetch(url, {
             method: 'POST',
@@ -251,3 +314,23 @@ async function submitReview(studentId, reportId, action){
 // Initial fetch
 getReport();
 switchTab('chờ duyệt');
+=======
+    if(e.target.classList.contains('view')){
+        console.log('bạn đã click vào xem')
+        const fileUrl = e.target.dataset.file
+        console.log('fileUrl: ', fileUrl)
+        window.open(`/teacher/report/viewFile/${fileUrl}`, '_blank')
+    }
+    else if(e.target.classList.contains('accept')){
+        const id = e.target.dataset.id
+        const studentId = e.target.dataset.studentid
+        createrModal(studentId, id, 'approve')
+    }
+    else if(e.target.classList.contains('refuse')){
+        const id = e.target.dataset.id
+        const studentId = e.target.dataset.studentid
+        createrModal(studentId, id, 'reject')
+    }
+    
+})
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

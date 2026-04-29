@@ -51,6 +51,7 @@ class scoreFeedbackController {
                 }).sort({ createdAt: -1 })
 
                 data.push({
+<<<<<<< HEAD:src/app/contraller/teacher/scoreFeedback.js
                     id: grade ? grade._id : null,
                     studentId: assign.studentId,
                     projectId: assign.projectId,
@@ -62,6 +63,16 @@ class scoreFeedbackController {
                     role: assign.role, 
                     latestReport: latestReport ? latestReport.fileUrl : null,
                     status: (progress && progress.percent >= 100) ? true : false,
+=======
+                    id: score ? score._id : null,
+                    studentId: stu.studentId,
+                    projectId: stu.projectId,
+                    fullName: student ? student.fullName : 'Không có thông tin',
+                    projectName: project ? project.inputProject : 'Không có dự án',
+                    progress: progress ? progress.precent : 'Không có tiến độ',
+                    score: (score && score.scoreFeedback) ? score.scoreFeedback : 'Chưa có điểm',
+                    status: (progress && progress.precent >= 100) ? true : false,
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/teacher/scoreFeedback.js
                 })
             }
             return res.json(data)
@@ -74,8 +85,36 @@ class scoreFeedbackController {
 
     async postScoreFeedback(req, res) {
         try {
+<<<<<<< HEAD:src/app/contraller/teacher/scoreFeedback.js
             const { studentId, score, comment } = req.body
             const teacherId = req.session.teacher
+=======
+            const studentId = req.body.studentId === 'null' ? null : req.body.studentId;
+            const projectId = req.body.projectId === 'null' ? null : req.body.projectId;
+            const score = req.body.score;
+            const comment = req.body.comment;
+            
+            if (!studentId) {
+                return res.status(400).json({ error: "Missing studentId" });
+            }
+
+            const statius = await scoreData.findOne({studentId: studentId})
+            if(statius && statius.status === 'approved') {
+                return res.json({message: 'Điểm đã được chốt, không thể sửa'});
+            }
+
+            const scoreFeedback = await scoreData.findOneAndUpdate({
+                studentId: studentId,
+            }, {
+                projectId: projectId,
+                teacherId: req.session.teacher,
+                scoreFeedback: score,
+            }, { new: true, upsert: true })
+            
+            return res.json({
+                message: 'Điểm đã được thêm'
+            })
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/teacher/scoreFeedback.js
             
             if (!studentId) {
                 return res.status(400).json({ error: "Missing studentId" });

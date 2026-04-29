@@ -152,6 +152,68 @@
 
 </div>
 
+<<<<<<< HEAD
 {{#section 'script'}}
 <script src="/js/student/report.js"></script>
 {{/section}}
+=======
+<!-- SUBMIT FORM -->
+<form method="post" action="" enctype="multipart/form-data">  <!-- Added enctype -->
+  <div class="bg-white p-6 rounded-lg shadow mb-8">
+    <h2 class="text-lg font-semibold mb-4">📝 Thông tin báo cáo</h2>
+    <div class="space-y-4">
+      <!-- REPORT WEEK -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Báo cáo tuần</label>
+        <select class="week__report w-full border rounded px-3 py-2 bg-gray-100 focus:outline-none" disabled>
+          <option value="{{currentWeek}}">Tuần {{currentWeek}}</option>
+        </select>
+        <input type="hidden" name="week" class="hidden__week" value="{{currentWeek}}">
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Mô tả nội dung</label>
+        <textarea rows="4" placeholder="Mô tả ngắn gọn nội dung đã thực hiện..." class="content__report w-full border rounded px-3 py-2 focus:outline-none focus:ring"></textarea>
+      </div>
+      <!-- FILE -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">File báo cáo (PDF / DOCX)</label>
+        <input name="file_url" type="file" class="file__report w-full border rounded px-3 py-2 bg-gray-50">
+        <p class="text-xs text-gray-500 mt-1">Dung lượng tối đa: 10MB</p>
+      </div>
+      <!-- SUBMIT BUTTON -->
+      <div class="flex flex-col items-end gap-2">
+        {{#if canSubmit}}
+            <button type="submit" class="submit__content bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Nộp báo cáo</button>
+        {{else}}
+            <button type="button" disabled class="bg-gray-400 text-white px-6 py-2 rounded cursor-not-allowed">Đang chờ giáo viên duyệt</button>
+            <p class="text-sm text-red-500 italic">Bạn phải chờ giáo viên duyệt báo cáo trước đó mới có thể nộp tiếp.</p>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- SUBMISSION HISTORY -->
+<div class="bg-white p-6 rounded-lg shadow">
+  <h2 class="text-lg font-semibold mb-4">📚 Lịch sử nộp báo cáo</h2>
+  <div class="overflow-x-auto">
+    <table class="table__content w-full border text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border p-2">Tiêu đề</th>
+          <th class="border p-2 w-20">Tuần</th>
+          <th class="border p-2">Ngày nộp</th>
+          <th class="border p-2">Trạng thái</th>
+          <th class="border p-2">Giáo viên phản hồi</th>
+          <th class="border p-2">File</th>
+        </tr>
+      </thead>
+      <tbody class="out__content">
+        <!-- Dynamic content loaded via JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

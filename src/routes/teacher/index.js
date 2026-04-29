@@ -8,6 +8,12 @@ router.use(isTeacher) // Đảm bảo phải là giảng viên trước
 
 router.use('/account', require('./account'))
 router.use('/dashboard', require('./dashboard'))
+<<<<<<< HEAD
+=======
+router.use('/feedback', require('./feedback'))
+router.use('/request', require('./request'))
+router.use('/report', require('./report'))
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 router.use('/student', require('./student'))
 
 // Tuyến đường dùng chung

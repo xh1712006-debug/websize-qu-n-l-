@@ -1,11 +1,30 @@
 const express = require('express')
 const router = express.Router()
 const contentStudent = require('../../app/models/student')
+<<<<<<< HEAD
 const auth = require('../../app/middleware/auth')
 
 // Áp dụng isStudent middleware cho toàn bộ student routes
 // Middleware này sẽ: kiểm tra session, query DB, set userRole/userObj/user/hasProject
 router.use(auth.isStudent)
+=======
+
+router.use(async (req, res, next) => {
+    if (req.session.student) {
+        try {
+            const student = await contentStudent.findById(req.session.student)
+            if (student && student.status === 'approved') {
+                res.locals.hasProject = true;
+            } else {
+                res.locals.hasProject = false;
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    next()
+})
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 
 router.use('/project', require('./project'))
 router.use('/addproject', require('./addproject'))

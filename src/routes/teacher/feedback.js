@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const feedbackRouter = require('../../app/contraller/teacher/feedback')
+const feedbackRouter = require('../../app/controller/teacher/feedback')
 
 router.post('/postFeedback', feedbackRouter.postFeedback)
 router.get('/getStudent', feedbackRouter.getStudent)

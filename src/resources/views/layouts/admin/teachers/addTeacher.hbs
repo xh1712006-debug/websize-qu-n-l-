@@ -139,6 +139,7 @@
 </div>
 
 <script>
+<<<<<<< HEAD
     // File preview logic (integrated into layout for immediate effect)
     document.getElementById('avatarFile').onchange = function(e) {
         const file = e.target.files[0];
@@ -155,3 +156,139 @@
         }
     }
 </script>
+=======
+
+// lưu ảnh base64
+let avatarBase64 = ""
+
+
+// load data
+let teachers =
+JSON.parse(localStorage.getItem("teachers")) || []
+
+
+// chọn ảnh
+avatarFile.onchange = function(){
+
+  const file = this.files[0]
+
+  if(!file) return
+
+  const reader = new FileReader()
+
+  reader.onload = function(e){
+
+    avatarBase64 = e.target.result
+
+    preview.src = avatarBase64
+
+    preview.classList.remove("hidden")
+
+  }
+
+  reader.readAsDataURL(file)
+
+}
+
+
+// submit
+teacherForm.onsubmit = function(e){
+
+  e.preventDefault()
+
+  const teacher = {
+
+    id: teacherId.value,
+    name: name.value,
+    email: email.value,
+    phone: phone.value,
+    department: department.value,
+    role: role.value,
+    degree: degree.value,
+    status: status.value,
+    avatar: avatarBase64
+
+  }
+
+
+  teachers.push(teacher)
+
+  localStorage.setItem(
+    "teachers",
+    JSON.stringify(teachers)
+  )
+
+
+  result.innerHTML =
+  "✅ Đã tạo: " + teacher.name
+
+  result.classList.remove("hidden")
+
+
+  teacherForm.reset()
+
+  preview.classList.add("hidden")
+
+  avatarBase64 = ""
+
+
+  render()
+
+}
+
+
+// reset
+teacherForm.onreset = function(){
+
+  preview.classList.add("hidden")
+
+}
+
+
+// render list
+function render(){
+
+  teacherList.innerHTML = ""
+
+  teachers.forEach(t=>{
+
+    teacherList.innerHTML += `
+
+    <div class="flex items-center gap-3 border p-3 rounded mb-2">
+
+      <img src="${t.avatar || 'https://i.pravatar.cc/100'}"
+      class="w-12 h-12 rounded-full object-cover">
+
+      <div>
+
+        <div class="font-bold">
+        ${t.id} - ${t.name}
+        </div>
+
+        <div class="text-sm text-gray-500">
+        ${t.email}
+        </div>
+
+        <div class="text-xs">
+        ${t.role} | ${t.degree}
+        </div>
+
+      </div>
+
+    </div>
+
+    `
+
+  })
+
+}
+
+
+// load lần đầu
+render()
+
+</script> --}}
+
+
+</body>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

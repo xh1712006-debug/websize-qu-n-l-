@@ -3,10 +3,14 @@ const progressWidth = document.querySelector('.progress__width')
 const timelineList = document.querySelector('#timeline-list')
 
 function addWidth(data) {
+<<<<<<< HEAD
     if (!data) return;
     const percent = data.percent || 0;
     progressNumber.innerText = `${percent}%`
     progressWidth.innerHTML = ''
+=======
+    progressNumber.innerText = `${data.precent}%`
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
     const div = document.createElement('div')
     div.className = 'bg-blue-600 h-3 rounded-full transition-all duration-1000'
     div.style.width = `${percent}%`

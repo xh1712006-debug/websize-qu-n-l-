@@ -118,12 +118,17 @@ class reportController {
 
     async postRequirement(req, res){
         try{
+<<<<<<< HEAD:src/app/contraller/teacher/report.js
             const { reportId, studentId, feedback } = req.body 
+=======
+            const { reportId, studentId, feedback } = req.body
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/teacher/report.js
             
             const report = await report__Data.findOneAndUpdate({
                 _id: reportId,
             },{
                 status: 'đã duyệt',
+<<<<<<< HEAD:src/app/contraller/teacher/report.js
                 teacherFeedback: feedback,
             },{ new: true })
 
@@ -139,11 +144,20 @@ class reportController {
             const completedRequirements = await requirementStudentData.countDocuments({ studentId: studentId, status: 'completed' })
             
             let percent = totalRequirements > 0 ? Math.round((completedRequirements / totalRequirements) * 100) : 0
+=======
+                teacherFeedback: feedback
+            },{ new: true })
+
+            // Count approved reports (max 10) to update progress
+            const allApproved = await report__Data.find({ studentId: studentId, status: 'đã duyệt' })
+            let percent = allApproved.length * 10
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/teacher/report.js
             if(percent > 100) percent = 100
 
             await progressData.findOneAndUpdate({
                 studentId: studentId,
             },{
+<<<<<<< HEAD:src/app/contraller/teacher/report.js
                 percent: percent
             }, { upsert: true })
 
@@ -168,6 +182,12 @@ class reportController {
                 message: 'Đã duyệt báo cáo thành công',
                 isCompleted: percent === 100 
             })
+=======
+                precent: percent
+            })
+
+            return res.json({ message: 'Đã duyệt báo cáo thành công' })
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/teacher/report.js
         }
         catch(err){
             console.log(err)

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const reportRouter = require('../../app/contraller/admin/report')
+const reportRouter = require('../../app/controller/admin/report')
 
 router.use('/', reportRouter.index)
 

@@ -7,12 +7,25 @@ function listStudent(data){
     let badge = ""
     const initial = data.fullName.substring(0, 1) || 'S'
 
+<<<<<<< HEAD
     if (data.status === "pending" || !data.status) {
       badge = `<span class="px-3 py-1 text-[9px] font-black uppercase tracking-wider rounded-xl bg-amber-50 text-amber-600 border border-amber-100">Chờ duyệt</span>`
     } else if (data.status === "approved") {
       badge = `<span class="px-3 py-1 text-[9px] font-black uppercase tracking-wider rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">Đã duyệt</span>`
     } else if (data.status === "rejected") {
       badge = `<span class="px-3 py-1 text-[9px] font-black uppercase tracking-wider rounded-xl bg-slate-100 text-slate-400 border border-slate-200">Đã loại</span>`
+=======
+    if (data.status === "pending") {
+      badge = `<span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-600">Chờ duyệt</span>`
+    }
+
+    if (data.status === "approved") {
+      badge = `<span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600">Đã duyệt</span>`
+    }
+
+    if (data.status === "rejected") {
+      badge = `<span class="px-3 py-1 text-xs rounded-full bg-gray-200 text-gray-600">Đã loại</span>`
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
     }
 
     studentList.innerHTML += `
@@ -37,6 +50,14 @@ function listStudent(data){
     `
 }
 
+<<<<<<< HEAD
+=======
+
+
+// ========================
+// FETCH DATA
+// ========================
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 async function getApi(projectId){
     try{
         const res = await fetch(`/admin/project/getListViewStudent?projectId=${projectId}`)

@@ -330,6 +330,7 @@ async function handleReject(id) {
     } catch (err) { console.error(err); }
 }
 
+<<<<<<< HEAD
 async function publishSingle(id) {
     if (!confirm("Bạn có chắc muốn CÔNG BỐ kết quả này cho sinh viên?")) return;
     try {
@@ -372,3 +373,6 @@ function showLoading(show) {
 
 // Start
 document.addEventListener('DOMContentLoaded', init);
+=======
+getScoreFeedback()
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

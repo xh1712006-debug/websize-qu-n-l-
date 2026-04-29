@@ -17,13 +17,19 @@ async function getProject(){
     student(data.student)
     teacher(data.teacher)
     topicDescription.innerText = `${data.project.contentProject}`
+<<<<<<< HEAD
     numberProdress.innerText = `${data.progress.percent}%`
     widthProgress.style.width = `${data.progress.percent}%`
+=======
+    numberProdress.innerText = `${data.progress.precent}%`
+    widthProgress.style.width = `${data.progress.precent}%`
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
     numberReport.innerText = `${data.report.length}`
     const date = new Date(data.project.date).toLocaleDateString('vi-VN')
     dateText.innerText = date
     topicTechnology(data.project)
     renderTimeline(data.report)
+<<<<<<< HEAD
 
     // Hiển thị lịch bảo vệ
     if (data.project.defenseDate) {
@@ -37,6 +43,8 @@ async function getProject(){
         document.getElementById('finalResult').classList.remove('hidden');
         document.getElementById('finalScore').innerText = data.grade.finalScore || '---';
     }
+=======
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 }
 // technology
 function topicTechnology(data){
@@ -58,12 +66,16 @@ function renderTimeline(reports) {
     
     // Tạo timeline từ Tuần 1 đến Tuần 10
     for(let w = 1; w <= 10; w++) {
+<<<<<<< HEAD
         const weekReports = reports.filter(r => r.week === w)
         // Ưu tiên: đã duyệt > chờ duyệt > yêu cầu nộp lại > cái đầu tiên
         const report = weekReports.find(r => r.status === 'đã duyệt') || 
                        weekReports.find(r => r.status === 'chờ duyệt') || 
                        weekReports.find(r => r.status === 'yêu cầu nộp lại') || 
                        weekReports[0];
+=======
+        const report = reports.find(r => r.week === w)
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         
         let statusColor = 'bg-gray-200'
         let icon = '⏳'
@@ -114,7 +126,11 @@ function student(item){
         <p class="text-sm text-gray-500 mb-3">👨‍🎓 Sinh viên thực hiện</p>
         <p class="text-lg font-semibold text-gray-800">${item.fullName}</p>
         <p class="text-sm text-gray-600">MSSV: ${item.studentCode}</p>
+<<<<<<< HEAD
         <p class="text-sm text-gray-600">SĐT: ${item.studentPhone || 'N/A'}</p>
+=======
+        <p class="text-sm text-gray-600">SĐT: ${item.phone}</p>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
         <p class="text-sm text-gray-600">Email: ${item.studentEmail}</p>
     `
 }

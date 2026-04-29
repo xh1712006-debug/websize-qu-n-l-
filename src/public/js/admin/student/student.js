@@ -16,4 +16,8 @@ async function deleteStudent(studentId){
         console.error(err)
         alert('Lỗi khi thực hiện xoá.')
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

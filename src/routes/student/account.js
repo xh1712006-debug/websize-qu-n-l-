@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const accountRouter = require('../../app/contraller/student/account')
+const accountRouter = require('../../app/controller/student/account')
 
 router.get('/', accountRouter.index)
 router.get('/data', accountRouter.getAccount)

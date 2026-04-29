@@ -1,4 +1,4 @@
-// filepath: d:\hoc_html\on_html\project2\src\app\contraller\student\report.js
+// filepath: d:\hoc_html\on_html\project2\src\app\controller\student\report.js
 const Content = require('../../models/report')
 const multer = require('multer')
 const path = require('path')
@@ -20,6 +20,7 @@ const upload = multer({ storage: storage })
 class reportController {
     async index(req, res) {
         try {
+<<<<<<< HEAD:src/app/contraller/student/report.js
             const studentId = req.session.student
             if (!studentId) {
                 return res.redirect('/accounts/singger')
@@ -61,6 +62,21 @@ class reportController {
             // Fetch progress for completion status
             const progress = await progressData.findOne({ studentId: studentId })
             const isFinished = progress && progress.percent === 100
+=======
+            if (!req.session.student) {
+                return res.redirect('/loggin')
+            }
+            let data = await Content.find({ studentId: req.session.student })
+            data = data.map(item => item.toObject())
+
+            // Tính toán số tuần
+            const approvedReports = data.filter(r => r.status === 'đã duyệt')
+            let currentWeek = approvedReports.length + 1
+            if (currentWeek > 10) currentWeek = 10;
+
+            const hasPending = data.some(r => r.status === 'chờ duyệt')
+            const canSubmit = !hasPending
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/report.js
 
             res.render('student/report', {
                 layout: 'base',
@@ -68,11 +84,15 @@ class reportController {
                 active: 'report',
                 figure: 'student',
                 currentWeek: currentWeek,
+<<<<<<< HEAD:src/app/contraller/student/report.js
                 weekLabel: weekLabel,
                 requirementId: targetRequirement ? targetRequirement._id : null,
                 canSubmit: canSubmit,
                 isFinished: isFinished,
                 percent: progress ? progress.percent : 0
+=======
+                canSubmit: canSubmit
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/report.js
             })
         } catch (err) {
             console.error('Report Index Error:', err)
@@ -118,11 +138,18 @@ class reportController {
                 teacherId: teacherId,
                 requirementId: requirementId || null,
                 status: 'chờ duyệt',
+<<<<<<< HEAD:src/app/contraller/student/report.js
                 fileUrl: req.file ? req.file.filename : null,
                 externalLink: externalLink || null,
                 title: title,
                 content: content,
                 week: Number(week),
+=======
+                fileUrl: req.file.filename,
+                title: `Báo cáo Tuần ${req.body.week}`,
+                content: req.body.content,
+                week: Number(req.body.week),
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/report.js
             })
             await createReport.save()
 

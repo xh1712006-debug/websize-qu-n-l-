@@ -13,7 +13,7 @@ class DashboardController{
     async index(req,res) {
         try {
             if(!req.session.student) {
-                return res.redirect('/accounts/singger')
+                return res.redirect('/loggin')
             }
             
             
@@ -58,6 +58,7 @@ class DashboardController{
                 } else if (student.teacherId) {
                     req.session.teacherId = student.teacherId
                 }
+<<<<<<< HEAD:src/app/contraller/student/dashboard.js
                 
                 // [NEW] Lấy danh sách nhiệm vụ sắp tới thực tế
                 const upcomingTasks = requirements.map(req => {
@@ -73,6 +74,38 @@ class DashboardController{
                         else if (daysLeft <= 5) statusColor = 'amber'
                         else statusColor = 'indigo'
                     }
+=======
+                const conversation =await conversationData.findOne({
+                    studentId: studentId,
+                })
+                const teacher = await teacherData.findById(student.teacherId)
+                const project = await contentProject.findById(student.projectId)
+                const progress = await progressData.findOne({
+                    studentId: studentId,
+                })
+                const report = await reportData.find({
+                    studentId: studentId,
+                })
+                console.log('conversation', conversation)
+                const feedback = await feedbackData.find({
+                    conversationId: conversation._id,
+                    // status: 'false',
+                })
+                let feedbackRead = {}
+                if(feedback.length > 0) {
+                    feedbackRead = await feedbackData.findOne({
+                        conversationId: conversation._id,
+                    }).sort({ createdAt: -1 })
+                }
+                
+                const date = new Date(project.createdAt).toLocaleDateString('vi-VN')
+                const week = getWeekFromCreatedAt(project.createdAt)
+                const day = getRemainingDaysInWeek(project.createdAt)
+                console.log('feedback: ', feedback)
+                console.log('feedbackRead: ', feedbackRead)
+                console.log('week: ', week)
+                console.log('day: ', day)
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/dashboard.js
 
                     return {
                         name: req.name,

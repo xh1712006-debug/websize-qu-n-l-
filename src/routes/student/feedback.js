@@ -1,7 +1,7 @@
 // ...existing code...
 const express = require('express')
 const router = express.Router()
-const feedbackRouter = require('../../app/contraller/student/feedback')
+const feedbackRouter = require('../../app/controller/student/feedback')
 
 // Use :id param so req.params.id is populated for DELETE
 // router.delete('/:id', feedbackRouter.deleteFeedback)

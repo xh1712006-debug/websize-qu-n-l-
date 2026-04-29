@@ -150,6 +150,71 @@
         </main>
     </div>
 
+<<<<<<< HEAD
+=======
+    <!-- MENU -->
+    <nav class="mt-4 px-2">
+      <ul class="space-y-1 text-sm">
+
+        {{#if hasProject}}
+        <li>
+          <a href="/student/dashboard" class="menu {{#if (eq active 'dashboard')}} active {{/if}} ">
+            🏠 <span class="ml-3 sidebar-text">Dashboard</span>
+          </a>
+        </li>
+        {{/if}}
+
+        <li>
+          {{#if hasProject}}
+            <a href="/student/project" class="menu {{#if (eq active 'project')}} active {{/if}}">
+              📘 <span class="ml-3 sidebar-text">Đồ án của tôi</span>
+            </a>
+          {{else}}
+            <a href="/student/addproject" class="menu {{#if (eq active 'addproject')}} active {{/if}}">
+              📘 <span class="ml-3 sidebar-text">Đăng ký đồ án</span>
+            </a>
+          {{/if}}
+        </li>
+
+        {{#if hasProject}}
+        <li>
+          <a href="/student/report" class="menu {{#if (eq active 'report')}} active {{/if}} ">
+            📤 <span class="ml-3 sidebar-text">Nộp báo cáo</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/student/feedback" class="menu {{#if (eq active 'feedback')}} active {{/if}} ">
+            💬 <span class="ml-3 sidebar-text">Phản hồi</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/student/score" class="menu {{#if (eq active 'score')}} active {{/if}} ">
+            📊 <span class="ml-3 sidebar-text">Kết quả</span>
+          </a>
+        </li>
+        {{/if}}
+
+        <li class="border-t border-blue-600 mt-3 pt-2">
+          <a href="/student/account" class="menu {{#if (eq active 'account')}} active {{/if}} ">
+            👤 <span class="ml-3 sidebar-text">Tài khoản</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main id="content"
+    class="flex-1 overflow-y-auto p-6 transition-all duration-300">
+
+    {{{body}}}
+
+  </main>
+
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 </div>
 
 <script>

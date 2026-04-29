@@ -50,10 +50,16 @@ const dashboardSchema = new schema({
         type: 'String',
         default: 'active'
     },
+<<<<<<< HEAD
     isMicrosoft: {
         type: Boolean,
         default: false
     }
+=======
+    password: {
+        type: 'String'
+    },
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 
 }, {
     timestamps: true,

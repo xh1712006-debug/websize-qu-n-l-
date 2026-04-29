@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="animate-in pb-20">
     <!-- PAGE HEADER -->
     <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -245,3 +246,75 @@
         to { opacity: 1; transform: translateY(0); }
     }
 </style>
+=======
+<div class="bg-white rounded-xl shadow-lg p-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-4 flex items-center">
+        📝 Yêu cầu đăng ký đồ án
+    </h2>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-100 text-gray-700">
+                    <th class="p-4 border-b font-semibold">Tên Sinh viên</th>
+                    <th class="p-4 border-b font-semibold">Mã SV</th>
+                    <th class="p-4 border-b font-semibold">Tên Đề tài yêu cầu</th>
+                    <th class="p-4 border-b font-semibold">Ngày Đăng ký</th>
+                    <th class="p-4 border-b font-semibold text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each requests}}
+                <tr class="hover:bg-gray-50 border-b">
+                    <td class="p-4">{{this.studentName}}</td>
+                    <td class="p-4">{{this.studentCode}}</td>
+                    <td class="p-4 font-medium text-blue-600">{{this.projectName}}</td>
+                    <td class="p-4">{{this.date}}</td>
+                    <td class="p-4 text-center space-x-2">
+                        <a href="/teacher/request/approve/{{this.projectId}}" class="inline-block bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded shadow text-sm font-semibold transition">
+                            ✅ Chấp nhận
+                        </a>
+                        <button onclick="rejectRequest('{{this.projectId}}')" class="inline-block bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded shadow text-sm font-semibold transition">
+                            ❌ Từ chối
+                        </button>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="5" class="p-6 text-center text-gray-500">
+                        Chưa có sinh viên nào đăng ký đồ án với bạn.
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+async function rejectRequest(projectId) {
+    if(!confirm("Bạn có chắc chắn muốn TỪ CHỐI đề tài này không? Sinh viên sẽ phải đăng ký lại.")) return;
+
+    try {
+        const response = await fetch('/teacher/request/reject', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ projectId })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(data.message);
+            window.location.reload();
+        } else {
+            alert(data.message);
+        }
+    } catch(err) {
+        console.error(err);
+        alert('Lỗi khi từ chối!');
+    }
+}
+</script>
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26

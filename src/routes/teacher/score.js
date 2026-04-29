@@ -1,7 +1,11 @@
 const express = require('express')
 const router = express.Router()
+<<<<<<< HEAD
 const councilController = require('../../app/contraller/teacher/score')
 const { checkGradeLock } = require('../../app/middleware/auth')
+=======
+const scoreRouter = require('../../app/controller/teacher/score')
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 
 router.get('/', councilController.index)
 router.get('/list', councilController.index) // Alias for main list

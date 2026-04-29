@@ -1,12 +1,16 @@
 const content_teacher = require('../../models/teacher')
 const content_project = require('../../models/project')
 const content_student = require('../../models/student')
+<<<<<<< HEAD:src/app/contraller/student/addproject.js
 const content_period = require('../../models/period')
+=======
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/addproject.js
 
 class addprojectController {
     async index(req, res) {
         try {
             if(!req.session.student){
+<<<<<<< HEAD:src/app/contraller/student/addproject.js
                 return res.redirect('/accounts/singger')
             }
             
@@ -78,6 +82,28 @@ class addprojectController {
             })
         } catch(err) {
             console.error(err)
+=======
+                return res.redirect('/loggin')
+            }
+            
+            const studentId = req.session.student
+            const student = await content_student.findById(studentId)
+
+            // Fetch list of teachers
+            let data_teacher = await content_teacher.find()
+            data_teacher = data_teacher.map(item => item.toObject())
+            
+            res.render('student/addproject', {
+                layout: 'student/main',
+                active: 'addproject',
+                figure: 'student',
+                data_teacher: data_teacher,
+                user: req.session.user,
+                studentInfo: student.toObject()
+            })
+        } catch(err) {
+            console.log(err)
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/addproject.js
             res.status(500).send('Lỗi server')
         }
     }
@@ -88,15 +114,24 @@ class addprojectController {
                 return res.json({ success: false, message: 'Chưa đăng nhập' })
             }
             
+<<<<<<< HEAD:src/app/contraller/student/addproject.js
             const { teacherId, projectName, objective, scope, technology, expectedOutcome } = req.body
 
             if (!teacherId || !projectName || !objective || !scope || !technology) {
                  return res.json({ success: false, message: 'Vui lòng hoàn thành đầy đủ các bước đăng ký!' })
+=======
+            const teacherId = req.body.teacherId
+            const projectName = req.body.projectName
+
+            if (!teacherId || !projectName) {
+                 return res.json({ success: false, message: 'Thiếu thông tin đăng ký' })
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/addproject.js
             }
 
             const studentId = req.session.student
             const student = await content_student.findById(studentId)
 
+<<<<<<< HEAD:src/app/contraller/student/addproject.js
             // Chặn tuyệt đối nếu sinh viên đã có trạng thái (đang trong quy trình)
             if (student.status && student.status !== 'rejected') {
                  return res.json({ success: false, message: 'Bạn đang trong quy trình xử lý đồ án, không thể thực hiện đăng ký mới!' })
@@ -118,11 +153,19 @@ class addprojectController {
             if (!teacher || teacher.teacherMajor !== student.studentMajor || !teacher.subRoles.isGVHD) {
                 return res.json({ success: false, message: 'Giảng viên không hợp lệ cho chuyên ngành của bạn!' })
             }
+=======
+            if (student.status === 'pending') {
+                 return res.json({ success: false, message: 'Bạn đã đăng ký trước đó rồi, vui lòng chờ duyệt!' })
+            }
+
+            const teacher = await content_teacher.findById(teacherId)
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/addproject.js
 
             const newProjectRequest = new content_project({
                 teacherId: teacherId,
                 studentId: studentId,
                 inputProject: projectName,
+<<<<<<< HEAD:src/app/contraller/student/addproject.js
                 objective: objective,
                 scope: scope,
                 expectedOutcome: expectedOutcome,
@@ -132,6 +175,10 @@ class addprojectController {
                 statuss: 'active',
                 status: 'REGISTERED',
                 teacherFeedbackId: teacherId, 
+=======
+                statuss: 'request',
+                teacherFeedbackId: teacherId,
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/addproject.js
                 teacherFeedbackName: teacher.fullName
             })
 
@@ -142,6 +189,7 @@ class addprojectController {
             student.teacherId = teacherId
             await student.save()
 
+<<<<<<< HEAD:src/app/contraller/student/addproject.js
             return res.json({ success: true, message: 'Đề xuất đồ án đã được gửi thành công!' })
 
         } catch (err) {
@@ -173,6 +221,15 @@ class addprojectController {
         }
     }
 
+=======
+            return res.json({ success: true, message: 'Gửi yêu cầu thành công' })
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ success: false, message: 'Lỗi server' })
+        }
+    }
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26:src/app/controller/student/addproject.js
 }
 
 module.exports = new addprojectController

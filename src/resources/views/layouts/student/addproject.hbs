@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="max-w-5xl mx-auto py-8 px-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
     
     <!-- HEADER AREA -->
@@ -478,4 +479,80 @@
             alert("Lỗi hệ thống!");
         }
     }
+=======
+<div class="max-w-4xl mx-auto mt-10">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">
+            📝 Đăng ký đề tài Đồ án tốt nghiệp
+        </h2>
+        
+        {{#if (eq studentInfo.status 'pending')}}
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
+            <p class="font-bold">Đang chờ duyệt!</p>
+            <p>Bạn đã gửi yêu cầu đồ án thành công. Vui lòng chờ giáo viên xem xét và thao tác.</p>
+        </div>
+        {{else}}
+        <form id="addProjectForm" class="space-y-6">
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Sinh viên thực hiện</label>
+                <input type="text" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-3" value="{{user.fullName}}" disabled>
+            </div>
+
+            <div>
+                <label for="teacherId" class="block text-gray-700 font-semibold mb-2">Chọn Giảng viên hướng dẫn <span class="text-red-500">*</span></label>
+                <select id="teacherId" name="teacherId" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <option value="" disabled selected>-- Chọn giảng viên --</option>
+                    {{#each data_teacher}}
+                    <option value="{{this._id}}">{{this.fullName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div>
+                <label for="projectName" class="block text-gray-700 font-semibold mb-2">Tên Đồ án mong muốn <span class="text-red-500">*</span></label>
+                <input type="text" id="projectName" name="projectName" placeholder="Nhập tên đồ án bạn muốn thực hiện..." class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div class="pt-4">
+                <button type="button" onclick="submitProjectRequest()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+                    Gửi yêu cầu đăng ký
+                </button>
+            </div>
+        </form>
+        {{/if}}
+    </div>
+</div>
+
+<script>
+async function submitProjectRequest() {
+    const teacherId = document.getElementById('teacherId').value;
+    const projectName = document.getElementById('projectName').value;
+
+    if (!teacherId || !projectName) {
+        alert("Vui lòng điền đầy đủ thông tin (Giáo viên và Tên đồ án)!");
+        return;
+    }
+
+    try {
+        const response = await fetch('/student/addproject', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ teacherId, projectName })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            alert("Gửi yêu cầu thành công! Vui lòng chờ giáo viên duyệt.");
+            window.location.reload();
+        } else {
+            alert(data.message || "Có lỗi xảy ra!");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Lỗi kết nối server!");
+    }
+}
+>>>>>>> a9878b857c2378f0d32ffa064e7ca4ddfdddac26
 </script>
