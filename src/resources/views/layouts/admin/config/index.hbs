@@ -1,0 +1,211 @@
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700 pb-10">
+
+    <!-- PAGE HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Cấu hình Hệ thống</h1>
+            <p class="text-slate-500 font-medium mt-1">Điều chỉnh tham số vận hành và công cụ khôi phục dữ liệu</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- LEFT: SYSTEM PARAMETERS -->
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full -mr-32 -mt-32 opacity-50"></div>
+                
+                <h3 class="text-lg font-black text-slate-900 mb-8 flex items-center gap-3 relative z-10">
+                    <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span>
+                    Tham số Vận hành
+                </h3>
+
+                <form id="form-config" class="space-y-6 relative z-10">
+                    {{#each configs}}
+                    <div class="flex items-center justify-between p-6 bg-slate-50 rounded-[2rem] border border-transparent hover:border-blue-100 transition-all">
+                        <div>
+                            <p class="text-sm font-black text-slate-900 tracking-tight uppercase">{{this.key}}</p>
+                            <p class="text-[10px] font-bold text-slate-400 mt-0.5">Giá trị hiện tại: <span class="text-blue-600">{{this.value}}</span></p>
+                        </div>
+                        <input type="text" name="{{this.key}}" value="{{this.value}}"
+                            class="w-32 p-3 bg-white border-2 border-slate-100 focus:border-blue-500 rounded-xl outline-none text-center font-bold text-slate-700 transition-all">
+                    </div>
+                    {{/each}}
+
+                    <div class="pt-4 text-right">
+                        <button type="submit" class="px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all">
+                            CẬP NHẬT THAM SỐ
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- GLOBAL DEFENSE SCHEDULE -->
+            <div class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
+                <h3 class="text-lg font-black text-slate-900 mb-8 flex items-center gap-3">
+                    <span class="w-1.5 h-6 bg-emerald-500 rounded-full"></span>
+                    Lịch bảo vệ Tập trung
+                </h3>
+                <p class="text-sm text-slate-500 mb-6">Cập nhật lịch cho các đồ án đang ở trạng thái 'Bảo vệ'. Thao tác này sẽ gửi thông báo đến sinh viên tương ứng.</p>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">
+                                <th class="pb-4">Đồ án / Sinh viên</th>
+                                <th class="pb-4">Phòng - Ngày - Giờ</th>
+                                <th class="pb-4 text-right">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="global-schedule-body" class="divide-y divide-slate-50">
+                            <!-- Loaded via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: TOOLS & SAFETY -->
+        <div class="space-y-8">
+            
+            <!-- UNLOCK GRADE TOOL -->
+            <div class="bg-gradient-to-br from-amber-500 to-orange-600 p-8 rounded-[3rem] text-white shadow-xl shadow-amber-100 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform"></div>
+                
+                <h3 class="text-xl font-black tracking-tight flex items-center gap-3">
+                    🔓 Mở khóa Điểm
+                </h3>
+                <p class="text-amber-100 text-xs font-medium mt-2 leading-relaxed opacity-90">
+                    Sử dụng khi Hội đồng đã chốt điểm nhưng cần chỉnh sửa gấp (do sai sót hoặc phúc khảo).
+                </p>
+
+                <div class="mt-8 space-y-4">
+                    <input type="text" id="unlock-stu-code" placeholder="Mã số Sinh viên..." 
+                        class="w-full p-4 bg-white/10 border border-white/20 focus:bg-white focus:text-slate-900 rounded-2xl outline-none placeholder:text-white/50 font-bold transition-all">
+                    <textarea id="unlock-reason" placeholder="Lý do mở khóa..." rows="2"
+                        class="w-full p-4 bg-white/10 border border-white/20 focus:bg-white focus:text-slate-900 rounded-2xl outline-none placeholder:text-white/50 font-bold transition-all text-xs"></textarea>
+                    
+                    <button onclick="unlockGrade()" class="w-full py-4 bg-white text-orange-600 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg hover:shadow-2xl transition-all active:scale-95">
+                        THỰC HIỆN MỞ KHÓA
+                    </button>
+                </div>
+            </div>
+
+            <!-- SYSTEM STATUS -->
+            <div class="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm">
+                <h3 class="text-sm font-black text-slate-900 mb-6 uppercase tracking-widest">Trạng thái Hệ thống</h3>
+                <div id="system-stats" class="space-y-4">
+                    <!-- Progress bars -->
+                    <div>
+                        <div class="flex justify-between text-[10px] font-black mb-1.5 uppercase text-slate-400">
+                            <span>Sẵn sàng bảo vệ</span>
+                            <span id="ready-perc">0%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div id="ready-bar" class="h-full bg-emerald-500 w-0 transition-all duration-1000"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // System Params
+    document.getElementById('form-config').onsubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const configs = [];
+        formData.forEach((value, key) => configs.push({ key, value }));
+        
+        const res = await fetch('/admin/config/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ configs })
+        });
+        const result = await res.json();
+        alert(result.message);
+    };
+
+    // Unlock Grade
+    async function unlockGrade() {
+        const studentId = document.getElementById('unlock-stu-code').value;
+        const reason = document.getElementById('unlock-reason').value;
+        if (!studentId || !reason) return alert('Vui lòng nhập đầy đủ Mã SV và Lý do!');
+
+        if (!confirm('Hành động này sẽ mở khóa điểm cho sinh viên. Tiếp tục?')) return;
+
+        const res = await fetch('/admin/config/unlockPoint', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ studentId, reason })
+        });
+        const result = await res.json();
+        alert(result.message);
+        if (result.success) {
+            document.getElementById('unlock-stu-code').value = '';
+            document.getElementById('unlock-reason').value = '';
+        }
+    }
+
+    // Defense Schedule
+    async function fetchSchedules() {
+        const res = await fetch('/admin/config/getGlobalProjects');
+        const data = await res.json();
+        const body = document.getElementById('global-schedule-body');
+        body.innerHTML = '';
+        data.forEach(p => {
+            const row = document.createElement('tr');
+            row.innerHTML = \`
+                <td class="py-4">
+                    <p class="font-bold text-slate-900 text-sm italic">\${p.projectName}</p>
+                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-tighter mt-1">\${p.fullName} - \${p.studentCode}</p>
+                </td>
+                <td class="py-4">
+                    <div class="flex gap-2">
+                        <input type="text" id="room-\${p.projectId}" value="\${p.defenseRoom || ''}" placeholder="Phòng" class="w-16 p-2 bg-slate-50 border rounded-lg text-xs font-bold">
+                        <input type="date" id="date-\${p.projectId}" value="\${p.defenseDate ? p.defenseDate.substring(0,10) : ''}" class="p-2 bg-slate-50 border rounded-lg text-xs font-bold">
+                        <input type="time" id="time-\${p.projectId}" value="\${p.defenseTime || ''}" class="p-2 bg-slate-50 border rounded-lg text-xs font-bold">
+                    </div>
+                </td>
+                <td class="py-4 text-right">
+                    <button onclick="updateSchedule('\${p.projectId}')" class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all active:scale-90">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </button>
+                </td>
+            \`;
+            body.appendChild(row);
+        });
+    }
+
+    async function updateSchedule(projectId) {
+        const data = {
+            projectId,
+            defenseRoom: document.getElementById(\`room-\${projectId}\`).value,
+            defenseDate: document.getElementById(\`date-\${projectId}\`).value,
+            defenseTime: document.getElementById(\`time-\${projectId}\`).value
+        };
+        const res = await fetch('/admin/config/updateGlobalSchedule', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (result.success) alert('Cập nhật lịch thành công!');
+    }
+
+    // Stats
+    async function updateStats() {
+        const res = await fetch('/admin/config/getStats');
+        const stats = await res.json();
+        const readyPerc = Math.round((stats.completedGrades / stats.totalStudents) * 100) || 0;
+        document.getElementById('ready-perc').innerText = \`\${readyPerc}%\`;
+        document.getElementById('ready-bar').style.width = \`\${readyPerc}%\`;
+    }
+
+    fetchSchedules();
+    updateStats();
+</script>

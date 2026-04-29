@@ -1,0 +1,129 @@
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700 pb-20">
+
+    <!-- PAGE HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 bg-emerald-600 rounded-3xl flex items-center justify-center text-3xl shadow-xl shadow-emerald-100">
+                📊
+            </div>
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight text-uppercase">Tổng kết & Duyệt điểm</h1>
+                <p class="text-slate-500 font-medium mt-1 uppercase text-[10px] tracking-widest">Trung tâm điều hành kết quả bảo vệ chuyên ngành</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <div class="px-5 py-3 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Trạng thái hệ thống: Đang tổng hợp</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS OVERVIEW -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm transition-all hover:shadow-xl group">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Tổng số Hội đồng</p>
+            <div class="flex items-end gap-3">
+                <span class="text-4xl font-black text-slate-900 leading-none">{{councils.length}}</span>
+                <span class="text-xs font-bold text-slate-400 mb-1">HĐ</span>
+            </div>
+        </div>
+        
+        <!-- Additional stats can be derived from the 'councils' data in a more advanced version -->
+    </div>
+
+    <!-- MAIN CONTENT: COUNCIL CARDS -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        {{#each councils}}
+        <div class="relative bg-white rounded-[3.5rem] shadow-sm border border-slate-100 overflow-hidden group hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 flex flex-col">
+            <!-- Background Decorative element -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 group-hover:bg-emerald-50 transition-colors duration-500"></div>
+            
+            <div class="p-10 flex-grow">
+                <div class="flex justify-between items-start mb-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center text-xl font-black shadow-lg">
+                            {{substring councilName 0 1}}
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-slate-900 leading-none uppercase tracking-tighter">{{councilName}}</h3>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="px-2 py-0.5 bg-slate-100 text-[8px] font-black text-slate-500 rounded-md uppercase tracking-widest">Phòng: {{room}}</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+                                <span class="text-[9px] font-bold text-slate-400 italic">Sĩ số: {{totalProjects}} sinh viên</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-badge">
+                        {{#if (eq gradingStatus 'approved')}}
+                            <span class="px-4 py-1.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full text-[9px] font-black uppercase tracking-widest">Sẵn sàng xuất điểm</span>
+                        {{else if (eq gradingStatus 'submitted')}}
+                            <span class="px-4 py-1.5 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full text-[9px] font-black uppercase tracking-widest">Chờ Admin duyệt</span>
+                        {{else}}
+                            <span class="px-4 py-1.5 bg-amber-50 text-amber-600 border border-amber-100 rounded-full text-[9px] font-black uppercase tracking-widest">Đang chấm điểm</span>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <!-- PROGRESS BAR -->
+                <div class="space-y-3 mb-8">
+                    <div class="flex justify-between items-end">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Tiến độ chấm hội đồng</span>
+                        <span class="text-sm font-black text-slate-900">{{progress}}%</span>
+                    </div>
+                    <div class="h-4 w-full bg-slate-50 rounded-full overflow-hidden p-1 border border-slate-100 shadow-inner">
+                        <div class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r {{#if (eq progress 100)}} from-emerald-500 to-teal-400 {{else}} from-indigo-500 to-blue-400 {{/if}}" style="width: {{progress}}%"></div>
+                    </div>
+                    <p class="text-[9px] font-bold text-slate-400 italic mt-1">Đã chấm: {{gradedProjects}} / {{totalProjects}} sinh viên</p>
+                </div>
+
+                <!-- MEMBERS PREVIEW -->
+                <div class="flex items-center -space-x-3 mb-8">
+                    <div class="w-8 h-8 rounded-full bg-indigo-600 border-2 border-white flex items-center justify-center text-[10px] font-black text-white shadow-sm" title="Chủ tịch: {{chairmanId.fullName}}">{{substring chairmanId.fullName 0 1}}</div>
+                    <div class="w-8 h-8 rounded-full bg-purple-500 border-2 border-white flex items-center justify-center text-[10px] font-black text-white shadow-sm" title="Thư ký: {{secretaryId.fullName}}">{{substring secretaryId.fullName 0 1}}</div>
+                    {{#each memberIds}}
+                        <div class="w-8 h-8 rounded-full bg-slate-300 border-2 border-white flex items-center justify-center text-[10px] font-black text-white shadow-sm" title="Ủy viên: {{this.fullName}}">{{substring this.fullName 0 1}}</div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <!-- ACTION FOOTER -->
+            <div class="p-8 pt-0 mt-auto">
+                <a href="/teacher/leader/councils" class="w-full py-5 bg-slate-50 border border-slate-100 text-slate-900 rounded-[2rem] font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-slate-900 hover:text-white hover:shadow-xl transition-all duration-300">
+                    Quản lý Chi tiết Bảng điểm
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    <!-- INFO BOX -->
+    <div class="bg-indigo-900 rounded-[3.5rem] p-12 text-white shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -mr-40 -mt-40 blur-3xl"></div>
+        <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
+            <div class="w-24 h-24 bg-white/10 rounded-3xl flex items-center justify-center text-4xl backdrop-blur-md">🛡️</div>
+            <div class="flex-1 space-y-4">
+                <h4 class="text-2xl font-black tracking-tight leading-none uppercase">Lưu ý chuyên môn cho Lãnh đạo</h4>
+                <p class="text-indigo-100 font-medium leading-relaxed opacity-80">Chỉ thực hiện việc <b>'Gửi lên Admin'</b> sau khi hội đồng đã hoàn tất 100% việc chấm điểm và không còn sai sót trong biên bản bảo vệ. Sau khi gửi, bảng điểm sẽ bị khóa đối với Bộ môn để đảm bảo tính minh bạch.</p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-300">
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                        Tính chính xác
+                    </div>
+                    <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-300">
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                        Tính bảo mật
+                    </div>
+                    <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-300">
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                        Trách nhiệm đạo đức
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

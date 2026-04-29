@@ -1,0 +1,210 @@
+<div class="fixed inset-0 flex flex-col md:flex-row bg-white overflow-hidden">
+    
+    <!-- LEFT SIDE: HERO & BRANDING -->
+    <div class="hidden md:flex relative w-1/2 h-full bg-slate-900 items-center justify-center p-20">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0 scale-105 animate-pulse-slow">
+            <img src="/img/humg_bg.png" class="w-full h-full object-cover opacity-40 shadow-2xl" alt="HUMG Campus">
+            <div class="absolute inset-0 bg-gradient-to-tr from-blue-950 via-slate-900/60 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 w-full max-w-xl">
+            <div class="w-24 h-24 bg-white rounded-[2rem] p-4 shadow-2xl mb-10 flex items-center justify-center border border-white/20">
+                <img src="/img/logo_humg.png" class="w-full h-auto" alt="HUMG Logo">
+            </div>
+            
+            <h2 class="text-6xl font-black text-white leading-tight mb-8 tracking-tighter">
+                Hành trình <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">Tri thức vươn xa</span>
+            </h2>
+            
+            <p class="text-slate-400 text-xl font-medium leading-relaxed max-w-md">
+                Chào mừng bạn đến với Hệ thống Quản lý Đồ án Tốt nghiệp - Khoa Công nghệ Thông tin, Đại học Mỏ - Địa chất.
+            </p>
+
+            <div class="mt-16 flex items-center gap-6">
+                <div class="flex -space-x-4">
+                    <div class="w-12 h-12 rounded-full border-4 border-slate-900 bg-blue-500 flex items-center justify-center text-white font-bold text-xs shadow-lg">SV</div>
+                    <div class="w-12 h-12 rounded-full border-4 border-slate-900 bg-emerald-500 flex items-center justify-center text-white font-bold text-xs shadow-lg">GV</div>
+                    <div class="w-12 h-12 rounded-full border-4 border-slate-900 bg-indigo-500 flex items-center justify-center text-white font-bold text-xs shadow-lg">AD</div>
+                </div>
+                <p class="text-slate-500 text-sm font-bold uppercase tracking-widest">+10,000 Người dùng hệ thống</p>
+            </div>
+        </div>
+
+        <!-- Decorative elements -->
+        <div class="absolute bottom-10 left-10 text-[10px] font-black text-slate-700 uppercase tracking-[0.5em] vertical-text opacity-20 hidden lg:block">TRADITION • INNOVATION • EXCELLENCE</div>
+    </div>
+
+    <!-- RIGHT SIDE: LOGIN FORM -->
+    <div class="w-full md:w-1/2 h-full flex flex-col items-center justify-center p-8 md:p-20 bg-slate-50/30 overflow-y-auto hide-scrollbar">
+        
+        <div class="w-full max-w-[420px] animate-in fade-in slide-in-from-right-10 duration-1000">
+            <!-- Mobile Logo -->
+            <div class="md:hidden flex flex-col items-center mb-10">
+                <img src="/img/logo_humg.png" class="w-16 h-16 mb-4" alt="HUMG Logo">
+                <h1 class="text-xl font-black text-slate-900 uppercase">HUMG - CNTT</h1>
+            </div>
+
+            <div class="mb-10">
+                <h3 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Đăng nhập tài khoản</h3>
+                <p class="text-slate-500 font-medium">Truy cập vào hệ thống đồ án và tiến độ học tập</p>
+            </div>
+
+            <!-- ROLE TABS -->
+            <div class="flex p-1.5 bg-slate-200/50 rounded-2xl mb-8 relative">
+                <button onclick="setRole('student', this)" class="role-btn flex-1 py-3 text-xs font-black uppercase tracking-wider relative z-10 transition-all duration-300 text-blue-600 bg-white shadow-sm rounded-xl">
+                    Sinh viên
+                </button>
+                <button onclick="setRole('teacher', this)" class="role-btn flex-1 py-3 text-xs font-black uppercase tracking-wider relative z-10 transition-all duration-300 text-slate-500 hover:text-slate-700">
+                    Giảng viên
+                </button>
+                <button onclick="setRole('admin', this)" class="role-btn flex-1 py-3 text-xs font-black uppercase tracking-wider relative z-10 transition-all duration-300 text-slate-500 hover:text-slate-700">
+                    Quản trị
+                </button>
+            </div>
+
+            <form id="loginForm" class="space-y-6">
+                <input type="hidden" id="role" name="role" value="student">
+                
+                <div class="space-y-2 group">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email trường cấp / Tài khoản</label>
+                    <div class="relative">
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-all">
+                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206"></path></svg>
+                        </span>
+                        <input type="text" id="email" required placeholder="example@humg.edu.vn"
+                            class="w-full pl-14 pr-6 py-4.5 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 focus:outline-none transition-all duration-300 shadow-sm font-bold text-slate-700 text-sm">
+                    </div>
+                </div>
+
+                <div class="space-y-2 group">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mật khẩu bảo mật</label>
+                    <div class="relative">
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </span>
+                        <input type="password" id="password" required placeholder="••••••••"
+                            class="w-full pl-14 pr-6 py-4.5 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 focus:outline-none transition-all duration-300 shadow-sm font-bold text-slate-700 text-sm">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pb-2">
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-610 focus:ring-blue-500">
+                        <span class="text-xs font-bold text-slate-500 group-hover:text-slate-700">Duy trì đăng nhập</span>
+                    </label>
+                    <a href="#" class="text-xs font-bold text-blue-600 hover:underline">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" id="submitBtn"
+                    class="w-full py-5 bg-slate-900 border border-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-slate-200 hover:bg-white hover:text-slate-900 transition-all duration-500 overflow-hidden relative">
+                    <span class="relative z-10 flex items-center justify-center gap-3">
+                        Xác nhận danh tính
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 7l5 5-5 5"></path></svg>
+                    </span>
+                </button>
+            </form>
+
+            <!-- EXTERNAL AUTH -->
+            <div class="relative flex items-center py-10">
+                <div class="flex-grow border-t border-slate-100"></div>
+                <span class="flex-shrink mx-6 text-[9px] font-black text-slate-300 uppercase tracking-[0.3em]">Hệ thống định danh</span>
+                <div class="flex-grow border-t border-slate-100"></div>
+            </div>
+
+            <a href="/api/auth/microsoft" class="group flex items-center justify-center gap-4 py-4 px-6 bg-white border border-slate-200 rounded-2xl hover:border-blue-200 hover:bg-blue-50/50 transition-all duration-300">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-5 h-5 grayscale group-hover:grayscale-0 transition-all duration-500" />
+                <span class="text-xs font-black text-slate-600 uppercase tracking-widest">Office 365 HUMG</span>
+            </a>
+
+            <!-- ERROR TOAST (Custom) -->
+            <div id="errorBox" class="hidden mt-8 p-4 bg-rose-50 border-l-4 border-rose-500 rounded-xl animate-in fade-in slide-in-from-top-4">
+                <div class="flex items-center gap-3 px-1">
+                    <span class="text-rose-500 text-xl font-bold">⚠️</span>
+                    <p id="errorText" class="text-xs font-bold text-rose-600"></p>
+                </div>
+            </div>
+
+            <p class="mt-12 text-center text-[10px] font-black text-slate-300 uppercase tracking-widest">
+                Support: it-support@humg.edu.vn &bull; V1.5.0
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .animate-pulse-slow {
+        animation: pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1.05); }
+        50% { transform: scale(1); }
+    }
+    .vertical-text {
+        writing-mode: vertical-rl;
+    }
+    .py-4.5 { padding-top: 1.125rem; padding-bottom: 1.125rem; }
+</style>
+
+<script>
+    function setRole(role, btn) {
+        document.getElementById('role').value = role;
+        
+        const buttons = document.querySelectorAll('.role-btn');
+        buttons.forEach(b => {
+            b.classList.remove('text-blue-600', 'bg-white', 'shadow-sm', 'rounded-xl');
+            b.classList.add('text-slate-500', 'hover:text-slate-700');
+        });
+
+        if (btn) {
+            btn.classList.add('text-blue-600', 'bg-white', 'shadow-sm', 'rounded-xl');
+            btn.classList.remove('text-slate-500', 'hover:text-slate-700');
+        } else {
+            // If called programmatically without btn reference
+            const targetBtn = Array.from(buttons).find(b => b.textContent.toLowerCase().includes(
+                role === 'student' ? 'sinh viên' : (role === 'teacher' ? 'giảng viên' : 'quản trị')
+            ));
+            if (targetBtn) {
+                targetBtn.classList.add('text-blue-600', 'bg-white', 'shadow-sm', 'rounded-xl');
+                targetBtn.classList.remove('text-slate-500', 'hover:text-slate-700');
+            }
+        }
+
+        // Update placeholder
+        const input = document.getElementById('email');
+        if(role === 'student') input.placeholder = 'example@humg.edu.vn';
+        else if(role === 'teacher') input.placeholder = 'Mã giảng viên / Email';
+        else input.placeholder = 'admin@humg.edu.vn';
+    }
+
+    // [NEW] Handle URL parameters on load
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const role = urlParams.get('role');
+        const status = urlParams.get('status');
+
+        if (role) {
+            setRole(role);
+        }
+
+        if (status === 'logout_success') {
+            // Show a nice logout toast
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-10 left-1/2 -translate-x-1/2 px-8 py-4 bg-slate-900 text-white rounded-2xl shadow-2xl z-[100] animate-in slide-in-from-top-10 duration-500 flex items-center gap-3 border border-white/10 backdrop-blur-md';
+            toast.innerHTML = `
+                <span class="text-xl">✅</span>
+                <div class="flex flex-col">
+                    <span class="text-xs font-black uppercase tracking-widest">Thành công</span>
+                    <span class="text-[11px] font-bold text-slate-300">Bạn đã đăng xuất an toàn khỏi phiên làm việc.</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('animate-out', 'fade-out', 'translate-y-[-20px]');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+    });
+</script>

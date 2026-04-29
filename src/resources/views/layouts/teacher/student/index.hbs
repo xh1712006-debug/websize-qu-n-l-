@@ -1,0 +1,213 @@
+<div class="animate-in pb-20">
+    <!-- PAGE HEADER -->
+    <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-wider">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>
+                Trung tâm Quản lý Sinh viên
+            </div>
+            <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Sinh viên <span class="text-indigo-600">Hướng dẫn</span></h1>
+            <p class="text-slate-500 font-medium italic">Theo dõi sát sao lộ trình thực hiện, mốc thời gian và chất lượng đồ án của các sinh viên được phân công.</p>
+        </div>
+
+        <div class="flex items-center gap-6">
+             <!-- Summary Stats -->
+             <div class="hidden xl:flex items-center gap-10 px-8 py-5 bg-white rounded-[2rem] border border-slate-100 shadow-sm transition-all hover:border-indigo-100">
+                <div class="text-center">
+                    <p class="text-[9px] font-black text-slate-300 uppercase tracking-widest mb-1">Tổng cộng</p>
+                    <p class="text-xl font-black text-slate-900 leading-none">{{data.length}}</p>
+                </div>
+                <div class="w-[1px] h-8 bg-slate-100"></div>
+                <div class="text-center">
+                    <p class="text-[9px] font-black text-slate-300 uppercase tracking-widest mb-1 italic">Trễ hạn</p>
+                    <p id="header-missed-count" class="text-xl font-black text-rose-500 leading-none">0</p>
+                </div>
+             </div>
+
+             <!-- Search Bar (Integrated) -->
+             <form action="/teacher/student" method="GET" class="relative group w-full md:w-72">
+                <input type="text" name="q" value="{{q}}" placeholder="Tìm MSSV hoặc Tên..." 
+                    class="w-full pl-11 pr-4 py-4 bg-white border border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all font-bold text-xs text-slate-700 shadow-sm group-hover:border-slate-200">
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+             </form>
+        </div>
+    </div>
+
+    <!-- TABS NAVIGATION -->
+    <div class="flex flex-wrap gap-4 mb-8">
+        <button onclick="switchTab('all')" id="tab-all" class="tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2">
+            <span class="w-2 h-2 rounded-full bg-slate-900"></span>
+            Tất cả sinh viên
+        </button>
+        <button onclick="switchTab('approved')" id="tab-approved" class="tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Đã chốt bảo vệ
+            <span id="count-approved" class="ml-2 px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-md text-[8px]">0</span>
+        </button>
+        <button onclick="switchTab('missed')" id="tab-missed" class="tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            Trễ hạn báo cáo
+            <span id="count-missed" class="ml-2 px-2 py-0.5 bg-rose-100 text-rose-700 rounded-md text-[8px]">0</span>
+        </button>
+    </div>
+
+    <!-- DATA TABLE CONTAINER -->
+    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden relative">
+        <div id="tab-indicator" class="absolute top-0 left-0 h-1.5 bg-gradient-to-r transition-all duration-500"></div>
+        
+        <div class="overflow-x-auto relative z-10">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-black border-b border-slate-50">
+                        <th class="px-8 py-7 bg-slate-50/50">Sinh viên</th>
+                        <th class="px-8 py-7 bg-slate-50/50">Đề tài & Trạng thái</th>
+                        <th class="px-8 py-7 bg-slate-50/50 text-center">Tiến độ kỳ hạn</th>
+                        <th class="px-8 py-7 bg-slate-50/50 text-center">Xét duyệt</th>
+                        <th class="px-8 py-7 bg-slate-50/50 text-center">Cảnh báo</th>
+                        <th class="px-8 py-7 bg-slate-50/50 text-right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody" class="divide-y divide-slate-50">
+                    <!-- Data loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+    const allStudents = {{{json data}}};
+    let currentTab = 'all';
+
+    function init() {
+        const counts = {
+            all: allStudents.length,
+            approved: allStudents.filter(s => s.isAdvisorApproved).length,
+            missed: allStudents.filter(s => s.hasMissedDeadline).length
+        };
+
+        document.getElementById('count-approved').innerText = counts.approved;
+        document.getElementById('count-missed').innerText = counts.missed;
+        document.getElementById('header-missed-count').innerText = counts.missed;
+
+        switchTab('all');
+    }
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.className = 'tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2 bg-slate-50 border-slate-50 text-slate-400';
+        });
+
+        const activeBtn = document.getElementById(`tab-${tab}`);
+        const colorClass = tab === 'all' ? 'border-slate-900 text-slate-900' : 
+                          tab === 'approved' ? 'border-emerald-500 text-emerald-600' : 
+                          'border-rose-500 text-rose-600';
+        activeBtn.className = `tab-btn flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm border-2 bg-white ${colorClass}`;
+
+        const indicator = document.getElementById('tab-indicator');
+        if (tab === 'all') {
+            indicator.className = 'absolute top-0 left-0 h-1.5 bg-slate-900 transition-all duration-500';
+            indicator.style.width = '100%';
+        } else if (tab === 'approved') {
+            indicator.className = 'absolute top-0 left-0 h-1.5 bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-500';
+            indicator.style.width = '100%';
+        } else {
+            indicator.className = 'absolute top-0 left-0 h-1.5 bg-gradient-to-r from-rose-400 to-pink-500 transition-all duration-500';
+            indicator.style.width = '100%';
+        }
+
+        renderTable();
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('studentTableBody');
+        let filtered = [];
+
+        if (currentTab === 'all') {
+            filtered = allStudents;
+        } else if (currentTab === 'approved') {
+            filtered = allStudents.filter(s => s.isAdvisorApproved);
+        } else {
+            filtered = allStudents.filter(s => s.hasMissedDeadline);
+        }
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="px-8 py-32 text-center text-slate-400 font-black uppercase tracking-[0.2em] text-xs">Không tìm thấy sinh viên nào trong danh mục này</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(s => {
+            return `
+            <tr class="hover:bg-slate-50/50 transition-all duration-300">
+                <td class="px-8 py-7">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black shadow-sm uppercase italic">
+                            ${s.fullName.charAt(0)}
+                        </div>
+                        <div>
+                            <p class="font-black text-slate-900 text-sm leading-tight uppercase">${s.fullName}</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">${s.studentCode}</p>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-8 py-7 max-w-sm">
+                    <p class="font-black text-slate-800 text-xs uppercase leading-relaxed line-clamp-1 italic" title="${s.projectName}">${s.projectName}</p>
+                    <div class="flex items-center gap-2 mt-2">
+                        ${s.isLocked ? 
+                            '<span class="px-2 py-0.5 bg-slate-900 text-white rounded text-[8px] font-black uppercase tracking-tighter">🔒 Đã khóa hồ sơ</span>' : 
+                            '<span class="px-2 py-0.5 bg-slate-100 text-slate-400 rounded text-[8px] font-black uppercase tracking-tighter italic">Status: Ongoing</span>'
+                        }
+                    </div>
+                </td>
+                <td class="px-8 py-7">
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1 min-w-[100px] h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-indigo-500 rounded-full transition-all duration-1000" style="width: ${s.percent}%"></div>
+                        </div>
+                        <span class="text-[10px] font-black text-slate-900">${s.percent}%</span>
+                    </div>
+                </td>
+                <td class="px-8 py-7 text-center">
+                    ${s.isAdvisorApproved ? 
+                        '<span class="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-xl text-[9px] font-black uppercase border border-emerald-100">✅ Đã chốt ĐK</span>' :
+                        '<span class="px-3 py-1.5 bg-slate-50 text-slate-400 rounded-xl text-[9px] font-black uppercase border border-slate-100 italic">🚧 Đang thực hiện</span>'
+                    }
+                </td>
+                <td class="px-8 py-7 text-center">
+                    ${s.hasMissedDeadline ? 
+                        '<div class="flex flex-col items-center gap-1 animate-pulse"><span class="w-2.5 h-2.5 bg-rose-500 rounded-full mb-1"></span><span class="text-[9px] font-black text-rose-500 uppercase tracking-widest">Trễ hạn báo cáo</span></div>' : 
+                        '<span class="text-slate-200">--</span>'
+                    }
+                </td>
+                <td class="px-8 py-7 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <a href="/teacher/report" class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all shadow-sm" title="Chi tiết báo cáo">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </a>
+                        <a href="/teacher/feedback" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all border border-slate-100" title="Trao đổi">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            `;
+        }).join('');
+    }
+
+    // Initialize
+    init();
+</script>
+
+<style>
+    .animate-in {
+        animation: animate-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes animate-in {
+        from { opacity:0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

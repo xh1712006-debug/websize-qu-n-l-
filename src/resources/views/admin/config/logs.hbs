@@ -1,0 +1,62 @@
+<div class="max-w-6xl mx-auto space-y-8">
+    <!-- HEADER -->
+    <div class="flex items-center gap-5">
+        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-slate-100">
+            📜
+        </div>
+        <div>
+            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Nhật ký Hệ thống</h1>
+            <p class="text-slate-500 font-medium">Lịch sử các thao tác quan trọng của người dùng</p>
+        </div>
+    </div>
+
+    <!-- LOGS TABLE -->
+    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-black border-b border-slate-50">
+                        <th class="px-8 py-6">Thời gian</th>
+                        <th class="px-8 py-6">Người thực hiện</th>
+                        <th class="px-8 py-6">Hành động</th>
+                        <th class="px-8 py-6">Chi tiết</th>
+                        <th class="px-8 py-6">Lý do</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    {{#each logs}}
+                    <tr class="hover:bg-slate-50/50 transition-colors group">
+                        <td class="px-8 py-5 text-xs text-slate-400 font-medium">
+                            {{dateFormat this.createdAt}}
+                        </td>
+                        <td class="px-8 py-5">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full {{#if (eq userRole 'Admin')}}bg-rose-500{{else}}bg-blue-500{{/if}}"></span>
+                                <span class="font-bold text-slate-700 text-sm">{{userRole}}</span>
+                            </div>
+                        </td>
+                        <td class="px-8 py-5">
+                            <span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest 
+                                {{#if (eq action 'UNLOCK_POINT')}}bg-amber-50 text-amber-600 border border-amber-100
+                                {{else if (eq action 'UPDATE_CONFIG')}}bg-emerald-50 text-emerald-600 border border-emerald-100
+                                {{else}}bg-slate-100 text-slate-600 border border-slate-200{{/if}}">
+                                {{action}}
+                            </span>
+                        </td>
+                        <td class="px-8 py-5">
+                            <div class="max-w-xs truncate text-[10px] font-mono text-slate-400 bg-slate-50 p-2 rounded-lg border border-slate-100 group-hover:bg-white transition-colors">
+                                {{json details}}
+                            </div>
+                        </td>
+                        <td class="px-8 py-5">
+                            <p class="text-xs font-semibold text-slate-600 truncate max-w-xs" title="{{reason}}">
+                                {{#if reason}}"{{reason}}"{{else}}<span class="text-slate-300 italic">Không có lý do</span>{{/if}}
+                            </p>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,303 @@
+<div class="animate-in space-y-10 pb-20 font-sans text-slate-900">
+    <!-- BACKGROUND DECOR -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-50/40 blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[40%] h-[50%] bg-emerald-50/30 blur-[100px] rounded-full"></div>
+    </div>
+
+    <!-- HEADER: TITLE & SEARCH -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-6">
+        <div class="space-y-2">
+            <h1 class="text-4xl font-black uppercase tracking-tighter text-slate-900 leading-none">Tra cứu Hội đồng</h1>
+            <p class="text-slate-400 font-medium italic">Xem thông tin sinh viên, đề tài và lịch bảo vệ tập trung.</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative group">
+                <select id="council-selector" onchange="loadCouncil(this.value)" class="appearance-none bg-white border border-slate-200 pl-6 pr-12 py-4 rounded-2xl text-xs font-black uppercase tracking-widest text-slate-600 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all shadow-sm cursor-pointer min-w-[260px]">
+                    {{#each myCouncils}}
+                    <option value="{{this._id}}">{{this.councilName}} ({{this.room}})</option>
+                    {{else}}
+                    <option value="">Chưa có hội đồng</option>
+                    {{/each}}
+                </select>
+                <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COUNCIL INFO RIBBON -->
+    <div id="council-header" class="bg-slate-900 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+        <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="space-y-4">
+                <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em]">Hội đồng hiện tại</p>
+                <h2 id="display-council-name" class="text-3xl font-black text-white uppercase tracking-tight">---</h2>
+                <div class="flex items-center gap-3">
+                    <span id="display-council-room" class="px-4 py-1.5 bg-white/10 text-white rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10">Phòng: ---</span>
+                </div>
+            </div>
+            <div class="md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-5 bg-white/5 rounded-3xl border border-white/5">
+                    <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Chủ tịch</p>
+                    <p id="display-chairman" class="text-xs font-black text-white">---</p>
+                </div>
+                <div class="p-5 bg-white/5 rounded-3xl border border-white/5">
+                    <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Thư ký</p>
+                    <p id="display-secretary" class="text-xs font-black text-white">---</p>
+                </div>
+                <div id="display-members" class="col-span-2 flex flex-wrap gap-2 pt-2">
+                    <!-- Members here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STUDENT GRID -->
+    <div class="space-y-8">
+        <div class="flex items-center justify-between">
+            <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight flex items-center gap-3">
+                <span class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-md shadow-indigo-100">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </span>
+                Danh sách Sinh viên tham gia
+            </h3>
+        </div>
+
+        <div id="student-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+</div>
+
+<!-- PROJECT DETAIL MODAL -->
+<div id="project-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-300">
+    <div class="bg-white w-full max-w-5xl h-full max-h-[90vh] rounded-[4rem] shadow-2xl overflow-hidden border border-slate-100 animate-in zoom-in-95 duration-300 flex flex-col">
+        <!-- Modal Header -->
+        <div class="p-10 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
+            <div class="flex items-center gap-6">
+                <div class="w-20 h-20 bg-indigo-600 text-white rounded-[2rem] flex items-center justify-center text-3xl font-black shadow-xl shadow-indigo-100">🎓</div>
+                <div class="space-y-1">
+                    <h3 id="modal-project-name" class="text-2xl font-black text-slate-900 uppercase tracking-tighter leading-none line-clamp-1">---</h3>
+                    <p class="text-sm font-bold text-slate-400 italic">Chi tiết đồ án tốt nghiệp</p>
+                </div>
+            </div>
+            <button onclick="closeModal()" class="w-14 h-14 bg-white border border-slate-200 text-slate-400 rounded-full flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 hover:border-rose-100 transition-all shadow-sm">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
+        </div>
+
+        <!-- Modal Body (Scrollable) -->
+        <div class="flex-1 overflow-y-auto p-12 custom-scrollbar">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Left Column: Summary Info -->
+                <div class="space-y-8">
+                    <div class="p-8 bg-slate-50 rounded-[3rem] border border-slate-100 space-y-6">
+                        <div class="space-y-1">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Sinh viên thực hiện</p>
+                            <p id="modal-student-name" class="text-lg font-black text-slate-900 leading-none">---</p>
+                            <p id="modal-student-code" class="text-[10px] font-bold text-indigo-600 uppercase">---</p>
+                        </div>
+                        <div class="h-px bg-slate-200"></div>
+                        <div class="space-y-1">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Giảng viên hướng dẫn</p>
+                            <p id="modal-advisor" class="text-sm font-black text-slate-800">---</p>
+                        </div>
+                        <div class="h-px bg-slate-200"></div>
+                        <div class="space-y-3">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Lịch bảo vệ dự kiến</p>
+                            <div class="flex items-center gap-3">
+                                <span id="modal-date" class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-black text-slate-600">---</span>
+                                <span id="modal-time" class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-black text-indigo-600">---</span>
+                                <span id="modal-room" class="px-3 py-1 bg-indigo-600 text-white rounded-lg text-[10px] font-black">---</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4">Công nghệ sử dụng</p>
+                        <div id="modal-tech-stack" class="flex flex-wrap gap-2">
+                            <!-- Tech here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Project Content -->
+                <div class="lg:col-span-2 space-y-12">
+                    <section class="space-y-4">
+                        <h4 class="text-xs font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center gap-3">
+                            <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                            Mục tiêu đề tài
+                        </h4>
+                        <div id="modal-objective" class="text-slate-600 leading-relaxed font-medium bg-indigo-50/30 p-8 rounded-[2.5rem] italic">---</div>
+                    </section>
+
+                    <section class="space-y-4">
+                        <h4 class="text-xs font-black text-emerald-600 uppercase tracking-[0.2em] flex items-center gap-3">
+                            <span class="w-1.5 h-6 bg-emerald-600 rounded-full"></span>
+                            Nội dung thực hiện
+                        </h4>
+                        <div id="modal-content" class="text-slate-600 leading-relaxed font-medium space-y-4">---</div>
+                    </section>
+
+                    <section class="space-y-4">
+                        <h4 class="text-xs font-black text-amber-600 uppercase tracking-[0.2em] flex items-center gap-3">
+                            <span class="w-1.5 h-6 bg-amber-600 rounded-full"></span>
+                            Phạm vi & Kết quả dự kiến
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-6 bg-amber-50/50 border border-amber-100 rounded-[2rem] space-y-2">
+                                <p class="text-[9px] font-black text-amber-700/60 uppercase tracking-widest">Phạm vi</p>
+                                <p id="modal-scope" class="text-xs font-bold text-slate-700 leading-relaxed">---</p>
+                            </div>
+                            <div class="p-6 bg-teal-50/50 border border-teal-100 rounded-[2rem] space-y-2">
+                                <p class="text-[9px] font-black text-teal-700/60 uppercase tracking-widest">Kết quả</p>
+                                <p id="modal-outcome" class="text-xs font-bold text-slate-700 leading-relaxed">---</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'script'}}
+<script>
+    const councils = {{{json myCouncils}}};
+    let students = [];
+
+    async function loadCouncil(councilId) {
+        if (!councilId) return;
+        
+        const council = councils.find(c => c._id === councilId);
+        if (council) {
+            document.getElementById('council-header').classList.remove('hidden');
+            document.getElementById('display-council-name').innerText = council.councilName;
+            document.getElementById('display-council-room').innerText = `Phòng: ${council.room}`;
+            document.getElementById('display-chairman').innerText = council.chairmanId.fullName;
+            document.getElementById('display-secretary').innerText = council.secretaryId.fullName;
+            
+            const membersHtml = council.memberIds.map(m => `
+                <div class="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold text-slate-400">${m.fullName}</div>
+            `).join('');
+            document.getElementById('display-members').innerHTML = membersHtml;
+            
+            await fetchStudents(councilId);
+        }
+    }
+
+    async function fetchStudents(councilId) {
+        try {
+            const res = await fetch(`/teacher/council/getStudents?councilId=${councilId}`);
+            students = await res.json();
+            renderStudents();
+        } catch (err) { console.error(err); }
+    }
+
+    function renderStudents() {
+        const grid = document.getElementById('student-grid');
+        if (students.length === 0) {
+            grid.innerHTML = `
+                <div class="col-span-full py-20 text-center space-y-4">
+                    <div class="text-6xl grayscale opacity-50">📁</div>
+                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Chưa có sinh viên trong hội đồng này</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = students.map(s => `
+            <div onclick="viewDetail('${s.studentId}')" class="bg-white/80 backdrop-blur-md p-8 rounded-[3.5rem] border border-white shadow-sm hover:shadow-2xl hover:scale-[1.02] hover:border-indigo-100 transition-all cursor-pointer relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-700"></div>
+                
+                <div class="flex items-center gap-5 mb-8 relative z-10">
+                    <div class="w-16 h-16 rounded-[2rem] bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-xl shadow-inner border border-white">
+                        ${s.fullName.substring(0, 1)}
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-black text-slate-900 uppercase text-base tracking-tight leading-none">${s.fullName}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">${s.studentCode}</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6 relative z-10">
+                    <div class="space-y-2">
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest italic">Đề tài</p>
+                        <p class="text-xs font-black text-slate-800 leading-relaxed line-clamp-2">${s.projectName}</p>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-50 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                            <span class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Lịch: ${s.defenseTime || 'Chưa rõ'}</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-[10px] font-black text-slate-400 uppercase group-hover:text-indigo-600 transition-colors">
+                            Xem chi tiết
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function viewDetail(studentId) {
+        try {
+            const res = await fetch(`/teacher/council/api/project-detail/${studentId}`);
+            const { success, data } = await res.json();
+            if (success) {
+                document.getElementById('modal-project-name').innerText = data.projectName;
+                document.getElementById('modal-student-name').innerText = data.fullName;
+                document.getElementById('modal-student-code').innerText = data.studentCode;
+                document.getElementById('modal-advisor').innerText = data.advisor;
+                document.getElementById('modal-date').innerText = data.defenseDate;
+                document.getElementById('modal-time').innerText = data.defenseTime;
+                document.getElementById('modal-room').innerText = `Phòng: ${data.defenseRoom}`;
+                document.getElementById('modal-objective').innerText = data.objective;
+                document.getElementById('modal-content').innerText = data.content;
+                document.getElementById('modal-scope').innerText = data.scope;
+                document.getElementById('modal-outcome').innerText = data.expectedOutcome;
+                
+                const techHtml = data.technology.map(t => `
+                    <span class="px-4 py-1.5 bg-slate-100 text-slate-600 rounded-full text-[10px] font-bold border border-slate-200">${t}</span>
+                `).join('');
+                document.getElementById('modal-tech-stack').innerHTML = techHtml || '<p class="text-[10px] italic text-slate-400">Không rõ công nghệ</p>';
+
+                document.getElementById('project-modal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    function closeModal() {
+        document.getElementById('project-modal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Initialize first council
+    document.addEventListener('DOMContentLoaded', () => {
+        const selector = document.getElementById('council-selector');
+        if (selector.value) loadCouncil(selector.value);
+    });
+
+    // Close modal on escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>
+{{/section}}
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+    
+    .animate-in { animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

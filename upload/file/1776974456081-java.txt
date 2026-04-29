@@ -1,0 +1,214 @@
+bài 1
+/**
+ * user: Lê Xuân Hưng
+ * date: 3/16/2026
+ */
+
+class TinhTong {
+
+    int a;
+    int b;
+    int tong;
+
+    TinhTong(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    void tinhTong() {
+        tong = a + b;
+    }
+
+    void xuat() {
+        System.out.println("Tong = " + tong);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        TinhTong tt = new TinhTong(5, 7);
+
+        tt.tinhTong();
+        tt.xuat();
+    }
+}
+bài 2
+/**
+ * user: Lê Xuân Hưng
+ * date: 3/16/2026
+ */
+
+import java.util.Scanner;
+
+class SoNguyenTo {
+
+    int n;
+    boolean laSoNguyenTo;
+    
+    SoNguyenTo(int n) {
+        this.n = n;
+    }
+
+    void kiemTra() {
+        if (n < 2) {
+            laSoNguyenTo = false;
+            return;
+        }
+
+        laSoNguyenTo = true;
+
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                laSoNguyenTo = false;
+                break;
+            }
+        }
+    }
+
+    void xuat() {
+        if (laSoNguyenTo) {
+            System.out.println(n + " la so nguyen to");
+        } else {
+            System.out.println(n + " khong phai la so nguyen to");
+        }
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap n: ");
+        int n = sc.nextInt();
+
+        SoNguyenTo snt = new SoNguyenTo(n);
+
+        snt.kiemTra();
+        snt.xuat();
+    }
+}
+
+bài 3 
+/**
+ * user: Lê Xuân Hưng
+ * date: 3/16/2026
+ */
+
+import java.util.Scanner;
+
+class PhuongTrinhBacNhat {
+
+    double a;
+    double b;
+    double x;
+
+    // Constructor
+    PhuongTrinhBacNhat(double a, double b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    void giai() {
+        if (a == 0) {
+            if (b == 0) {
+                System.out.println("Phuong trinh vo so nghiem");
+            } else {
+                System.out.println("Phuong trinh vo nghiem");
+            }
+        } else {
+            x = -b / a;
+            System.out.println("Nghiem x = " + x);
+        }
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Nhap a: ");
+        double a = sc.nextDouble();
+
+        System.out.print("Nhap b: ");
+        double b = sc.nextDouble();
+
+        PhuongTrinhBacNhat pt = new PhuongTrinhBacNhat(a, b);
+
+        pt.giai();
+    }
+}
+
+bài 4
+/**
+ * user: Lê Xuân Hưng
+ * date: 3/16/2026
+ */
+
+import java.util.Scanner;
+
+class ThangNam {
+
+    int thang;
+    int nam;
+    int soNgay;
+
+    // Constructor
+    ThangNam(int thang, int nam) {
+        this.thang = thang;
+        this.nam = nam;
+    }
+
+    void tinhSoNgay() {
+
+        switch (thang) {
+
+            case 1: case 3: case 5: case 7:
+            case 8: case 10: case 12:
+                soNgay = 31;
+                break;
+
+            case 4: case 6: case 9: case 11:
+                soNgay = 30;
+                break;
+
+            case 2:
+                if ((nam % 4 == 0 && nam % 100 != 0) || (nam % 400 == 0)) {
+                    soNgay = 29;
+                } else {
+                    soNgay = 28;
+                }
+                break;
+
+            default:
+                System.out.println("Thang khong hop le");
+        }
+    }
+
+    void xuat() {
+        System.out.println("So ngay cua thang " + thang + " nam " + nam + " la: " + soNgay);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Nhap thang: ");
+        int thang = sc.nextInt();
+
+        System.out.print("Nhap nam: ");
+        int nam = sc.nextInt();
+
+        ThangNam tn = new ThangNam(thang, nam);
+
+        tn.tinhSoNgay();
+        tn.xuat();
+    }
+}

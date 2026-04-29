@@ -1,0 +1,157 @@
+<div class="animate-in">
+    <!-- HEADER -->
+    <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-wider">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                Trung tâm Đánh giá
+            </div>
+            <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight">Bảng điều khiển (Ủy viên)</h1>
+            <p class="text-slate-500 font-medium italic">Theo dõi tiến độ chấm điểm và lịch bảo vệ của các hội đồng bạn tham gia.</p>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <div class="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm text-center">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block leading-none mb-1">Tiến độ tổng thể</span>
+                <span class="text-xl font-black text-indigo-600 leading-none">{{stats.overallProgress}}%</span>
+            </div>
+        </div>
+    </div>
+
+    {{#if noCouncil}}
+    <div class="bg-white rounded-[3rem] border border-slate-100 p-20 text-center shadow-sm">
+        <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-300 mx-auto mb-6">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+        </div>
+        <h3 class="text-xl font-black text-slate-900 uppercase tracking-tight">Chưa có hội đồng phân công</h3>
+        <p class="text-slate-400 font-medium mt-2">Bạn hiện không phải là Ủy viên của hội đồng nào đang hoạt động.</p>
+    </div>
+    {{else}}
+
+    <!-- KPI TILES -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group hover:shadow-lg transition-all duration-300">
+            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            </div>
+            <div>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-0.5">Hội đồng tham gia</span>
+                <span class="text-2xl font-black text-slate-900">{{stats.totalCouncils}}</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group hover:shadow-lg transition-all duration-300">
+            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <div>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-0.5">Tổng SV cần chấm</span>
+                <span class="text-2xl font-black text-slate-900">{{stats.totalStudents}}</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group hover:shadow-lg transition-all duration-300">
+            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-0.5">Đã hoàn thành</span>
+                <span class="text-2xl font-black text-slate-900">{{stats.gradedCount}}</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group hover:shadow-lg transition-all duration-300">
+            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-0.5">Chưa chấm điểm</span>
+                <span class="text-2xl font-black text-slate-900">{{stats.pendingCount}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- COUNCIL PROGRESS CARDS -->
+        <div class="lg:col-span-2 space-y-8">
+            <div class="flex items-center justify-between px-2">
+                <h3 class="text-lg font-black text-slate-900 uppercase tracking-tight">Chi tiết từng Hội đồng</h3>
+                <a href="/teacher/council/member/schedule" class="text-xs font-bold text-indigo-600 hover:scale-105 transition-transform uppercase tracking-widest">Xem tất cả lịch →</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {{#each councilStats}}
+                <div class="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm hover:shadow-xl transition-all duration-300 group">
+                    <div class="mb-6 flex items-start justify-between">
+                        <div class="w-12 h-12 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-black text-slate-300 uppercase block mb-1">Tiến độ</span>
+                            <span class="text-xl font-black text-slate-900 leading-none">{{this.percentage}}%</span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-lg font-black text-slate-900 uppercase tracking-tight line-clamp-1 mb-4">{{this.name}}</h4>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-center justify-between text-xs font-medium">
+                            <span class="text-slate-400">Chủ tịch:</span>
+                            <span class="text-slate-700 font-bold truncate max-w-[120px]">{{this.chairman}}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-medium">
+                            <span class="text-slate-400">Sinh viên:</span>
+                            <span class="text-slate-700 font-bold">{{this.graded}}/{{this.total}}</span>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-6">
+                        <div class="absolute inset-y-0 left-0 bg-indigo-500 rounded-full transition-all duration-1000" style="width: {{this.percentage}}%"></div>
+                    </div>
+
+                    <a href="/teacher/council/grading?councilId={{this._id}}" class="w-full h-12 bg-slate-50 text-slate-900 hover:bg-slate-900 hover:text-white rounded-2xl flex items-center justify-center text-xs font-black uppercase tracking-widest transition-all">
+                        Vào chấm điểm
+                    </a>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <!-- UPCOMING DEFENSE SIDEBAR -->
+        <div class="space-y-8">
+            <h3 class="text-lg font-black text-slate-900 uppercase tracking-tight px-2">Ca bảo vệ sắp tới</h3>
+            
+            <div class="space-y-4">
+                {{#each upcomingDefenses}}
+                <div class="bg-white p-5 rounded-[2rem] border border-slate-100 shadow-sm flex gap-5 hover:bg-slate-50 transition-colors cursor-pointer group">
+                    <div class="w-12 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex flex-col items-center justify-center shrink-0">
+                        <span class="text-[8px] font-black uppercase mb-0.5">{{substring (dateFormat this.date "MMMM") 0 3}}</span>
+                        <span class="text-lg font-black leading-none">{{dateFormat this.date "DD"}}</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h5 class="text-xs font-black text-slate-900 uppercase truncate mb-1">{{this.studentName}}</h5>
+                        <p class="text-[10px] text-slate-500 font-medium truncate mb-2">{{this.projectName}}</p>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1 text-[9px] font-black text-indigo-400 uppercase">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                {{this.time}}
+                            </div>
+                            <div class="flex items-center gap-1 text-[9px] font-black text-slate-400 uppercase">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                {{this.room}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                
+                {{#unless upcomingDefenses.length}}
+                <div class="bg-slate-50/50 rounded-2xl p-6 text-center border-2 border-dashed border-slate-100">
+                    <p class="text-xs font-bold text-slate-400">Không có ca bảo vệ nào sắp tới.</p>
+                </div>
+                {{/unless}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>

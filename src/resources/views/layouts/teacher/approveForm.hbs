@@ -1,0 +1,233 @@
+<div class="max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-6 duration-700 pb-20">
+
+    <!-- FORM HEADER -->
+    <div class="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-12 rounded-[4rem] border border-slate-100 shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+        <div class="space-y-4 relative z-10">
+            <h1 class="text-4xl font-black text-slate-900 tracking-tight leading-tight uppercase">Khởi tạo & <span class="text-emerald-600">Phê duyệt Đồ án</span></h1>
+            <p class="text-slate-500 font-medium italic">Bạn đang chính thức tiếp nhận và thiết lập lộ trình cho đề tài của sinh viên.</p>
+        </div>
+        <div class="flex items-center gap-4 bg-emerald-50 px-8 py-5 rounded-[2.5rem] border border-emerald-100 relative z-10">
+            <div class="text-right">
+                <p class="text-[9px] font-black text-emerald-600 uppercase tracking-widest leading-none mb-1">Giảng viên Hướng dẫn</p>
+                <p class="text-lg font-black text-slate-900 leading-none">ThS. {{teacherName}}</p>
+            </div>
+            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm">👨‍🏫</div>
+        </div>
+    </div>
+
+    <form id="approveForm" class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <input type="hidden" name="projectId" value="{{project._id}}">
+        <input type="hidden" name="teacherName" value="{{teacherName}}">
+
+        <!-- LEFT COLUMN: PROJECT DETAILS -->
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white p-12 rounded-[3.5rem] shadow-sm border border-slate-100 space-y-10 relative group">
+                <div class="flex items-center gap-4 mb-2">
+                    <div class="w-10 h-10 bg-indigo-50 text-indigo-500 rounded-xl flex items-center justify-center font-black">1</div>
+                    <h3 class="text-xl font-black text-slate-900 uppercase tracking-wide italic">Thông tin đề tài chi tiết</h3>
+                </div>
+
+                <div class="grid grid-cols-1 gap-8">
+                    <div class="space-y-3 pt-4">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4 italic">Tên đồ án chính thức</label>
+                        <input type="text" name="projectName" value="{{project.inputProject}}" readonly
+                            class="w-full px-8 py-5 bg-slate-100 border border-slate-200 rounded-3xl font-bold text-slate-500 text-lg shadow-inner cursor-not-allowed">
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4 italic">Công nghệ sử dụng (Cách nhau bằng dấu phẩy)</label>
+                        <input type="text" name="technology" value="{{technologyStr}}" readonly
+                            class="w-full px-8 py-5 bg-slate-100 border border-slate-200 rounded-3xl font-bold text-slate-500 shadow-inner cursor-not-allowed">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4 italic">Số sinh viên thực hiện</label>
+                            <select name="numberStudent" disabled class="w-full px-8 py-5 bg-slate-100 border border-slate-200 rounded-3xl font-black text-slate-500 appearance-none shadow-inner cursor-not-allowed">
+                                <option value="1" {{#if (eq project.numberStudent 1)}}selected{{/if}}>01 Sinh viên</option>
+                                <option value="2" {{#if (eq project.numberStudent 2)}}selected{{/if}}>02 Sinh viên</option>
+                            </select>
+                            <input type="hidden" name="numberStudent" value="{{project.numberStudent}}">
+                        </div>
+                        <div class="flex items-end pb-2 opacity-40">
+                             <p class="text-[10px] font-medium italic italic">Mặc định là 01 SV cho đồ án chuẩn chuyên ngành.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4 italic">Mục tiêu đề tài</label>
+                        <textarea name="objective" rows="4" readonly
+                            class="w-full px-8 py-6 bg-slate-100 border border-slate-200 rounded-[2.5rem] font-medium text-slate-500 shadow-inner resize-none cursor-not-allowed">{{project.objective}}</textarea>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4 italic">Phạm vi & Yêu cầu chi tiết</label>
+                        <textarea name="scope" rows="5" readonly
+                            class="w-full px-8 py-6 bg-slate-100 border border-slate-200 rounded-[2.5rem] font-medium text-slate-500 shadow-inner resize-none cursor-not-allowed">{{project.scope}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: SCHEDULING & SUBMIT -->
+        <div class="space-y-8">
+            <!-- SCHEDULING CARD -->
+            <div class="bg-slate-900 p-10 rounded-[3.5rem] shadow-2xl space-y-8 relative overflow-hidden group">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                
+                <div class="flex items-center gap-4 relative z-10">
+                    <div class="w-10 h-10 bg-white/10 text-white rounded-xl flex items-center justify-center font-black">2</div>
+                    <h3 class="text-xl font-black text-white uppercase tracking-wide italic">Lập lịch báo cáo</h3>
+                </div>
+
+                <div id="requirementsContainer" class="space-y-5 relative z-10">
+                    <!-- Default Milestone -->
+                    <div class="requirement-item p-6 bg-white/5 border border-white/10 rounded-[2rem] space-y-4 hover:border-emerald-500/30 transition-colors">
+                        <input type="text" name="reqName[]" value="Báo cáo Tiến độ Đợt 1" placeholder="Tên đợt báo cáo"
+                            class="w-full bg-transparent border-none text-white font-black text-sm uppercase tracking-wider focus:ring-0 p-0">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <input type="date" name="reqDeadline[]" required
+                                class="bg-transparent border-none text-xs text-white/60 font-bold focus:ring-0 p-0 w-full cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" onclick="addRequirement()" 
+                    class="w-full py-4 rounded-2xl border-2 border-dashed border-white/10 text-white/40 font-black text-[10px] uppercase tracking-widest hover:border-emerald-500/50 hover:text-emerald-400 transition-all relative z-10">
+                    + Thêm đợt nộp báo cáo
+                </button>
+            </div>
+
+            <!-- ACTION CARD -->
+            <div class="bg-white p-10 rounded-[3.5rem] shadow-sm border border-slate-100 flex flex-col gap-4">
+                <button type="submit" id="submitBtn"
+                    class="w-full py-6 bg-emerald-600 text-white rounded-3xl font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-emerald-100 hover:bg-slate-900 transition-all hover:scale-[1.02] active:scale-95">
+                    Xác nhận Phê duyệt
+                </button>
+                <button type="button" onclick="rejectThisRequest()"
+                    class="w-full py-5 bg-white text-rose-500 rounded-3xl font-black text-xs uppercase tracking-[0.2em] border border-rose-100 hover:bg-rose-50 transition-all">
+                    Từ chối Đồ án
+                </button>
+                <a href="/teacher/request" 
+                    class="w-full py-4 bg-slate-50 text-slate-400 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] border border-slate-100 hover:bg-slate-100 hover:text-slate-600 transition-all text-center">
+                    Hủy bỏ
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<template id="requirementTemplate">
+    <div class="requirement-item p-6 bg-white/5 border border-white/10 rounded-[2rem] space-y-4 hover:border-emerald-500/30 transition-colors animate-in slide-in-from-top-4 duration-300">
+        <div class="flex items-center justify-between">
+            <input type="text" name="reqName[]" placeholder="Tên đợt báo cáo"
+                class="bg-transparent border-none text-white font-black text-sm uppercase tracking-wider focus:ring-0 p-0 w-3/4">
+            <button type="button" onclick="this.parentElement.parentElement.remove()" class="text-rose-500 hover:scale-125 transition-transform">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+        <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <input type="date" name="reqDeadline[]" required
+                class="bg-transparent border-none text-xs text-white/60 font-bold focus:ring-0 p-0 w-full cursor-pointer">
+        </div>
+    </div>
+</template>
+
+<script>
+function addRequirement() {
+    const container = document.getElementById('requirementsContainer');
+    const template = document.getElementById('requirementTemplate');
+    const milestoneCount = container.querySelectorAll('.requirement-item').length + 1;
+    
+    const clone = template.content.cloneNode(true);
+    clone.querySelector('input[name="reqName[]"]').value = `Báo cáo Tiến độ Đợt ${milestoneCount}`;
+    container.appendChild(clone);
+}
+
+async function rejectThisRequest() {
+    const projectId = document.querySelector('[name="projectId"]').value;
+    const reason = prompt("Vui lòng nhập lý do từ chối đồ án này:");
+    if (reason === null) return; 
+    
+    if (reason.trim() === "") {
+        alert("Bạn phải nhập lý do từ chối để sinh viên có thể sửa đổi.");
+        return;
+    }
+
+    try {
+        const response = await fetch('/teacher/request/reject', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ projectId, rejectionReason: reason })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(data.message);
+            window.location.href = '/teacher/request';
+        } else {
+            alert(data.message);
+        }
+    } catch(err) {
+        console.error(err);
+        alert('Lỗi khi từ chối!');
+    }
+}
+
+document.getElementById('approveForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const projectId = formData.get('projectId');
+    const teacherName = formData.get('teacherName');
+    
+    // Thu thập requirements
+    const reqNames = formData.getAll('reqName[]');
+    const reqDeadlines = formData.getAll('reqDeadline[]');
+    const requirements = reqNames.map((name, index) => ({
+        name: name,
+        deadline: reqDeadlines[index]
+    }));
+
+    try {
+        const response = await fetch('/teacher/request/approve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                projectId,
+                teacherName,
+                requirements
+            })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            alert('🎉 Phê duyệt và khởi tạo đồ án thành công!');
+            window.location.href = '/teacher/request';
+        } else {
+            alert('❌ Lỗi: ' + data.message);
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Có lỗi xảy ra trong quá trình xử lý!');
+    }
+});
+</script>
+
+<style>
+    .animate-in {
+        animation: animate-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes animate-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    input::placeholder, textarea::placeholder {
+        color: #94a3b8;
+        font-weight: 500;
+        font-style: italic;
+    }
+</style>

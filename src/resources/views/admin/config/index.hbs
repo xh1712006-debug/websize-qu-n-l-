@@ -1,0 +1,139 @@
+    <!-- STATISTICS -->
+    <div id="admin-stats" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="p-6 bg-white rounded-[2rem] border border-slate-100 shadow-sm group">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Tổng sinh viên</p>
+            <div class="flex items-center justify-between">
+                <span id="stat-students" class="text-3xl font-black text-slate-900">0</span>
+                <span class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center text-lg">🎓</span>
+            </div>
+        </div>
+        <div class="p-6 bg-white rounded-[2rem] border border-slate-100 shadow-sm group">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Đồ án đang chạy</p>
+            <div class="flex items-center justify-between">
+                <span id="stat-projects" class="text-3xl font-black text-slate-900">0</span>
+                <span class="w-10 h-10 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center text-lg">📁</span>
+            </div>
+        </div>
+        <div class="p-6 bg-white rounded-[2rem] border border-slate-100 shadow-sm group">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Đã chốt điểm</p>
+            <div class="flex items-center justify-between">
+                <span id="stat-completed" class="text-3xl font-black text-slate-900">0</span>
+                <span class="w-10 h-10 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center text-lg">✅</span>
+            </div>
+        </div>
+        <div class="p-6 bg-white rounded-[2rem] border border-slate-100 shadow-sm group">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Điểm TB Hệ thống</p>
+            <div class="flex items-center justify-between">
+                <span id="stat-avg" class="text-3xl font-black text-slate-900">0.0</span>
+                <span class="w-10 h-10 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center text-lg">📊</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- SYSTEM PARAMETERS -->
+        <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-8 space-y-8">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-3">
+                <span class="p-2 bg-slate-50 text-slate-500 rounded-xl">🛠️</span>
+                Tham số vận hành
+            </h2>
+
+            <div class="space-y-6">
+                <!-- Max Students -->
+                <div class="flex items-center justify-between p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                    <div>
+                        <p class="text-sm font-black text-slate-800">Số sinh viên tối đa/GVHD</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Giới hạn định mức hướng dẫn</p>
+                    </div>
+                    <input type="number" data-key="maxStudentsPerAdvisor" 
+                        value="{{#each configs}}{{#if (eq this.key 'maxStudentsPerAdvisor')}}{{this.value}}{{/if}}{{/each}}" 
+                        class="config-input w-20 p-3 bg-white border-2 border-transparent focus:border-blue-500 rounded-xl outline-none font-black text-center text-blue-600">
+                </div>
+
+                <!-- Point Lock Time -->
+                <div class="flex items-center justify-between p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                    <div>
+                        <p class="text-sm font-black text-slate-800">Thời gian khóa điểm (Ngày)</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Tự động khóa sau khi chấm</p>
+                    </div>
+                    <input type="number" data-key="pointLockDays" 
+                        value="{{#each configs}}{{#if (eq this.key 'pointLockDays')}}{{this.value}}{{/if}}{{/each}}" 
+                        class="config-input w-20 p-3 bg-white border-2 border-transparent focus:border-blue-500 rounded-xl outline-none font-black text-center text-blue-600">
+                </div>
+
+                <!-- Registration Window -->
+                <div class="flex items-center justify-between p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                    <div>
+                        <p class="text-sm font-black text-slate-800">Mở đăng ký đề tài</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Cho phép SV đăng ký</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" data-key="isRegistrationOpen" 
+                            {{#each configs}}{{#if (and (eq this.key 'isRegistrationOpen') (eq this.value 'true'))}}checked{{/if}}{{/each}} 
+                            class="config-input sr-only peer">
+                        <div class="w-14 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+            </div>
+
+            <button onclick="saveAllConfigs()" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-sm shadow-xl shadow-slate-200 hover:scale-105 transition-all">
+                LƯU CẤU HÌNH HỆ THỐNG
+            </button>
+        </div>
+
+        <!-- UNLOCK POINTS -->
+        <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-8 space-y-8 flex flex-col">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-3">
+                <span class="p-2 bg-slate-50 text-slate-500 rounded-xl">🔓</span>
+                Mở khóa điểm (Emergency)
+            </h2>
+
+            <div class="space-y-6 flex-1">
+                <p class="text-xs font-bold text-slate-500 leading-relaxed italic">
+                    Chức năng này cho phép Admin mở lại quyền hiệu chỉnh điểm cho các đồ án đã bị khóa. Mọi thao tác sẽ được lưu vào Nhật ký Hệ thống.
+                </p>
+
+                <div class="space-y-4">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mã sinh viên cần mở khóa</label>
+                    <input type="text" id="unlock-student-id" placeholder="VD: SV001, SV002..." 
+                        class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-rose-500 rounded-2xl outline-none transition-all font-bold text-slate-700 shadow-inner">
+                </div>
+
+                <div class="space-y-4">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Lý do mở khóa</label>
+                    <textarea id="unlock-reason" rows="3" placeholder="Yêu cầu nhập lý do bắt buộc..." 
+                        class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-rose-500 rounded-2xl outline-none transition-all font-semibold text-slate-700 resize-none"></textarea>
+                </div>
+            </div>
+
+            <button onclick="unlockPoint()" class="w-full py-4 bg-rose-500 text-white rounded-2xl font-black text-sm shadow-xl shadow-rose-100 hover:bg-rose-600 transition-all">
+                XÁC NHẬN MỞ KHÓA ĐIỂM
+            </button>
+        </div>
+    </div>
+
+    <!-- GLOBAL DEFENSE SCHEDULE MANAGEMENT -->
+    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-3">
+                <span class="p-2 bg-slate-50 text-slate-500 rounded-xl">🗓️</span>
+                Quản lý Lịch bảo vệ Hệ thống
+            </h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-black border-b border-slate-50">
+                        <th class="px-8 py-6">Sinh viên</th>
+                        <th class="px-8 py-6">Tên Đồ án</th>
+                        <th class="px-8 py-6">Lịch dự kiến</th>
+                        <th class="px-8 py-6 text-right">Lịch chính thức</th>
+                    </tr>
+                </thead>
+                <tbody id="global-project-list" class="divide-y divide-slate-50">
+                    <!-- Data loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

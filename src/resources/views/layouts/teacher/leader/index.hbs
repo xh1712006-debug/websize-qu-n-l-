@@ -1,0 +1,179 @@
+<div class="space-y-12 animate-in fade-in slide-in-from-bottom-5 duration-1000 pb-20 font-sans text-slate-900 bg-slate-50/10 -m-8 p-10 min-h-screen">
+
+    <!-- 1. CHỈ SỐ VẬN HÀNH CỐT LÕI -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8">
+        <!-- Tổng Sinh viên -->
+        <div class="bg-white p-10 rounded-[3.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all relative overflow-hidden group">
+            <div class="absolute top-0 left-0 w-2 h-full bg-indigo-600"></div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Tổng số Sinh viên</p>
+            <div class="flex items-baseline gap-3">
+                <span class="text-6xl font-black text-slate-900 tabular-nums">{{stats.totalStudents}}</span>
+                <span class="text-sm font-bold text-slate-400 italic">Sinh viên</span>
+            </div>
+            <div class="mt-6 flex items-center gap-2 text-[10px] font-black text-indigo-600 uppercase">
+                <span>Trong chuyên ngành</span>
+            </div>
+        </div>
+
+        <!-- Tổng Giảng viên -->
+        <div class="bg-white p-10 rounded-[3.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all relative overflow-hidden group">
+            <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Tổng số Giảng viên</p>
+            <div class="flex items-baseline gap-3">
+                <span class="text-6xl font-black text-slate-900 tabular-nums">{{stats.totalTeachers}}</span>
+                <span class="text-sm font-bold text-slate-400 italic">Giảng viên</span>
+            </div>
+            <div class="mt-6 flex items-center gap-2 text-[10px] font-black text-emerald-500 uppercase">
+                <span>Đội ngũ chuyên môn</span>
+            </div>
+        </div>
+
+        <!-- Sinh viên chưa đăng ký -->
+        <div class="bg-slate-900 p-10 rounded-[3.5rem] shadow-xl relative overflow-hidden group">
+            <div class="absolute top-0 left-0 w-2 h-full bg-rose-500"></div>
+            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Chưa đăng ký đồ án</p>
+            <div class="flex items-baseline gap-3">
+                <span class="text-6xl font-black text-white tabular-nums">{{stats.unregisteredStudents}}</span>
+                <span class="text-sm font-bold text-slate-500 italic">Sinh viên</span>
+            </div>
+            <div class="mt-6 flex items-center gap-2 text-[10px] font-black text-rose-500 uppercase">
+                <span class="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></span> Cần rà soát ngay
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MA TRẬN THAO TÁC: LƯỚI QUẢN LÝ TRỌNG YẾU -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+        <!-- Các hành động chính với số liệu thực tế -->
+        <a href="/teacher/leader/projects" class="group bg-indigo-600 p-10 rounded-[4rem] text-white shadow-xl shadow-indigo-900/10 hover:scale-[1.02] active:scale-95 transition-all relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+            <div class="flex items-start justify-between mb-6">
+                <div class="text-4xl">📊</div>
+                <div class="text-right">
+                    <span class="block text-4xl font-black tabular-nums">{{stats.activeProjects}}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-200">Đồ án đang làm</span>
+                </div>
+            </div>
+            <h4 class="text-2xl font-black uppercase tracking-tighter leading-none mb-2">Giám sát Đồ án</h4>
+            <p class="text-[10px] font-bold text-indigo-200 uppercase tracking-widest italic">Trung tâm Giám sát</p>
+            <div class="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
+                <span class="text-[10px] font-black uppercase tracking-widest">Xem chi tiết</span>
+                <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+        </a>
+
+        <a href="/teacher/leader/reviewer-assignments" class="group bg-white p-10 rounded-[4rem] border border-slate-100 shadow-sm hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+            <div class="flex items-start justify-between mb-6">
+                <div class="text-4xl">👥</div>
+                <div class="text-right">
+                    <span class="block text-4xl font-black text-slate-900 tabular-nums">{{stats.pendingReviewers}}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Đang chờ gán</span>
+                </div>
+            </div>
+            <h4 class="text-2xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">Gán Phản biện</h4>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Phân công Phản biện</p>
+            <div class="mt-8 pt-8 border-t border-slate-50 flex items-center justify-between">
+                <span class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Điều phối ngay</span>
+                <svg class="w-5 h-5 text-indigo-600 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+        </a>
+
+        <a href="/teacher/leader/councils" class="group bg-white p-10 rounded-[4rem] border border-slate-100 shadow-sm hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+            <div class="flex items-start justify-between mb-6">
+                <div class="text-4xl">⚖️</div>
+                <div class="text-right">
+                    <span class="block text-4xl font-black text-slate-900 tabular-nums">{{stats.totalCouncils}}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Hội đồng hiện có</span>
+                </div>
+            </div>
+            <h4 class="text-2xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">Quản lý Hội đồng</h4>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Trung tâm Hội đồng</p>
+            <div class="mt-8 pt-8 border-t border-slate-50 flex items-center justify-between">
+                <span class="text-[10px] font-black text-slate-900 uppercase tracking-widest">Thành lập & Điều hành</span>
+                <svg class="w-5 h-5 text-slate-900 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+        </a>
+
+        <a href="/teacher/leader/schedule" class="group bg-slate-900 p-10 rounded-[4rem] text-white shadow-xl shadow-indigo-900/10 hover:scale-[1.02] active:scale-95 transition-all relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+            <div class="flex items-start justify-between mb-6">
+                <div class="text-4xl">📅</div>
+                <div class="text-right">
+                    <span class="block text-4xl font-black text-white tabular-nums">{{stats.pendingSchedules}}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Chờ xếp lịch</span>
+                </div>
+            </div>
+            <h4 class="text-2xl font-black uppercase tracking-tighter leading-none mb-2">Lịch Bảo vệ</h4>
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest italic">Điều phối Bảo vệ</p>
+            <div class="mt-8 pt-8 border-t border-white/5 flex items-center justify-between">
+                <span class="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Điều phối thời gian</span>
+                <svg class="w-5 h-5 text-emerald-400 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+        </a>
+    </div>
+
+    <!-- 4. QUẢN LÝ PHỤ TRỢ: GIẢNG VIÊN & SINH VIÊN -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <a href="/teacher/leader/teachers" class="group flex items-center gap-10 p-12 bg-white rounded-[3.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all relative overflow-hidden">
+            <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-[2rem] flex items-center justify-center text-3xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500">👨‍🏫</div>
+            <div class="flex-1 space-y-1">
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-black text-slate-900 tabular-nums">{{stats.totalGVHD}}</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">GVHD</span>
+                    <span class="mx-2 text-slate-200">|</span>
+                    <span class="text-3xl font-black text-slate-900 tabular-nums">{{stats.totalGVPB}}</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">GVPB</span>
+                </div>
+                <h5 class="text-xl font-black text-slate-900 uppercase tracking-tight leading-none">Quản lý Đội ngũ Giảng viên</h5>
+                <p class="text-xs font-medium text-slate-400 italic">Theo dõi tải công việc và phân quyền nghiệp vụ (GVHD/GVPB).</p>
+            </div>
+            <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+        </a>
+
+        <a href="/teacher/leader/students" class="group flex items-center gap-10 p-12 bg-white rounded-[3.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all relative overflow-hidden">
+            <div class="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-[2rem] flex items-center justify-center text-3xl group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">🎓</div>
+            <div class="flex-1 space-y-1">
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-black text-slate-900 tabular-nums">{{stats.totalStudents}}</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Sinh viên ngành</span>
+                </div>
+                <h5 class="text-xl font-black text-slate-900 uppercase tracking-tight leading-none">Danh sách Sinh viên</h5>
+                <p class="text-xs font-medium text-slate-400 italic">Tra cứu hồ sơ và tình trạng đồ án của toàn bộ sinh viên bộ môn.</p>
+            </div>
+            <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<script>
+    function setGreeting() {
+        const hour = new Date().getHours();
+        const text = document.getElementById('greeting-text');
+        if (hour < 5) text.innerText = "Làm việc đêm khuya,";
+        else if (hour < 11) text.innerText = "Chào buổi sáng,";
+        else if (hour < 11) text.innerText = "Chào buổi trưa,";
+        else if (hour < 18) text.innerText = "Chào buổi chiều,";
+        else text.innerText = "Chào buổi tối,";
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setGreeting();
+    });
+</script>
+
+<style>
+    @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+        animation: fade-in-up 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+</style>

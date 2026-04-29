@@ -1,0 +1,293 @@
+<div class="space-y-10 animate-in fade-in slide-in-from-bottom-5 duration-700 pb-20 font-sans text-slate-900 bg-slate-50/50 -m-8 p-8 min-h-screen">
+
+    <!-- REFINED HEADER -->
+    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 pb-8 border-b border-slate-200">
+        <div class="space-y-4">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-indigo-100">
+                <span class="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></span>
+                Defense Management Suite
+            </div>
+            <h1 class="text-5xl font-black text-slate-900 tracking-tight leading-none uppercase">
+                Điều phối <span class="text-indigo-600">Lịch bảo vệ</span>
+            </h1>
+            <p class="text-slate-400 font-medium text-lg tracking-tight italic">Quản lý lộ trình, sắp xếp hội đồng và phòng bảo vệ cho toàn bộ sinh viên đủ điều kiện.</p>
+        </div>
+        
+        <div class="flex items-center gap-6 bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
+            <div class="flex items-center gap-3 pr-6 border-r border-slate-100">
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shadow-inner font-black">
+                    {{readyStudents.length}}
+                </div>
+                <div>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Chờ xếp lịch</p>
+                    <p class="text-sm font-black text-emerald-600 leading-none">Cần xử lý ngay</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl shadow-inner font-black">
+                    {{schedules.length}}
+                </div>
+                <div>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Đã gán lịch</p>
+                    <p class="text-sm font-black text-blue-600 leading-none">Đang theo đúng lộ trình</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. COORDINATION DASHBOARD (Waiting for Schedule) -->
+    <section class="space-y-6">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h2 class="text-xl font-black text-slate-800 uppercase tracking-tight">Sẵn sàng điều phối ({{readyStudents.length}})</h2>
+        </div>
+
+        {{#if readyStudents.length}}
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {{#each readyStudents}}
+            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all group relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] mb-1">Đủ điều kiện bảo vệ</p>
+                        <h4 class="text-base font-black text-slate-900 uppercase leading-tight">{{this.studentId.fullName}}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">{{this.studentId.studentCode}}</p>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500 line-clamp-2 italic mb-6 leading-relaxed">"{{this.inputProject}}"</p>
+                
+                <button onclick="openSchedulingModal('{{this._id}}', '{{this.studentId.fullName}}', '{{this.inputProject}}')" class="w-full py-4 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all flex items-center justify-center gap-2">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Sắp xếp lịch trình
+                </button>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <div class="bg-emerald-50/30 border-2 border-dashed border-emerald-100 rounded-[2.5rem] py-12 flex flex-col items-center justify-center text-center">
+            <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-emerald-300 mb-4 shadow-sm">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <p class="text-emerald-700 font-black text-sm uppercase tracking-widest">Tất cả đều đã có lịch!</p>
+            <p class="text-emerald-500/60 text-xs font-medium mt-1">Hiện không có đồ án nào đang chờ điều phối.</p>
+        </div>
+        {{/if}}
+    </section>
+
+    <!-- 2. TIMELINE OF SCHEDULED PROJECTS -->
+    <section class="space-y-6 pt-10">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+            <h2 class="text-xl font-black text-slate-800 uppercase tracking-tight">Lịch trình đã chốt ({{schedules.length}})</h2>
+        </div>
+
+        <div class="relative space-y-12 max-w-5xl mx-auto pt-6">
+            <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-slate-200 hidden md:block"></div>
+
+            {{#each schedules}}
+            <div class="relative flex flex-col md:flex-row items-stretch gap-8 group animate-in">
+                <div class="absolute left-6 md:left-1/2 -ml-[5px] w-2.5 h-2.5 rounded-full bg-slate-200 border-2 border-white z-10 group-hover:bg-blue-600 group-hover:scale-150 transition-all hidden md:block mt-12"></div>
+
+                <!-- Time & Location -->
+                <div class="w-full md:w-1/2 flex flex-col justify-center order-1 md:text-right pr-0 md:pr-12">
+                    <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm group-hover:shadow-lg transition-all inline-block">
+                        <div class="flex items-center gap-4 md:flex-row-reverse">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-900 text-white flex flex-col items-center justify-center shadow-lg flex-shrink-0">
+                                <span class="text-[8px] font-black uppercase tracking-tighter">{{formatDate this.defenseDate 'MMM'}}</span>
+                                <span class="text-lg font-black leading-none">{{formatDate this.defenseDate 'DD'}}</span>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-black text-slate-900 leading-none mb-1">{{this.defenseTime}}</h4>
+                                <span class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Phòng {{this.defenseRoom}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Info -->
+                <div class="w-full md:w-1/2 order-2 pl-0 md:pl-12">
+                    <div class="bg-white p-7 rounded-[2.5rem] border border-slate-100 shadow-sm group-hover:shadow-xl transition-all relative overflow-hidden h-full flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="px-3 py-1 bg-slate-50 text-slate-400 rounded-full text-[8px] font-black uppercase tracking-widest border border-slate-100">{{#if this.council.councilName}}{{this.council.councilName}}{{else}}Sắp xếp bởi LĐBM{{/if}}</span>
+                                <div class="flex items-center gap-1">
+                                    <button onclick="openSchedulingModal('{{this._id}}', '{{this.fullName}}', '{{this.projectName}}', '{{this.defenseDate}}', '{{this.defenseTime}}', '{{this.defenseRoom}}', '{{this.councilId._id}}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="text-[13px] font-black text-slate-800 leading-snug uppercase tracking-tight group-hover:text-blue-600 transition-colors">
+                                {{this.projectName}}
+                            </h3>
+                        </div>
+
+                        <div class="mt-4 flex items-center gap-3 pt-4 border-t border-slate-50">
+                            <div class="w-7 h-7 rounded-xl bg-slate-100 flex items-center justify-center font-black text-slate-400 text-[9px]">
+                                {{substring this.fullName 0 1}}
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-[10px] font-black text-slate-700 uppercase leading-none">{{this.fullName}} <span class="text-slate-300 mx-2">|</span> {{this.studentCode}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+
+</div>
+
+<!-- SCHEDULING MODAL -->
+<div id="schedulingModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[100] hidden items-center justify-center p-4">
+    <div class="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+        <!-- Modal Header -->
+        <div class="p-8 pb-0 flex justify-between items-start">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight leading-none">Thiết lập Lịch bảo vệ</h2>
+                    <p id="modalStudentName" class="text-slate-400 font-bold text-xs uppercase mt-1 tracking-widest"></p>
+                </div>
+            </div>
+            <button onclick="closeSchedulingModal()" class="p-3 text-slate-400 hover:text-rose-500 bg-slate-50 hover:bg-rose-50 rounded-2xl transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <form id="schedulingForm" class="p-8 space-y-8">
+            <input type="hidden" id="modalProjectId">
+            
+            <div class="p-6 bg-slate-50 rounded-[2rem] border border-slate-100">
+                <p id="modalProjectName" class="text-xs text-slate-600 font-bold leading-relaxed line-clamp-2 italic">""</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Select Council -->
+                <div class="col-span-2">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-2">Chọn Hội đồng bảo vệ</label>
+                    <select id="selectCouncil" required class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-black text-slate-700 outline-none focus:border-indigo-500 focus:bg-white transition-all appearance-none cursor-pointer">
+                        <option value="" disabled selected>-- Chọn Hội đồng --</option>
+                        {{#each allCouncils}}
+                            <option value="{{this._id}}" data-room="{{this.room}}">{{this.councilName}} - Phòng {{this.room}} (C-{{substring this.chairmanId.fullName 0 1}}. TK-{{substring this.secretaryId.fullName 0 1}})</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-2">Ngày bảo vệ</label>
+                    <input type="date" id="defenseDate" required class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-black text-slate-700 outline-none focus:border-indigo-500 focus:bg-white transition-all">
+                </div>
+
+                <!-- Time -->
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-2">Giờ bắt đầu (Ca)</label>
+                    <select id="defenseTime" required class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-black text-slate-700 outline-none focus:border-indigo-500 focus:bg-white transition-all">
+                        <option value="07:30">Tiết 1 (07:30)</option>
+                        <option value="08:30">Tiết 2 (08:30)</option>
+                        <option value="09:30">Tiết 3 (09:30)</option>
+                        <option value="10:30">Tiết 4 (10:30)</option>
+                        <option value="13:30">Tiết 7 (13:30)</option>
+                        <option value="14:30">Tiết 8 (14:30)</option>
+                        <option value="15:30">Tiết 9 (15:30)</option>
+                        <option value="16:30">Tiết 10 (16:30)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-4 flex gap-4">
+                <button type="button" onclick="closeSchedulingModal()" class="flex-1 py-5 bg-slate-100 text-slate-500 rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-slate-200 transition-all">Hủy bỏ</button>
+                <button type="submit" class="flex-[2] py-5 bg-indigo-600 text-white rounded-[2.5rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-indigo-700 shadow-xl shadow-indigo-100 transition-all flex items-center justify-center gap-3">
+                    Xác nhận & Cấp lịch bảo vệ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('schedulingModal');
+    const form = document.getElementById('schedulingForm');
+
+    function openSchedulingModal(projectId, studentName, projectName, date = '', time = '07:30', room = '', councilId = '') {
+        document.getElementById('modalProjectId').value = projectId;
+        document.getElementById('modalStudentName').textContent = studentName;
+        document.getElementById('modalProjectName').textContent = `"${projectName}"`;
+        
+        if (date) {
+            const d = new Date(date);
+            document.getElementById('defenseDate').value = d.toISOString().split('T')[0];
+        }
+        document.getElementById('defenseTime').value = time;
+        document.getElementById('selectCouncil').value = councilId;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeSchedulingModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const councilSelect = document.getElementById('selectCouncil');
+        const selectedOption = councilSelect.options[councilSelect.selectedIndex];
+        
+        const data = {
+            projectId: document.getElementById('modalProjectId').value,
+            councilId: councilSelect.value,
+            defenseDate: document.getElementById('defenseDate').value,
+            defenseTime: document.getElementById('defenseTime').value,
+            defenseRoom: selectedOption.getAttribute('data-room')
+        };
+
+        try {
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<span class="animate-spin mr-2">⏳</span> Đang đồng bộ...';
+            btn.disabled = true;
+
+            const res = await fetch('/teacher/leader/updateDefenseSchedule', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+
+            if (result.success) {
+                Swal.fire({
+                    title: '<span class="text-emerald-600">Thành công!</span>',
+                    text: result.message,
+                    icon: 'success',
+                    customClass: { popup: 'rounded-[2rem]' }
+                }).then(() => window.location.reload());
+            } else {
+                Swal.fire('Thất bại', result.message, 'error');
+                btn.innerHTML = 'Xác nhận & Cấp lịch bảo vệ';
+                btn.disabled = false;
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire('Lỗi Server', 'Không thể kết nối đến máy chủ', 'error');
+        }
+    });
+</script>
+
+<style>
+    .animate-in {
+        animation: animate-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes animate-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

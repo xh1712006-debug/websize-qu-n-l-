@@ -1,0 +1,258 @@
+<div class="space-y-10 animate-in">
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-wider">
+                🏛️ Secretary Command Center
+            </div>
+            <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight">Trung tâm Nghiệp vụ Hội đồng</h1>
+            <p class="text-slate-500 font-medium italic">Giám sát {{stats.councilCount}} hội đồng và điều phối tiến độ bảo vệ.</p>
+        </div>
+        {{#if myCouncils}}
+        <div class="flex items-center gap-3 p-2 bg-white border border-slate-100 rounded-3xl shadow-sm">
+            <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            </div>
+            <div class="pr-6">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Trạng thái</p>
+                <p class="text-sm font-black text-slate-900 truncate max-w-[150px]">Đang điều phối</p>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+    {{#if noCouncil}}
+    <div class="bg-white rounded-[3.5rem] border border-slate-100 shadow-sm p-20 text-center space-y-6">
+        <div class="w-24 h-24 bg-slate-50 rounded-[2.5rem] flex items-center justify-center text-5xl mx-auto">🏜️</div>
+        <div class="space-y-2">
+            <h3 class="text-xl font-black text-slate-900 uppercase tracking-tight">Không tìm thấy hội đồng</h3>
+            <p class="text-slate-500 font-medium max-w-sm mx-auto">Bạn chưa được phân công làm Thư ký cho hội đồng nào đang hoạt động trong kỳ này.</p>
+        </div>
+    </div>
+    {{else}}
+
+    <!-- STATS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- TOTAL PROJECTS -->
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-50 shadow-sm relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full blur-3xl -mr-16 -mt-16 opacity-50 group-hover:scale-110 transition-transform duration-500"></div>
+            <div class="relative z-10 space-y-4">
+                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332 0.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332 0.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332 0.477-4.5 1.253"></path></svg>
+                </div>
+                <div>
+                    <p class="text-4xl font-black text-slate-900 tracking-tight">{{stats.total}}</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Tổng đồ án ({{stats.councilCount}} HĐ)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECORDED MINUTES -->
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-50 shadow-sm relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full blur-3xl -mr-16 -mt-16 opacity-50 group-hover:scale-110 transition-transform duration-500"></div>
+            <div class="relative z-10 space-y-4">
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-4xl font-black text-slate-900 tracking-tight">{{stats.recorded}}</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Đã lập biên bản</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SYNTHESIZED -->
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-50 shadow-sm relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full blur-3xl -mr-16 -mt-16 opacity-50 group-hover:scale-110 transition-transform duration-500"></div>
+            <div class="relative z-10 space-y-4">
+                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-4xl font-black text-slate-900 tracking-tight">{{stats.synthesized}}</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Đã tổng hợp điểm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- COUNCILS LIST -->
+        <div class="lg:col-span-4 bg-white rounded-[3rem] border border-slate-100 shadow-sm p-10 space-y-8 overflow-y-auto max-h-[600px]">
+            <h4 class="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> Danh sách Hội đồng ({{stats.councilCount}})
+            </h4>
+            
+            <div class="space-y-10">
+                {{#each myCouncils}}
+                <div class="p-6 bg-slate-50/50 rounded-3xl border border-slate-50 space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <p class="text-sm font-black text-slate-900 tracking-tight uppercase">{{this.councilName}}</p>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-600 rounded-lg text-[8px] font-black uppercase">Phòng {{this.room}}</span>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Chairman -->
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center font-black text-[10px]">CT</div>
+                            <div>
+                                <p class="text-xs font-black text-slate-900 leading-none mb-1">{{this.chairmanId.fullName}}</p>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">Chủ tịch</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center font-black text-[10px]">TK</div>
+                            <div>
+                                <p class="text-xs font-black text-slate-900 leading-none mb-1">{{this.secretaryId.fullName}}</p>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">Thư ký</p>
+                            </div>
+                        </div>
+
+                        <!-- Members -->
+                        {{#each this.memberIds}}
+                        <div class="flex items-center gap-3 opacity-80">
+                            <div class="w-10 h-10 bg-slate-100 text-slate-500 rounded-xl flex items-center justify-center font-black text-[10px]">UV</div>
+                            <div>
+                                <p class="text-xs font-black text-slate-900 leading-none mb-1">{{this.fullName}}</p>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">Ủy viên</p>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <!-- ACTIONS & QUICK LINKS -->
+        <div class="lg:col-span-8 space-y-8">
+            <div class="bg-slate-900 p-12 rounded-[3.5rem] relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/50 to-transparent"></div>
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div class="space-y-4">
+                        <h2 class="text-3xl font-black text-white leading-tight uppercase tracking-tight">Cần lập biên bản cho sinh viên?</h2>
+                        <p class="text-indigo-200 text-sm font-medium">Truy cập ngay trình soạn thảo biên bản thời gian thực để ghi nhận phần hỏi đáp.</p>
+                        <a href="/teacher/secretary/minutes" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-900 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-50 transition-all shadow-xl shadow-indigo-900/20">
+                            Bắt đầu ghi <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="w-full aspect-square bg-white/5 rounded-full border border-white/10 flex items-center justify-center relative scale-110">
+                            <div class="w-2/3 h-2/3 bg-white/10 rounded-[3rem] border border-white/20 backdrop-blur-sm flex flex-col p-6 space-y-4">
+                                <div class="w-full h-2 bg-white/20 rounded-full"></div>
+                                <div class="w-2/3 h-2 bg-white/20 rounded-full"></div>
+                                <div class="w-1/2 h-2 bg-indigo-400 rounded-full"></div>
+                                <div class="flex-1"></div>
+                                <div class="w-full h-8 bg-indigo-600 rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <a href="/teacher/secretary/synthesis" class="p-8 bg-white border border-slate-100 rounded-[2.5rem] group hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-500/5 transition-all">
+                    <div class="flex items-center gap-6">
+                        <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-[1.5rem] flex items-center justify-center group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-black text-slate-900 uppercase tracking-tight">Tổng hợp điểm</h5>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Xuất báo cáo & Biên bản</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/teacher/secretary/schedule" class="p-8 bg-white border border-slate-100 rounded-[2.5rem] group hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-500/5 transition-all">
+                    <div class="flex items-center gap-6">
+                        <div class="w-16 h-16 bg-slate-50 text-slate-400 rounded-[1.5rem] flex items-center justify-center group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-black text-slate-900 uppercase tracking-tight">Lịch trình chi tiết</h5>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Quản lý ca bảo vệ</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MONITORING TABLE -->
+    <div class="bg-white rounded-[3.5rem] border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden animate-in slide-in-from-bottom-10 duration-700">
+        <div class="p-10 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <h3 class="text-xl font-black text-slate-900 uppercase tracking-tight">Bảng Theo dõi Tiến độ Bảo vệ</h3>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Cập nhật thời gian thực từ Hội đồng</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã có biên bản
+                </span>
+                <span class="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span> Đang chấm điểm
+                </span>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/50">
+                        <th class="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinh viên</th>
+                        <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Đồ án</th>
+                        <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Chấm điểm</th>
+                        <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Biên bản</th>
+                        <th class="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    {{#each students}}
+                    <tr class="group hover:bg-slate-50/50 transition-colors">
+                        <td class="px-10 py-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-black text-xs">
+                                    {{substring this.fullName 0 1}}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-black text-slate-900 uppercase tracking-tight truncate">{{this.fullName}}</p>
+                                    <p class="text-[9px] font-bold text-indigo-500 uppercase tracking-widest mt-0.5">{{this.studentCode}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-8">
+                            <div class="space-y-1">
+                                <p class="text-[9px] font-black text-amber-600 uppercase tracking-widest leading-none">{{this.councilName}}</p>
+                                <p class="text-xs font-bold text-slate-600 truncate max-w-[200px] italic">"{{this.projectName}}"</p>
+                            </div>
+                        </td>
+                        <td class="px-6 py-8">
+                            <div class="flex flex-col items-center gap-1.5">
+                                <div class="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-indigo-500" style="width: {{multiply (divide this.scoreProgress this.totalMembers) 100}}%"></div>
+                                </div>
+                                <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">{{this.scoreProgress}}/{{this.totalMembers}} TV</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-8 text-center">
+                            {{#if this.hasMinutes}}
+                                <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[8px] font-black uppercase tracking-widest border border-emerald-100">Đã xong</span>
+                            {{else}}
+                                <span class="px-3 py-1 bg-slate-50 text-slate-400 rounded-full text-[8px] font-black uppercase tracking-widest border border-slate-100 opacity-60">Chưa có</span>
+                            {{/if}}
+                        </td>
+                        <td class="px-10 py-8 text-right">
+                            <a href="/teacher/secretary/minutes" class="inline-flex items-center gap-2 text-[9px] font-black text-indigo-600 uppercase tracking-widest hover:text-slate-900 transition-colors group/link">
+                                Lập biên bản 
+                                <svg class="w-3 h-3 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{/if}}
+</div>

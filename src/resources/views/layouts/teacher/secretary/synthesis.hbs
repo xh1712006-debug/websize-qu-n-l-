@@ -1,0 +1,183 @@
+<div class="space-y-10 animate-in">
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-black uppercase tracking-wider">
+                📊 Final Synthesis & Export
+            </div>
+            <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight">Tổng hợp & Xuất báo cáo</h1>
+            <p class="text-slate-500 font-medium italic">Rà soát điểm số từ các thành viên và chốt kết quả cuối cùng để xuất biên bản chính thức.</p>
+        </div>
+        <button onclick="fetchStudents()" class="p-4 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-slate-900 transition-all shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </button>
+    </div>
+
+    <!-- MAIN TABLE CARD -->
+    <div class="bg-white rounded-[3.5rem] border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden">
+        <div class="p-10 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <h3 class="text-xl font-black text-slate-900 uppercase tracking-tight">Danh sách SV Bảo vệ</h3>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Sắp xếp theo mã sinh viên</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="flex -space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-100 border-4 border-white flex items-center justify-center text-[10px] font-black text-slate-400">?</div>
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 border-4 border-white flex items-center justify-center text-[10px] font-black text-indigo-400">?</div>
+                    <div class="w-10 h-10 rounded-full bg-emerald-100 border-4 border-white flex items-center justify-center text-[10px] font-black text-emerald-400">?</div>
+                </div>
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-2">Đang chờ tổng hợp</p>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/50">
+                        <th class="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinh viên</th>
+                        <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Tiến độ Điểm</th>
+                        <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Biên bản</th>
+                        <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Điểm Tổng</th>
+                        <th class="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="synthesis-table-body" class="divide-y divide-slate-50">
+                    <!-- Data rendered here -->
+                    <tr>
+                        <td colspan="5" class="px-10 py-20 text-center">
+                            <div class="animate-pulse space-y-4">
+                                <div class="h-4 bg-slate-50 rounded-full w-1/3 mx-auto"></div>
+                                <div class="h-4 bg-slate-50 rounded-full w-1/4 mx-auto"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FOOTER INFO -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-indigo-900 p-10 rounded-[2.5rem] text-white space-y-4 shadow-xl shadow-indigo-100">
+            <h4 class="text-sm font-black uppercase tracking-widest opacity-60">Lưu ý cho Thư ký</h4>
+            <ul class="space-y-3">
+                <li class="flex items-start gap-3 text-xs font-medium text-indigo-100">
+                    <span class="w-5 h-5 bg-white/10 rounded-lg flex items-center justify-center text-[10px] font-black flex-shrink-0">1</span>
+                    Chỉ tổng hợp điểm khi tất cả các thành viên Hội đồng đã hoàn tất việc chấm điểm.
+                </li>
+                <li class="flex items-start gap-3 text-xs font-medium text-indigo-100">
+                    <span class="w-5 h-5 bg-white/10 rounded-lg flex items-center justify-center text-[10px] font-black flex-shrink-0">2</span>
+                    Kiểm tra kỹ nội dung biên bản trước khi xuất báo cáo để tránh sai sót thông tin.
+                </li>
+            </ul>
+        </div>
+        
+        <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 flex items-center justify-center text-center">
+            <div class="space-y-2">
+                <p class="text-4xl">📚</p>
+                <h4 class="text-xs font-black text-slate-900 uppercase tracking-widest">Hỗ trợ Phom mẫu</h4>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-loose">Hệ thống hiện hỗ trợ xuất dữ liệu sang định dạng CSV tương thích với Microsoft Excel.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'script'}}
+<script>
+    async function fetchStudents() {
+        try {
+            const res = await fetch('/teacher/secretary/api/students');
+            const data = await res.json();
+            const body = document.getElementById('synthesis-table-body');
+            
+            if (data.length === 0) {
+                body.innerHTML = `<tr><td colspan="5" class="px-10 py-20 text-center text-slate-400 font-bold uppercase text-[10px] tracking-widest">Không có dữ liệu sinh viên trong hội đồng này.</td></tr>`;
+                return;
+            }
+
+            body.innerHTML = data.map(s => {
+                const gradingProgress = Math.round((s.councilScoresCount / s.councilMembersCount) * 100);
+                const isReady = s.councilScoresCount === s.councilMembersCount;
+                const hasMinutes = s.defenseQuestions.length > 0 && s.defenseConclusion;
+                const isDefended = s.status === 'DEFENDED' || s.status === 'COMPLETED';
+
+                return `
+                    <tr class="group hover:bg-slate-50/50 transition-colors">
+                        <td class="px-10 py-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-black text-xs shadow-lg shadow-slate-200">
+                                    ${s.fullName.substring(0, 1)}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-black text-slate-900 uppercase tracking-tight truncate">${s.fullName}</p>
+                                    <p class="text-[9px] font-bold text-indigo-500 uppercase tracking-widest mt-0.5">${s.studentCode}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-8">
+                            <div class="flex flex-col items-center gap-2">
+                                <div class="w-32 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-indigo-500 transition-all duration-1000" style="width: ${gradingProgress}%"></div>
+                                </div>
+                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">${s.councilScoresCount}/${s.councilMembersCount} Thành viên</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-8 text-center">
+                            ${hasMinutes ? 
+                                '<span class="px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-emerald-100 shadow-sm">Đã lập</span>' : 
+                                '<span class="px-4 py-1.5 bg-rose-50 text-rose-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-rose-100 opacity-50">Chưa có</span>'}
+                        </td>
+                        <td class="px-6 py-8 text-center">
+                            <div class="inline-flex flex-col">
+                                <span class="text-2xl font-black ${s.finalScore ? 'text-slate-900' : 'text-slate-200'}">${s.finalScore || '--'}</span>
+                                <span class="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Average</span>
+                            </div>
+                        </td>
+                        <td class="px-10 py-8 text-right">
+                            <div class="flex items-center justify-end gap-3">
+                                <button onclick="synthesizeScore('${s.studentId}')" 
+                                    class="p-3 bg-white border border-slate-200 text-slate-400 hover:text-indigo-600 hover:border-indigo-200 rounded-xl transition-all shadow-sm ${isDefended ? 'opacity-30 cursor-not-allowed' : ''}" 
+                                    title="Tổng hợp điểm"
+                                    ${isDefended ? 'disabled' : ''}>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+                                </button>
+                                <button onclick="exportReport('${s.studentId}')" 
+                                    class="p-3 bg-slate-900 text-white hover:bg-indigo-600 rounded-xl transition-all shadow-xl shadow-slate-200 ${!s.finalScore ? 'opacity-30 cursor-not-allowed' : ''}" 
+                                    title="Xuất Biên bản"
+                                    ${!s.finalScore ? 'disabled' : ''}>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a1 1 0 001 1h14a1 1 0 001-1v-1m-4-4l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        } catch (err) { console.error(err); }
+    }
+
+    async function synthesizeScore(studentId) {
+        if (!confirm('Bạn có chắc chắn muốn tổng hợp điểm trung bình cho sinh viên này? Trạng thái sẽ chuyển sang "Đã bảo vệ".')) return;
+        try {
+            const res = await fetch('/teacher/council/synthesizeScore', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert(data.message);
+                fetchStudents();
+            } else {
+                alert(data.message);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    function exportReport(studentId) {
+        window.location.href = `/teacher/score/exportReport/${studentId}`;
+    }
+
+    // Initial load
+    fetchStudents();
+</script>
+{{/section}}

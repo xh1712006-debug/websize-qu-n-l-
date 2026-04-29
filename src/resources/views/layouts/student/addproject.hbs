@@ -1,0 +1,481 @@
+<div class="max-w-5xl mx-auto py-8 px-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
+    
+    <!-- HEADER AREA -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+        <div>
+            <h1 class="text-4xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                Đăng ký Đồ án <span class="text-indigo-600">tốt nghiệp</span>
+            </h1>
+            <p class="text-slate-500 font-medium mt-1">Chào hồ, {{user.fullName}}! Hãy bắt đầu hành trình của bạn.</p>
+        </div>
+
+        {{#if (and (eq registrationStatus 'OPEN') uiState.canRegister)}}
+        <!-- Countdown Timer Card -->
+        <div class="bg-white px-8 py-4 rounded-[2rem] border-2 border-slate-100 shadow-xl shadow-slate-200/50 flex items-center gap-6 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-r from-indigo-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="relative z-10 flex flex-col">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Thời gian còn lại</span>
+                <div id="countdown" class="text-2xl font-black text-indigo-600 font-mono tracking-tighter tabular-nums">
+                    00d : 00h : 00m : 00s
+                </div>
+            </div>
+            <div class="relative z-10 w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl animate-pulse">
+                ⏰
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- LEFT: MAIN WORKSPACE -->
+        <div class="lg:col-span-8 space-y-8">
+            
+            {{#if (eq registrationStatus 'OPEN')}}
+                {{#if uiState.canRegister}}
+                    <!-- STEPPER NAVIGATION -->
+                    <div class="bg-white p-2 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between mb-8 overflow-x-auto no-scrollbar">
+                        <div id="step-nav-1" class="flex-1 flex items-center justify-center gap-3 py-4 px-6 rounded-[2rem] bg-indigo-600 text-white transition-all duration-500">
+                            <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-black text-sm">1</span>
+                            <span class="font-bold text-xs uppercase tracking-widest whitespace-nowrap">Giảng viên</span>
+                        </div>
+                        <div class="w-8 flex items-center justify-center opacity-20">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                        <div id="step-nav-2" class="flex-1 flex items-center justify-center gap-3 py-4 px-6 rounded-[2rem] text-slate-400 transition-all duration-500">
+                            <span class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-black text-sm">2</span>
+                            <span class="font-bold text-xs uppercase tracking-widest whitespace-nowrap">Đề tài</span>
+                        </div>
+                        <div class="w-8 flex items-center justify-center opacity-20">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                        <div id="step-nav-3" class="flex-1 flex items-center justify-center gap-3 py-4 px-6 rounded-[2rem] text-slate-400 transition-all duration-500">
+                            <span class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-black text-sm">3</span>
+                            <span class="font-bold text-xs uppercase tracking-widest whitespace-nowrap">Hoàn tất</span>
+                        </div>
+                    </div>
+
+                    <form id="addProjectForm" class="space-y-10">
+                        <!-- STEP 1: SELECT TEACHER -->
+                        <div id="step-1" class="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                            <div class="bg-indigo-50/50 p-6 rounded-[2rem] border border-indigo-100">
+                                <h3 class="text-lg font-black text-indigo-900 mb-2 flex items-center gap-2">
+                                    <span>👨‍🏫</span> Chọn giảng viên hướng dẫn
+                                </h3>
+                                <p class="text-sm text-indigo-700/70 font-medium">Danh sách hiển thị các giảng viên thuộc chuyên ngành: <span class="font-black underline">{{studentInfo.studentMajor}}</span></p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {{#if data_teacher.length}}
+                                    {{#each data_teacher}}
+                                    <label class="relative cursor-pointer group">
+                                        <input type="radio" name="teacherId" value="{{this._id}}" class="peer sr-only" required>
+                                        <div class="p-6 bg-white border-2 border-slate-100 rounded-[2rem] transition-all duration-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-50/30 group-hover:border-slate-300 group-hover:-translate-y-1 shadow-sm peer-checked:shadow-indigo-100">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform peer-checked:bg-indigo-100">
+                                                    👤
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h4 class="font-black text-slate-900 truncate leading-tight">{{this.fullName}}</h4>
+                                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">{{this.teacherCode}}</p>
+                                                </div>
+                                                <div class="ml-auto opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                    <div class="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center text-white text-[10px]">✓</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    {{/each}}
+                                {{else}}
+                                    <div class="col-span-full py-12 text-center bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200">
+                                        <p class="text-slate-400 font-bold">Hiện không có giảng viên nào khả dụng</p>
+                                    </div>
+                                {{/if}}
+                            </div>
+
+                            <div class="flex justify-end pt-4">
+                                <button type="button" onclick="nextStep(2)" class="px-10 py-4 bg-slate-900 text-white font-black rounded-2xl hover:bg-slate-800 transition-all flex items-center gap-3 text-sm uppercase tracking-widest shadow-xl">
+                                    Tiếp theo
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2: PROJECT INFO -->
+                        <div id="step-2" class="hidden space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+                            <div class="space-y-6">
+                                <div class="space-y-3">
+                                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Tên đồ án <span class="text-rose-500">*</span></label>
+                                    <textarea name="projectName" rows="2" placeholder="Ví dụ: Xây dựng hệ thống quản lý đồ án tốt nghiệp..." 
+                                        class="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-[1.5rem] focus:border-indigo-500 focus:outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"></textarea>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Mục tiêu <span class="text-rose-500">*</span></label>
+                                        <textarea name="objective" rows="4" placeholder="Giải quyết vấn đề gì?" 
+                                            class="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-[1.5rem] focus:border-indigo-500 focus:outline-none transition-all font-medium text-slate-600 shadow-sm"></textarea>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Phạm vi <span class="text-rose-500">*</span></label>
+                                        <textarea name="scope" rows="4" placeholder="Các chức năng chính..." required
+                                            class="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-[1.5rem] focus:border-indigo-500 focus:outline-none transition-all font-medium text-slate-600 shadow-sm"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Công nghệ <span class="text-rose-500">*</span></label>
+                                        <input type="text" name="technology" placeholder="React, Nodejs, MongoDB..." 
+                                            class="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-[1.5rem] focus:border-indigo-500 focus:outline-none transition-all font-bold text-slate-700 shadow-sm">
+                                    </div>
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Kết quả dự kiến <span class="text-rose-500">*</span></label>
+                                        <input type="text" name="expectedOutcome" placeholder="Bản cài đặt Website, Báo cáo..." required
+                                            class="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-[1.5rem] focus:border-indigo-500 focus:outline-none transition-all font-bold text-slate-700 shadow-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between pt-6">
+                                <button type="button" onclick="nextStep(1)" class="px-8 py-4 bg-slate-100 text-slate-600 font-black rounded-2xl hover:bg-slate-200 transition-all flex items-center gap-3 text-xs uppercase tracking-widest">
+                                    Quay lại
+                                </button>
+                                <button type="button" onclick="nextStep(3)" class="px-10 py-4 bg-slate-900 text-white font-black rounded-2xl hover:bg-slate-800 transition-all flex items-center gap-3 text-sm uppercase tracking-widest shadow-xl">
+                                    Kiểm tra lại
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: REVIEW & SUBMIT -->
+                        <div id="step-3" class="hidden space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+                            <div class="bg-indigo-900 rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl">
+                                <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+                                
+                                <div class="relative z-10 space-y-8">
+                                    <div class="flex items-center gap-4 border-b border-white/10 pb-6">
+                                        <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-3xl">🚀</div>
+                                        <div>
+                                            <h3 class="text-2xl font-black tracking-tight">Xác nhận để tài</h3>
+                                            <p class="text-indigo-200 text-sm font-medium">Vui lòng rà soát kỹ nội dung trước khi gửi đi.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                        <div class="space-y-6">
+                                            <div>
+                                                <span class="text-[10px] font-black text-indigo-300 uppercase tracking-[0.2em] block mb-2">Đề tài đề xuất</span>
+                                                <p id="review-projectName" class="text-xl font-black leading-tight"></p>
+                                            </div>
+                                            <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl">
+                                                <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-lg">👨‍🏫</div>
+                                                <div>
+                                                    <span class="text-[10px] font-black text-indigo-300 uppercase tracking-widest block">GV Hướng dẫn</span>
+                                                    <p id="review-teacherName" class="font-bold"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-6">
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                                    <span class="text-[10px] font-black text-indigo-300 uppercase tracking-widest block mb-1">Công nghệ</span>
+                                                    <span id="review-tech" class="text-sm font-bold truncate block"></span>
+                                                </div>
+                                                <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                                    <span class="text-[10px] font-black text-indigo-300 uppercase tracking-widest block mb-1">Thời hạn</span>
+                                                    <span class="text-sm font-bold">1 Tuần</span>
+                                                </div>
+                                            </div>
+                                            <div class="p-4 bg-amber-400/10 border border-amber-400/20 rounded-2xl">
+                                                <p class="text-[11px] text-amber-200 font-medium leading-relaxed">
+                                                    <span class="font-black text-amber-400">Lưu ý:</span> Bạn sẽ không thể sửa đổi nội dung này sau khi đã gửi đi cho đến khi nhận được kết quả duyệt.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between pt-6">
+                                <button type="button" onclick="nextStep(2)" class="px-8 py-4 bg-slate-100 text-slate-600 font-black rounded-2xl hover:bg-slate-200 transition-all flex items-center gap-3 text-xs uppercase tracking-widest">
+                                    Quay lại chỉnh sửa
+                                </button>
+                                <button type="button" onclick="submitProjectRequest()" class="px-12 py-5 bg-indigo-600 text-white font-black rounded-[2rem] hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 hover:-translate-y-1 flex items-center gap-3 text-sm uppercase tracking-widest">
+                                    <span>Gửi ngay bây giờ</span>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                {{else if uiState.isPending}}
+                    <!-- PENDING UI -->
+                    <div class="bg-white rounded-[3rem] p-12 border border-slate-100 shadow-xl text-center space-y-8 animate-in zoom-in-95 duration-700">
+                        <div class="w-24 h-24 bg-amber-50 rounded-full flex items-center justify-center mx-auto relative">
+                            <span class="text-4xl animate-bounce">⏳</span>
+                            <div class="absolute inset-0 rounded-full border-2 border-amber-200 border-t-transparent animate-spin"></div>
+                        </div>
+                        <div class="space-y-3">
+                            <h2 class="text-3xl font-black text-slate-900 tracking-tight">Đang chờ xét duyệt</h2>
+                            <p class="text-slate-500 font-medium max-w-sm mx-auto">Hệ thống đã ghi nhận đề xuất của bạn. Vui lòng kiểm tra thường xuyên để nhận phản hồi từ Giảng viên.</p>
+                        </div>
+                        <div class="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 inline-block text-left">
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Thông tin gửi đi:</p>
+                            <h3 class="font-black text-slate-800 text-lg mb-1">{{studentInfo.projectId.inputProject}}</h3>
+                            <div class="flex items-center gap-2 text-indigo-600 font-bold text-xs">
+                                <span>👨‍🏫 GV: {{studentInfo.teacherId.fullName}}</span>
+                            </div>
+                        </div>
+                    </div>
+                {{else if uiState.isRejected}}
+                    <!-- REJECTED UI -->
+                    <div class="bg-white rounded-[3rem] p-12 border-2 border-rose-100 shadow-xl text-center space-y-8 animate-in zoom-in-95 duration-700">
+                        <div class="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center mx-auto">
+                            <span class="text-4xl">❌</span>
+                        </div>
+                        <div class="space-y-3">
+                            <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Đề xuất bị từ chối</h2>
+                            <p class="text-slate-500 font-medium max-w-sm mx-auto">Giảng viên đã xem xét và từ chối đề xuất của bạn. Vui lòng đọc kỹ lý do và thực hiện đăng ký lại.</p>
+                        </div>
+                        
+                        <div class="max-w-xl mx-auto bg-rose-50/50 p-8 rounded-[2rem] border border-rose-100 text-left space-y-4">
+                            <div>
+                                <p class="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-1">Đề tài đã gửi:</p>
+                                <h3 class="font-black text-slate-800 text-lg">{{rejectedProject.inputProject}}</h3>
+                            </div>
+                            <div class="pt-4 border-t border-rose-100">
+                                <p class="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-2">Lý do từ chối / Phản hồi:</p>
+                                <div class="bg-white p-6 rounded-2xl border border-rose-100 italic text-slate-600 font-medium">
+                                    "{{#if rejectedProject.rejectionReason}}{{rejectedProject.rejectionReason}}{{else}}Giảng viên không để lại lời nhắn cụ thể.{{/if}}"
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <button onclick="resetRegistration()" class="px-12 py-5 bg-slate-900 text-white font-black rounded-[2rem] hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 hover:-translate-y-1 flex items-center gap-3 text-sm uppercase tracking-widest mx-auto">
+                                <span>Thực hiện đăng ký mới</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                {{/if}}
+            {{else}}
+                <!-- OUT OF TIME OR NOT OPEN -->
+                <div class="bg-white rounded-[3rem] border border-slate-100 shadow-sm p-2 group overflow-hidden">
+                    <div class="bg-slate-900 rounded-[2.8rem] p-12 text-center space-y-8 transition-transform group-hover:scale-[0.99] duration-500">
+                        <div class="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center mx-auto text-4xl shadow-2xl backdrop-blur-md">
+                             {{#if (eq registrationStatus 'UPCOMING')}}⏳{{else if (eq registrationStatus 'EXPIRED')}}⏰{{else}}🔒{{/if}}
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="text-3xl font-black text-white tracking-tight uppercase">
+                                {{#if (eq registrationStatus 'UPCOMING')}}Chưa đến giờ mở
+                                {{else if (eq registrationStatus 'EXPIRED')}}Thời hạn đã kết thúc
+                                {{else}}Đang khoá đăng ký{{/if}}
+                            </h3>
+                            <p class="text-slate-400 font-bold max-w-sm mx-auto leading-relaxed">
+                                {{#if (eq registrationStatus 'UPCOMING')}}Cổng đăng ký sẽ mở vào đúng thời gian quy định phía dưới.
+                                {{else if (eq registrationStatus 'EXPIRED')}}Thời hạn 1 tuần cho đợt này đã trôi qua.
+                                {{else}}Nhà trường hiện chưa kích hoạt đợt đăng ký mới.{{/if}}
+                            </p>
+                        </div>
+
+                        {{#if periodInfo}}
+                        <div class="inline-flex flex-col items-center bg-white/5 border border-white/10 p-6 rounded-[2rem] px-10">
+                            <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">Khung giờ quy định</span>
+                            <p class="text-white font-black text-lg">{{formatDate periodInfo.startDate}} — {{formatDate periodInfo.endDate}}</p>
+                        </div>
+                        {{/if}}
+
+                        <div class="pt-4">
+                            <a href="/student/dashboard" class="inline-flex items-center px-8 py-4 bg-white text-slate-900 font-black rounded-2xl hover:bg-slate-100 transition-all text-sm uppercase tracking-widest">
+                                Quay lại Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+
+        <!-- RIGHT: INFO & HELP -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
+                <h4 class="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                    Quy định đăng ký
+                </h4>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-black">1</span>
+                        <p class="text-[13px] text-slate-600 font-medium">Bạn chỉ được đăng ký với GV thuộc chuyên ngành <span class="font-bold text-slate-800">{{studentInfo.studentMajor}}</span>.</p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-black">2</span>
+                        <p class="text-[13px] text-slate-600 font-medium">Thời gian mở cổng đăng ký diễn ra trong đúng <span class="font-bold text-slate-800">7 ngày</span>.</p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-black">3</span>
+                        <p class="text-[13px] text-slate-600 font-medium">Đồ án bị từ chối sẽ được phép đăng ký lại nếu vẫn còn trong thời gian mở đợt.</p>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Support Card -->
+            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 p-8 rounded-[2.5rem] text-white shadow-xl shadow-indigo-100 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                <div class="relative z-10 space-y-4">
+                    <h4 class="text-xl font-black tracking-tight">Cần hỗ trợ?</h4>
+                    <p class="text-indigo-100 text-xs font-medium leading-relaxed opacity-80">Nếu gặp trục trặc về hệ thống hoặc thông tin chuyên ngành, vui lòng liên hệ Văn phòng Khoa.</p>
+                    <a href="mailto:support@humg.edu.vn" class="inline-flex items-center gap-2 text-sm font-black text-white bg-white/20 px-4 py-2 rounded-xl hover:bg-white/30 transition-colors">
+                        Gửi Email ✉️
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<script>
+    // RE-INSTATE DATA FROM HBS
+    const remainingSeconds = {{#if remainingSeconds}}{{remainingSeconds}}{{else}}0{{/if}};
+    let currentStep = 1;
+
+    // COUNTDOWN LOGIC
+    if (remainingSeconds > 0) {
+        let timer = remainingSeconds;
+        const display = document.getElementById('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            const days = Math.floor(timer / (24 * 3600));
+            const hours = Math.floor((timer % (24 * 3600)) / 3600);
+            const minutes = Math.floor((timer % 3600) / 60);
+            const seconds = Math.floor(timer % 60);
+
+            if (display) {
+                display.innerText = `${days.toString().padStart(2, '0')}d : ${hours.toString().padStart(2, '0')}h : ${minutes.toString().padStart(2, '0')}m : ${seconds.toString().padStart(2, '0')}s`;
+            }
+
+            if (--timer < 0) {
+                clearInterval(countdownInterval);
+                window.location.reload();
+            }
+        }, 1000);
+    }
+
+    // STEPPER LOGIC
+    function nextStep(step) {
+        // Validation for step 1
+        if (step === 2 && currentStep === 1) {
+            const teacherChecked = document.querySelector('input[name="teacherId"]:checked');
+            if (!teacherChecked) {
+                alert("Vui lòng chọn Giảng viên hướng dẫn!");
+                return;
+            }
+        }
+
+        // Validation for step 2
+        if (step === 3 && currentStep === 2) {
+            const projectName = document.querySelector('textarea[name="projectName"]').value;
+            const objective = document.querySelector('textarea[name="objective"]').value;
+            const scope = document.querySelector('textarea[name="scope"]').value;
+            const tech = document.querySelector('input[name="technology"]').value;
+            const outcome = document.querySelector('input[name="expectedOutcome"]').value;
+
+            if (!projectName || !objective || !scope || !tech || !outcome) {
+                alert("Vui lòng nhập đầy đủ các thông tin bắt buộc (*)");
+                return;
+            }
+
+            // Populate Review Data
+            document.getElementById('review-projectName').innerText = projectName;
+            document.getElementById('review-tech').innerText = tech;
+            
+            const teacherInput = document.querySelector('input[name="teacherId"]:checked');
+            const teacherName = teacherInput.closest('label').querySelector('h4').innerText;
+            document.getElementById('review-teacherName').innerText = teacherName;
+        }
+
+        // Switch UI
+        document.getElementById(`step-${currentStep}`).classList.add('hidden');
+        document.getElementById(`step-${step}`).classList.remove('hidden');
+
+        // Update Nav
+        document.getElementById(`step-nav-${currentStep}`).classList.remove('bg-indigo-600', 'text-white');
+        document.getElementById(`step-nav-${currentStep}`).classList.add('text-slate-400');
+        document.getElementById(`step-nav-${currentStep}`).querySelector('.w-8').classList.replace('bg-white/20', 'bg-slate-100');
+
+        document.getElementById(`step-nav-${step}`).classList.remove('text-slate-400');
+        document.getElementById(`step-nav-${step}`).classList.add('bg-indigo-600', 'text-white');
+        document.getElementById(`step-nav-${step}`).querySelector('.w-8').classList.replace('bg-slate-100', 'bg-white/20');
+
+        currentStep = step;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function submitProjectRequest() {
+        const formData = new FormData(document.getElementById('addProjectForm'));
+        const body = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/student/addproject', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert(data.message);
+                window.location.reload();
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Lỗi kết nối máy chủ!");
+        }
+    }
+
+    async function resetRegistration() {
+        if(!confirm("Bạn có chắc muốn làm mới và đăng ký đề tài khác không?")) return;
+
+        try {
+            const response = await fetch('/student/addproject/reset', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            if (data.success) {
+                window.location.reload();
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Lỗi hệ thống!");
+        }
+    }
+
+    async function confirmChanges() {
+        if(!confirm("Bạn xác nhận đồng ý với các nội dung đã thay đổi và bắt đầu thực hiện đồ án?")) return;
+
+        try {
+            const response = await fetch('/student/addproject/confirm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert(data.message);
+                window.location.href = '/student/dashboard';
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Lỗi hệ thống!");
+        }
+    }
+</script>

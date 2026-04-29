@@ -1,0 +1,228 @@
+<div class="space-y-10 animate-in">
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-wider">
+                📝 Minutes Recording
+            </div>
+            <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight">Biên bản Bảo vệ</h1>
+            <p class="text-slate-500 font-medium italic">Dành cho Thư ký Hội đồng: Ghi lại diễn biến phiên bảo vệ và tổng hợp điểm số.</p>
+        </div>
+        <button onclick="fetchStudents()" class="p-4 bg-white border border-slate-200 rounded-2xl text-slate-400 hover:text-emerald-600 hover:border-emerald-200 transition-all shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </button>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        <!-- STUDENT LIST -->
+        <div class="lg:col-span-5 space-y-4">
+            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 mb-6">Danh sách sinh viên</h4>
+            <div id="student-list" class="space-y-4 max-h-[70vh] overflow-y-auto pr-4 custom-scrollbar">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <!-- EDITOR AREA -->
+        <div id="editor-area" class="lg:col-span-7 bg-white rounded-[3.5rem] border border-slate-100 shadow-sm p-10 hidden overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-40"></div>
+            
+            <div class="relative z-10 space-y-10">
+                <div>
+                    <h3 id="edit-student-name" class="text-2xl font-black text-slate-900 uppercase tracking-tight">--</h3>
+                    <p id="edit-student-code" class="text-xs text-indigo-500 font-bold uppercase tracking-widest mt-1">--</p>
+                </div>
+
+                <!-- SCORE SYNTHESIS -->
+                <div class="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Điểm trung bình hiện tại</p>
+                        <p id="display-final-score" class="text-4xl font-black text-slate-900">--</p>
+                    </div>
+                    <button onclick="synthesizeScore()" class="px-8 py-4 bg-white border border-slate-200 text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm">
+                        Tổng hợp điểm
+                    </button>
+                </div>
+
+                <!-- QUESTIONS & ANSWERS -->
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-black text-slate-900 uppercase tracking-widest">Câu hỏi & Trả lời</h4>
+                        <button onclick="addQuestion()" class="text-xs font-black text-emerald-600 hover:text-emerald-700 transition-colors uppercase tracking-widest">+ Thêm câu hỏi</button>
+                    </div>
+                    <div id="questions-container" class="space-y-4">
+                        <!-- Questions by JS -->
+                    </div>
+                </div>
+
+                <!-- CONCLUSION -->
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Kết luận của Hội đồng</label>
+                    <textarea id="edit-conclusion" rows="4" class="w-full px-8 py-6 bg-slate-50 border border-slate-100 rounded-[2rem] text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all resize-none" placeholder="Nhập tóm tắt kết luận của hội đồng..."></textarea>
+                </div>
+
+                <div class="pt-6 flex gap-4">
+                    <button onclick="submitMinutes()" class="flex-1 py-5 bg-emerald-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-emerald-100 hover:bg-emerald-700 hover:scale-[1.02] active:scale-95 transition-all">
+                        Lưu biên bản bảo vệ
+                    </button>
+                    <button id="export-btn" onclick="exportReport()" class="px-10 py-5 bg-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-200 hover:scale-[1.02] active:scale-95 transition-all hidden">
+                        Xuất báo cáo (CSV)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLACEHOLDER -->
+        <div id="editor-placeholder" class="lg:col-span-7 bg-white rounded-[3.5rem] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center p-20 text-center">
+            <div class="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center text-4xl mb-6">📄</div>
+            <h3 class="text-lg font-black text-slate-900 uppercase tracking-tight">Chưa chọn sinh viên</h3>
+            <p class="text-slate-400 font-medium mt-2 max-w-xs uppercase text-[10px] tracking-widest">Vui lòng chọn một sinh viên từ danh sách bên trái để bắt đầu ghi biên bản.</p>
+        </div>
+    </div>
+</div>
+
+{{#section 'script'}}
+<script>
+    let currentStudentId = null;
+    let currentQuestions = [];
+
+    async function fetchStudents() {
+        try {
+            const res = await fetch('/teacher/council/getStudents');
+            const data = await res.json();
+            const list = document.getElementById('student-list');
+            
+            list.innerHTML = data.map(s => `
+                <div onclick="selectStudent('${s.studentId}', '${s.fullName}', '${s.studentCode}', '${s.finalScore || '--'}', ${JSON.stringify(s.defenseQuestions || []).replace(/"/g, '&quot;')}, '${(s.defenseConclusion || '').replace(/'/g, "\\'")}', ${s.status === 'approved'})" 
+                    class="group p-6 bg-white border ${currentStudentId === s.studentId ? 'border-indigo-500 shadow-indigo-100 ring-4 ring-indigo-500/5' : 'border-slate-100'} rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-black text-slate-900 uppercase tracking-tight">${s.fullName}</p>
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">${s.studentCode}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-black ${s.finalScore ? 'text-emerald-600' : 'text-slate-300'}">${s.finalScore || '--'}</p>
+                            <p class="text-[8px] text-slate-400 font-bold uppercase tracking-tighter">TB</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Highlight selected
+            if (currentStudentId) {
+                const selected = data.find(s => s.studentId === currentStudentId);
+                if (selected) {
+                    document.getElementById('display-final-score').innerText = selected.finalScore || '--';
+                }
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    function selectStudent(id, name, code, finalScore, questions, conclusion, isApproved) {
+        currentStudentId = id;
+        currentQuestions = questions || [];
+        
+        document.getElementById('editor-placeholder').classList.add('hidden');
+        document.getElementById('editor-area').classList.remove('hidden');
+        
+        document.getElementById('edit-student-name').innerText = name;
+        document.getElementById('edit-student-code').innerText = code;
+        document.getElementById('display-final-score').innerText = finalScore;
+        document.getElementById('edit-conclusion').value = conclusion || '';
+        document.getElementById('export-btn').classList.toggle('hidden', !isApproved);
+
+        renderQuestions();
+        fetchStudents(); // Refresh list to update active state
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        container.innerHTML = currentQuestions.map((q, index) => `
+            <div class="p-6 bg-slate-50 border border-slate-100 rounded-3xl space-y-4 relative group">
+                <button onclick="removeQuestion(${index})" class="absolute top-4 right-4 text-slate-300 hover:text-rose-500 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Người hỏi</label>
+                        <input type="text" value="${q.asker || ''}" onchange="updateQuestion(${index}, 'asker', this.value)" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold focus:border-indigo-500 outline-none transition-all" placeholder="Ví dụ: GVPB Nguyễn Văn A">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Câu hỏi</label>
+                        <input type="text" value="${q.question || ''}" onchange="updateQuestion(${index}, 'question', this.value)" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold focus:border-indigo-500 outline-none transition-all" placeholder="Nội dung câu hỏi">
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Câu trả lời</label>
+                    <textarea onchange="updateQuestion(${index}, 'answer', this.value)" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold focus:border-indigo-500 outline-none transition-all resize-none" placeholder="Nội dung sinh viên trả lời...">${q.answer || ''}</textarea>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function addQuestion() {
+        currentQuestions.push({ asker: '', question: '', answer: '' });
+        renderQuestions();
+    }
+
+    function updateQuestion(index, field, value) {
+        currentQuestions[index][field] = value;
+    }
+
+    function removeQuestion(index) {
+        currentQuestions.splice(index, 1);
+        renderQuestions();
+    }
+
+    async function synthesizeScore() {
+        if (!currentStudentId) return;
+        try {
+            const res = await fetch('/teacher/council/synthesizeScore', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId: currentStudentId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('display-final-score').innerText = data.finalScore;
+                fetchStudents();
+            } else {
+                alert(data.message);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    async function submitMinutes() {
+        if (!currentStudentId) return;
+        const conclusion = document.getElementById('edit-conclusion').value;
+        
+        try {
+            const res = await fetch('/teacher/council/submitMinutes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    studentId: currentStudentId, 
+                    questions: currentQuestions,
+                    conclusion: conclusion
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert(data.message);
+                fetchStudents();
+            } else {
+                alert(data.message);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    function exportReport() {
+        if (!currentStudentId) return;
+        window.location.href = `/teacher/score/exportReport/${currentStudentId}`;
+    }
+
+    // Initial fetch
+    fetchStudents();
+</script>
+{{/section}}

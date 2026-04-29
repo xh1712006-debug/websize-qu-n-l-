@@ -1,0 +1,180 @@
+<div class="animate-in pb-20">
+    <!-- PAGE HEADER -->
+    <div class="mb-12 flex flex-col xl:flex-row xl:items-end justify-between gap-8">
+        <div class="space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-600 rounded-lg text-[10px] font-black uppercase tracking-wider border border-teal-100">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
+                Elite Question Studio
+            </div>
+            <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Đặt câu hỏi <span class="text-teal-600">Phản biện</span></h1>
+            <p class="text-slate-500 font-medium italic">Soạn thảo các câu hỏi chuyên môn cho sinh viên đã đạt thẩm định để chuẩn bị cho buổi bảo vệ.</p>
+        </div>
+
+        {{#if activePeriod}}
+        <div class="flex-1 max-w-sm">
+             <div class="px-6 py-4 bg-white rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4">
+                <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center text-lg">
+                    📅
+                </div>
+                <div>
+                    <p class="text-[8px] font-black uppercase tracking-widest text-slate-400">Đợt bảo vệ hiện tại</p>
+                    <h4 class="text-xs font-black uppercase tracking-tight text-slate-900">{{activePeriod.name}}</h4>
+                </div>
+             </div>
+        </div>
+        {{/if}}
+    </div>
+
+    {{#if noAssignment}}
+    <div class="bg-white rounded-[4rem] border border-slate-100 p-24 text-center shadow-sm">
+        <div class="w-24 h-24 bg-slate-50 rounded-[2.5rem] flex items-center justify-center text-slate-200 mx-auto mb-8 text-4xl">
+            📬
+        </div>
+        <h3 class="text-2xl font-black text-slate-900 uppercase tracking-tight">Trống</h3>
+        <p class="text-slate-400 font-medium mt-3 italic">Hiện chưa có dữ liệu sinh viên được phân công.</p>
+    </div>
+    {{else}}
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- LEFT: STUDENT LIST -->
+        <div class="lg:col-span-4 space-y-6">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">Sinh viên đã duyệt (${students.length})</h3>
+            
+            <div class="space-y-3 overflow-y-auto max-h-[600px] pr-2 custom-scrollbar">
+                {{#each students}}
+                <div onclick="selectStudent('{{this.id}}')" id="student-card-{{this.id}}" class="student-card bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm cursor-pointer transition-all hover:bg-teal-50/30 group">
+                    <div class="flex items-center gap-4">
+                        <div class="student-avatar w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center font-black text-slate-400 border border-slate-100 shadow-inner group-hover:bg-teal-600 group-hover:text-white transition-all">
+                            {{substring this.name 0 1}}
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="text-sm font-black text-slate-900 uppercase truncate leading-tight group-hover:text-teal-600 transition-colors">{{this.name}}</h4>
+                            <p class="text-[9px] text-slate-400 font-bold tracking-widest mt-1 uppercase">{{this.code}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+
+                {{#unless students.length}}
+                <div class="bg-slate-50/50 rounded-[2.5rem] p-10 text-center border-2 border-dashed border-slate-100">
+                    <p class="text-xs font-bold text-slate-300 uppercase tracking-widest leading-relaxed">Hãy Duyệt Đồ Án tại mục Thẩm Định trước để sinh viên xuất hiện tại đây.</p>
+                </div>
+                {{/unless}}
+            </div>
+        </div>
+
+        <!-- RIGHT: QUESTION EDITOR -->
+        <div class="lg:col-span-8 flex flex-col">
+            <div id="editor-container" class="bg-white rounded-[3.5rem] border border-slate-100 shadow-xl shadow-teal-900/5 p-12 min-h-[600px] flex flex-col relative overflow-hidden opacity-30 select-none">
+                <!-- NOT SELECTED OVERLAY -->
+                <div id="editor-overlay" class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-white/60 backdrop-blur-[2px]">
+                    <div class="w-20 h-20 bg-teal-50 text-teal-600 rounded-[2rem] flex items-center justify-center text-4xl mb-6 shadow-sm">👈</div>
+                    <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Chọn sinh viên để đặt câu hỏi</p>
+                </div>
+
+                <div class="relative z-10 flex flex-col h-full space-y-8 pointer-events-none" id="editor-content">
+                    <div class="flex items-center justify-between pb-8 border-b border-slate-50">
+                        <div class="flex items-center gap-6">
+                            <div id="active-avatar" class="w-16 h-16 rounded-3xl bg-teal-600 text-white flex items-center justify-center text-2xl font-black italic shadow-lg shadow-teal-100">?</div>
+                            <div>
+                                <h2 id="active-name" class="text-2xl font-black text-slate-900 uppercase tracking-tight">Họ tên sinh viên</h2>
+                                <p id="active-project" class="text-[10px] text-teal-600 font-bold uppercase tracking-widest mt-1">Tên đồ án tương ứng</p>
+                            </div>
+                        </div>
+                        <div class="px-5 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[9px] font-black uppercase tracking-widest border border-emerald-100">
+                            Hồ sơ đã sẵn sàng
+                        </div>
+                    </div>
+
+                    <div class="flex-1 space-y-4">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] ml-2">Phiếu câu hỏi phản biện chuyên môn</label>
+                        <div class="relative flex-1 group/textarea">
+                            <div class="absolute top-8 left-6 pointer-events-none opacity-10">
+                                <svg class="w-20 h-20 text-teal-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>
+                            </div>
+                            <textarea id="questions-textarea" class="w-full h-full min-h-[400px] px-8 py-8 bg-slate-50/50 rounded-[2.5rem] border border-slate-100 text-sm font-medium leading-relaxed focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all placeholder:italic placeholder:text-slate-300 shadow-inner resize-none pointer-events-auto" placeholder="Nhập danh sách câu hỏi tại đây...&#10;VD:&#10;1. Tại sao em lại chọn công nghệ X cho dự án?&#10;2. Giải thích cơ chế bảo mật của ứng dụng?"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 flex items-center justify-between pointer-events-auto">
+                        <p class="text-[10px] text-slate-400 italic font-medium max-w-sm">Dữ liệu sẽ được lưu vào biên bản phản biện và hiển thị cho sinh viên để chuẩn bị.</p>
+                        <button onclick="saveQuestions()" class="px-12 py-5 bg-teal-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-teal-100 hover:scale-105 active:scale-95 transition-all">Lưu Phiếu Câu Hỏi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>
+
+<script>
+    const studentData = {{{json students}}};
+    let activeStudentId = null;
+
+    function selectStudent(id) {
+        activeStudentId = id;
+        const student = studentData.find(s => s.id === id);
+        
+        // Update UI Visuals
+        document.querySelectorAll('.student-card').forEach(card => card.classList.remove('active-card', 'border-teal-500', 'bg-teal-50/50'));
+        const activeCard = document.getElementById(`student-card-${id}`);
+        activeCard.classList.add('active-card', 'border-teal-500', 'bg-teal-50/50');
+
+        // Unlock Editor
+        const container = document.getElementById('editor-container');
+        const overlay = document.getElementById('editor-overlay');
+        const content = document.getElementById('editor-content');
+        
+        container.classList.remove('opacity-30', 'select-none');
+        overlay.classList.add('hidden');
+        content.classList.remove('pointer-events-none');
+
+        // Fill Details
+        document.getElementById('active-name').innerText = student.name;
+        document.getElementById('active-project').innerText = student.projectName;
+        document.getElementById('active-avatar').innerText = student.name.charAt(0);
+        document.getElementById('questions-textarea').value = student.reviewerQuestions || '';
+    }
+
+    async function saveQuestions() {
+        if (!activeStudentId) return;
+        const questions = document.getElementById('questions-textarea').value;
+
+        try {
+            const res = await fetch('/teacher/review/submitQuestions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId: activeStudentId, questions })
+            });
+            const data = await res.json();
+            if (data.success) {
+                // Update local data
+                const student = studentData.find(s => s.id === activeStudentId);
+                if (student) student.reviewerQuestions = questions;
+                
+                alert('🎉 Đã lưu danh sách câu hỏi phản biện!');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Lỗi khi lưu câu hỏi');
+        }
+    }
+</script>
+
+<style>
+    .animate-in {
+        animation: animate-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes animate-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+    .active-card {
+        border-width: 2px !important;
+        box-shadow: 0 10px 20px -5px rgba(13, 148, 136, 0.1) !important;
+    }
+</style>

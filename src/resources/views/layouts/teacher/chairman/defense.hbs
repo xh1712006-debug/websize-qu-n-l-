@@ -1,0 +1,287 @@
+<div class="animate-in space-y-10 pb-20">
+    <!-- MESH BACKGROUND (Chairman Edition) -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-slate-100 blur-[120px] rounded-full opacity-50"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[40%] h-[50%] bg-amber-50 blur-[100px] rounded-full opacity-30"></div>
+    </div>
+
+    <!-- COUNCIL SWITCHER (Executive Style) -->
+    {{#if (gt myCouncils.length 1)}}
+    <div class="flex flex-wrap gap-4 mb-8">
+        {{#each myCouncils}}
+        <a href="?councilId={{this._id}}" class="flex-1 min-w-[220px] p-6 rounded-[2.5rem] border transition-all duration-300 {{#if (eq ../activeCouncil._id this._id)}} bg-slate-900 text-white border-transparent shadow-2xl shadow-slate-200 {{else}} bg-white/60 backdrop-blur-md text-slate-500 border-white hover:border-amber-200 hover:bg-white shadow-sm {{/if}} group">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl {{#if (eq ../activeCouncil._id this._id)}} bg-amber-500 {{else}} bg-slate-50 group-hover:bg-amber-100 {{/if}} flex items-center justify-center text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[8px] font-black uppercase tracking-[0.2em] {{#if (eq ../activeCouncil._id this._id)}} text-amber-500 {{else}} text-slate-400 {{/if}}">Điều hành</p>
+                    <p class="text-[11px] font-black truncate uppercase">{{this.councilName}}</p>
+                </div>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    <!-- HEADER: EXECUTIVE STATUS -->
+    <div class="bg-slate-900 p-10 rounded-[4rem] text-white shadow-2xl shadow-slate-200 flex flex-col lg:flex-row items-center justify-between gap-10 relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] -mr-32 -mt-32"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-[60px] -ml-24 -mb-24"></div>
+        
+        <div class="flex flex-col md:flex-row items-center gap-10 z-10">
+            <div class="relative">
+                <div class="w-24 h-24 rounded-[2.5rem] bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center shadow-2xl shadow-amber-500/20 ring-4 ring-white/10">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <div class="absolute -bottom-2 -right-2 px-3 py-1 bg-white text-slate-900 rounded-lg text-[8px] font-black uppercase tracking-tighter shadow-xl">Chủ tịch</div>
+            </div>
+            
+            <div class="text-center md:text-left space-y-3">
+                <div class="flex items-center justify-center md:justify-start gap-3">
+                    <span class="px-3 py-1 bg-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-amber-500 border border-white/5">Hệ thống Điều hành Trung tâm</span>
+                </div>
+                <h1 class="text-4xl font-black uppercase tracking-tighter leading-none">
+                    {{#if activeCouncil}}{{activeCouncil.councilName}}{{else}}Hội đồng chưa xác định{{/if}}
+                </h1>
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                    <div class="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Phòng: {{activeCouncil.room}}</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm">
+                        <svg class="w-3 h-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Ngành: {{activeCouncil.major}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Role distribution in council -->
+        <div class="flex items-center gap-3 bg-white/5 p-4 rounded-[2.5rem] border border-white/5 backdrop-blur-sm">
+             <div class="flex -space-x-4">
+                <div class="w-10 h-10 rounded-full bg-amber-500 border-2 border-slate-900 flex items-center justify-center text-[10px] font-black" title="Chủ tịch - {{activeCouncil.chairmanId.fullName}}">{{substring activeCouncil.chairmanId.fullName 0 1}}</div>
+                <div class="w-10 h-10 rounded-full bg-indigo-500 border-2 border-slate-900 flex items-center justify-center text-[10px] font-black" title="Thư ký - {{activeCouncil.secretaryId.fullName}}">{{substring activeCouncil.secretaryId.fullName 0 1}}</div>
+                {{#each activeCouncil.memberIds}}
+                <div class="w-10 h-10 rounded-full bg-slate-600 border-2 border-slate-900 flex items-center justify-center text-[10px] font-black" title="Ủy viên - {{this.fullName}}">{{substring this.fullName 0 1}}</div>
+                {{/each}}
+             </div>
+             <div class="ml-2">
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Nhân sự HĐ</p>
+                <p class="text-[11px] font-black text-white">{{activeCouncil.memberIds.length}} Ủy viên + {{activeCouncil.secretaryId.fullName}}</p>
+             </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTROL AREA -->
+    <div class="space-y-8">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tighter">Bảng điều phối phiên bảo vệ</h2>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Quản lý bắt đầu/kết thúc và chốt điểm cho sinh viên</p>
+                </div>
+            </div>
+            
+            <button onclick="fetchStudents()" class="inline-flex items-center gap-3 px-8 py-4 bg-white border border-slate-200 rounded-[2rem] text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-amber-600 hover:border-amber-200 transition-all shadow-sm group">
+                <svg class="w-4 h-4 group-hover:rotate-180 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                Làm mới (Real-time)
+            </button>
+        </div>
+
+        <div id="defense-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamic Grid -->
+        </div>
+    </div>
+</div>
+
+<!-- APPROVE MODAL (Chairman Specialized) -->
+<div id="approve-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-xl animate-in fade-in duration-300">
+    <div class="bg-white w-full max-w-xl rounded-[4rem] shadow-2xl overflow-hidden border border-slate-100 animate-in zoom-in-95 duration-300">
+        <div class="relative p-12 text-center space-y-8">
+            <div class="w-32 h-32 bg-amber-500 text-white rounded-[3.5rem] flex items-center justify-center text-5xl mx-auto mb-4 border-8 border-amber-50 shadow-2xl shadow-amber-200 rotate-6">🏆</div>
+            
+            <div class="space-y-3 px-6">
+                <h3 class="text-3xl font-black text-slate-900 uppercase tracking-tighter">Phê duyệt Điểm cuối</h3>
+                <p class="text-slate-500 font-bold leading-relaxed text-xs uppercase tracking-wide">Bạn đang thực hiện quyền hạn Chủ tịch để chốt kết quả đồ án.</p>
+            </div>
+            
+            <div class="p-10 bg-slate-900 rounded-[3.5rem] flex items-center justify-between text-left shadow-2xl border-4 border-amber-500/20">
+                <div>
+                     <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1 italic">Điểm trung bình Hội đồng</p>
+                    <p id="approve-score" class="text-6xl font-black text-white tracking-tighter">0.00</p>
+                </div>
+                <div class="text-right">
+                    <div class="px-5 py-2 bg-emerald-500/20 text-emerald-500 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-500/30">Hồ sơ sẵn sàng</div>
+                    <p class="mt-3 text-[9px] font-bold text-slate-400 uppercase">Khóa điểm & Gửi thông báo</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 p-6 rounded-[2rem] border border-amber-100 text-left flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <p class="text-[10px] font-black text-amber-800 uppercase tracking-wide leading-relaxed mt-1">Lưu ý: Sau khi phê duyệt, kết quả sẽ bị khóa vĩnh viễn và không thể chỉnh sửa.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                 <button onclick="closeApproveModal()" class="py-5 bg-slate-100 text-slate-500 rounded-[2rem] font-black text-[10px] uppercase tracking-widest hover:bg-slate-200 transition-all">Hủy quay lại</button>
+                <button onclick="confirmApproval()" class="py-5 bg-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-slate-200 hover:bg-black transition-all ring-4 ring-slate-900/10">Xác nhận Phê duyệt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'script'}}
+<script>
+    let students = [];
+    let selectedStudentId = null;
+
+    async function fetchStudents() {
+        try {
+            const councilId = '{{activeCouncil._id}}';
+            const res = await fetch(`/teacher/chairman/api/students?councilId=${councilId}`);
+            students = await res.json();
+            renderDefense();
+        } catch (err) { console.error(err); }
+    }
+
+    function renderDefense() {
+        const grid = document.getElementById('defense-grid');
+        grid.innerHTML = students.map(s => {
+            const isDefending = s.projectStatus === 'active';
+            const isFinished = s.projectStatus === 'finished' || s.projectStatus === 'DEFENDED' || s.projectStatus === 'COMPLETED';
+            const canApprove = s.finalScore && s.defenseQuestionsCount > 0 && s.projectStatus !== 'COMPLETED';
+            const gradingProgress = (s.councilCount / s.totalMembers) * 100;
+
+            return `
+                <div class="bg-white/90 backdrop-blur-xl p-8 rounded-[4rem] border ${isDefending ? 'border-amber-400 ring-8 ring-amber-500/5 shadow-2xl shadow-amber-100' : 'border-white shadow-xl shadow-slate-200/50'} transition-all relative overflow-hidden group">
+                    ${isDefending ? `
+                        <div class="absolute top-0 right-0 px-8 py-3 bg-amber-500 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-bl-[2.5rem] animate-pulse z-20 shadow-xl">
+                            Phiên Bảo vệ Active
+                        </div>
+                    ` : ''}
+                    
+                    <div class="flex items-center gap-5 mb-10">
+                        <div class="w-16 h-16 rounded-[2rem] bg-slate-900 text-white flex items-center justify-center font-black text-xl shadow-2xl shadow-slate-200 border border-white relative">
+                             ${s.fullName.substring(0, 1)}
+                             ${s.projectStatus === 'COMPLETED' ? '<div class="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-lg flex items-center justify-center border-2 border-white"><svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div>' : ''}
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="font-black text-slate-900 uppercase text-base tracking-tighter leading-none">${s.fullName}</h4>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">${s.studentCode}</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 mb-10">
+                        <!-- Grading Stats -->
+                        <div class="p-6 bg-slate-50/50 rounded-[2.5rem] border border-slate-100 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Hội đồng chấm</p>
+                                <span class="text-[11px] font-black ${s.councilCount >= (s.totalMembers - 1) ? 'text-emerald-600' : 'text-amber-600'}">${s.councilCount}/${s.totalMembers}</span>
+                            </div>
+                            <div class="h-4 w-full bg-white rounded-full overflow-hidden p-1 border border-slate-100 shadow-inner">
+                                <div class="h-full rounded-full transition-all duration-1000 ${s.councilCount >= (s.totalMembers - 1) ? 'bg-gradient-to-r from-emerald-400 to-teal-500' : 'bg-gradient-to-r from-amber-400 to-orange-500'}" style="width: ${gradingProgress}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Details Grid -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-5 rounded-[2.5rem] bg-indigo-50/30 border border-indigo-100/50 flex flex-col items-center justify-center text-center">
+                                <p class="text-[9px] font-black text-indigo-400 uppercase mb-2 italic">Biên bản</p>
+                                <div class="w-10 h-10 rounded-2xl ${s.defenseQuestionsCount > 0 ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-100' : 'bg-slate-200 text-slate-400'} flex items-center justify-center transition-all">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="p-5 rounded-[2.5rem] bg-amber-50/50 border border-amber-100/50 flex flex-col items-center justify-center text-center">
+                                <p class="text-[9px] font-black text-amber-500 uppercase mb-2 italic">Kết quả TB</p>
+                                <p class="text-3xl font-black ${s.finalScore ? 'text-slate-900' : 'text-slate-300'} tracking-tighter">${s.finalScore || '0.00'}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        ${s.projectStatus !== 'COMPLETED' ? `
+                            <div class="grid grid-cols-1 gap-3">
+                                <button onclick="updateStatus('${s.studentId}', 'active')" class="w-full py-5 bg-amber-500 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-amber-100 hover:bg-amber-600 transition-all ${isDefending ? 'hidden' : ''}">Tiếp nhận Bảo vệ</button>
+                                <button onclick="updateStatus('${s.studentId}', 'finished')" class="w-full py-5 bg-slate-900 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-200 hover:bg-black transition-all ${!isDefending ? 'hidden' : ''}">Kết thúc Trình bày</button>
+                                
+                                ${canApprove ? `
+                                    <button onclick="openApproveModal('${s.studentId}', '${s.finalScore}')" class="w-full py-5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-emerald-200 hover:scale-[1.02] transition-all">Phê duyệt & Chốt điểm cuối</button>
+                                ` : `
+                                    <div class="w-full py-5 bg-slate-50 text-slate-400 rounded-[2rem] font-black text-[10px] uppercase tracking-widest text-center border border-slate-100 cursor-not-allowed">
+                                        Chờ Thư ký hoàn thiện
+                                    </div>
+                                `}
+                            </div>
+                        ` : `
+                            <div class="w-full py-6 bg-emerald-50 text-emerald-600 rounded-[3rem] font-black text-xs uppercase tracking-[0.2em] text-center border-2 border-emerald-100 flex items-center justify-center gap-4">
+                                <div class="w-8 h-8 bg-emerald-500 text-white rounded-[1rem] flex items-center justify-center shadow-lg shadow-emerald-100">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                </div>
+                                Hồ sơ đã chối điểm
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    async function updateStatus(studentId, status) {
+        try {
+            const res = await fetch('/teacher/chairman/api/update-status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId, status })
+            });
+            const data = await res.json();
+            if (data.success) fetchStudents();
+        } catch (err) { console.error(err); }
+    }
+
+    function openApproveModal(studentId, score) {
+        selectedStudentId = studentId;
+        document.getElementById('approve-score').innerText = score;
+        document.getElementById('approve-modal').classList.remove('hidden');
+    }
+
+    function closeApproveModal() {
+        document.getElementById('approve-modal').classList.add('hidden');
+    }
+
+    async function confirmApproval() {
+        try {
+            const res = await fetch('/teacher/chairman/api/approve-final', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId: selectedStudentId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                closeApproveModal();
+                fetchStudents();
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    fetchStudents();
+</script>
+{{/section}}
+
+<style>
+    .animate-in {
+        animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

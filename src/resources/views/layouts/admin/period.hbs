@@ -1,0 +1,376 @@
+<div class="animate-in">
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Quản lý Đợt Bảo vệ</h1>
+            <p class="text-slate-500 mt-1 font-medium">Thiết lập học kỳ và đợt bảo vệ đồ án tốt nghiệp.</p>
+        </div>
+        <button onclick="openCreateModal()" class="flex items-center justify-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-200 gap-2 group">
+            <svg class="w-5 h-5 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Tạo đợt bảo vệ mới
+        </button>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-wider">Tổng số đợt</p>
+                <p class="text-xl font-bold text-slate-900">{{periods.length}}</p>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-wider">Đang mở</p>
+                <p class="text-xl font-bold text-slate-900">
+                    {{#each periods}}
+                        {{#if (eq status 'ACTIVE')}} 1 {{/if}}
+                    {{/each}}
+                    <!-- Note: This logic is simple, better handled in controller but Works for now -->
+                </p>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-wider">Đã đóng</p>
+                <p class="text-xl font-bold text-slate-900">
+                    {{#each periods}}
+                        {{#if (eq status 'CLOSED')}} 1 {{/if}}
+                    {{/each}}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/50">
+                        <th class="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-wider border-b border-slate-100">Tên đợt / Học kỳ</th>
+                        <th class="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-wider border-b border-slate-100">Thời gian bắt đầu</th>
+                        <th class="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-wider border-b border-slate-100">Thời gian kết thúc</th>
+                        <th class="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-wider border-b border-slate-100 text-center">Trạng thái</th>
+                        <th class="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-wider border-b border-slate-100 text-right">Lựa chọn</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {{#each periods}}
+                    <tr class="hover:bg-slate-50/50 transition-colors group">
+                        <td class="px-6 py-5">
+                            <p class="font-bold text-slate-900">{{name}}</p>
+                            <p class="text-xs text-slate-500 font-medium">Học kỳ {{semester}} - Năm học {{year}}</p>
+                        </td>
+                        <td class="px-6 py-5 font-semibold text-slate-700">
+                            {{dateFormat startDate 'DD/MM/YYYY'}}
+                        </td>
+                        <td class="px-6 py-5 font-semibold text-slate-700">
+                            {{dateFormat endDate 'DD/MM/YYYY'}}
+                        </td>
+                        <td class="px-6 py-5 text-center">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider {{statusClass}} shadow-sm border border-current opacity-80">
+                                {{statusLabel}}
+                            </span>
+                        </td>
+                        <td class="px-6 py-5 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                {{#if (eq status 'ACTIVE')}}
+                                <button onclick="closePeriod('{{_id}}')" class="flex items-center gap-1.5 px-3 py-2 bg-amber-50 text-amber-600 hover:bg-amber-100 rounded-xl font-bold text-[10px] uppercase transition-all border border-amber-200" title="Đóng đợt và Lưu trữ dữ liệu">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    Đóng đợt
+                                </button>
+                                {{/if}}
+                                <button onclick="openEditModal('{{json this}}')" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                </button>
+                                <button onclick="deletePeriod('{{_id}}')" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="5" class="px-6 py-20 text-center">
+                            <div class="flex flex-col items-center gap-3">
+                                <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <p class="text-slate-400 font-bold">Chưa có đợt đăng ký nào được tạo.</p>
+                                <button onclick="openCreateModal()" class="text-indigo-600 font-bold hover:underline">Tạo ngay bây giờ</button>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SCRIPTS -->
+{{#section 'script'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    async function openCreateModal() {
+        const { value: formValues } = await Swal.fire({
+            title: '<h2 class="text-xl font-black text-slate-900">Tạo Đợt Bảo Vệ Mới</h2>',
+            html: `
+                <div class="flex flex-col gap-4 py-4 px-2 text-left">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Tên đợt (VD: Đợt 1 - Học kỳ II)</label>
+                        <input id="swal-name" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all" placeholder="Nhập tên đợt">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Học kỳ</label>
+                            <select id="swal-semester" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                                <option value="I">Học kỳ I</option>
+                                <option value="II">Học kỳ II</option>
+                                <option value="Hè">Học kỳ Hè</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Năm học</label>
+                            <input id="swal-year" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all" placeholder="2025-2026">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Ngày bắt đầu</label>
+                            <input id="swal-startDate" type="date" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Ngày kết thúc</label>
+                            <input id="swal-endDate" type="date" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Ghi chú (Tùy chọn)</label>
+                        <textarea id="swal-description" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all min-h-[80px]"></textarea>
+                    </div>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Lưu ngay',
+            cancelButtonText: 'Hủy bỏ',
+            confirmButtonColor: '#4f46e5',
+            customClass: {
+                popup: 'rounded-[32px] border-none shadow-2xl',
+                confirmButton: 'px-8 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-200',
+                cancelButton: 'px-8 py-3 rounded-2xl font-bold text-slate-500'
+            },
+            preConfirm: () => {
+                return {
+                    name: document.getElementById('swal-name').value,
+                    semester: document.getElementById('swal-semester').value,
+                    year: document.getElementById('swal-year').value,
+                    startDate: document.getElementById('swal-startDate').value,
+                    endDate: document.getElementById('swal-endDate').value,
+                    description: document.getElementById('swal-description').value
+                }
+            }
+        });
+
+        if (formValues) {
+            if (!formValues.name || !formValues.startDate || !formValues.endDate) {
+                Swal.fire('Lỗi', 'Vui lòng điền đầy đủ các thông tin bắt buộc!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/period/store', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formValues)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire('Thành công', result.message, 'success').then(() => location.reload());
+                } else {
+                    Swal.fire('Lỗi', result.message, 'error');
+                }
+            } catch (err) {
+                Swal.fire('Lỗi', 'Không thể kết nối đến máy chủ!', 'error');
+            }
+        }
+    }
+
+    async function openEditModal(periodJson) {
+        const period = JSON.parse(periodJson);
+        const { value: formValues } = await Swal.fire({
+            title: '<h2 class="text-xl font-black text-slate-900">Cập Nhật Đợt Đăng Ký</h2>',
+            html: `
+                <div class="flex flex-col gap-4 py-4 px-2 text-left">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Tên đợt</label>
+                        <input id="swal-name" value="${period.name}" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Học kỳ</label>
+                            <select id="swal-semester" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                                <option value="I" ${period.semester === 'I' ? 'selected' : ''}>Học kỳ I</option>
+                                <option value="II" ${period.semester === 'II' ? 'selected' : ''}>Học kỳ II</option>
+                                <option value="Hè" ${period.semester === 'Hè' ? 'selected' : ''}>Học kỳ Hè</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Năm học</label>
+                            <input id="swal-year" value="${period.year}" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Ngày bắt đầu</label>
+                            <input id="swal-startDate" type="date" value="${period.startDateStr}" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Ngày kết thúc</label>
+                            <input id="swal-endDate" type="date" value="${period.endDateStr}" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Trạng thái</label>
+                        <select id="swal-status" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all">
+                            <option value="ACTIVE" ${period.status === 'ACTIVE' ? 'selected' : ''}>Mở cổng đăng ký</option>
+                            <option value="CLOSED" ${period.status === 'CLOSED' ? 'selected' : ''}>Đóng cổng đăng ký</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Ghi chú</label>
+                        <textarea id="swal-description" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500/20 outline-none font-semibold transition-all min-h-[80px]">${period.description || ''}</textarea>
+                    </div>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Cập nhật',
+            cancelButtonText: 'Hủy bỏ',
+            confirmButtonColor: '#4f46e5',
+            customClass: {
+                popup: 'rounded-[32px] border-none shadow-2xl',
+                confirmButton: 'px-8 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-200',
+                cancelButton: 'px-8 py-3 rounded-2xl font-bold text-slate-500'
+            },
+            preConfirm: () => {
+                return {
+                    name: document.getElementById('swal-name').value,
+                    semester: document.getElementById('swal-semester').value,
+                    year: document.getElementById('swal-year').value,
+                    startDate: document.getElementById('swal-startDate').value,
+                    endDate: document.getElementById('swal-endDate').value,
+                    description: document.getElementById('swal-description').value,
+                    status: document.getElementById('swal-status').value
+                }
+            }
+        });
+
+        if (formValues) {
+            try {
+                const response = await fetch('/admin/period/update/' + period._id, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formValues)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire('Thành công', result.message, 'success').then(() => location.reload());
+                } else {
+                    Swal.fire('Lỗi', result.message, 'error');
+                }
+            } catch (err) {
+                Swal.fire('Lỗi', 'Không thể kết nối đến máy chủ!', 'error');
+            }
+        }
+    }
+
+    async function deletePeriod(id) {
+        const result = await Swal.fire({
+            title: 'Xác nhận xóa đợt bảo vệ?',
+            text: "Nếu xoá đợt đang MỞ, trạng thái đăng ký của SV sẽ được reset. Dữ liệu đợt này sẽ bị xóa vĩnh viễn và không thể khôi phục!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e11d48',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Đồng ý xóa',
+            cancelButtonText: 'Hủy',
+            customClass: {
+                popup: 'rounded-[32px]',
+                confirmButton: 'rounded-xl px-6 py-2.5 font-bold',
+                cancelButton: 'rounded-xl px-6 py-2.5 font-bold'
+            }
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch('/admin/period/delete/' + id, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    Swal.fire('Đã xóa!', data.message, 'success').then(() => location.reload());
+                } else {
+                    Swal.fire('Lỗi!', data.message, 'error');
+                }
+            } catch (err) {
+                Swal.fire('Lỗi!', 'Lỗi kết nối máy chủ', 'error');
+            }
+        }
+    }
+
+    async function closePeriod(id) {
+        const result = await Swal.fire({
+            title: 'Xác nhận đóng đợt bảo vệ?',
+            text: "Hệ thống sẽ lưu trữ toàn bộ đồ án hiện tại và làm mới danh sách sinh viên cho đợt tiếp theo. Hành động này không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#f59e0b',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Đồng ý Đóng & Lưu trữ',
+            cancelButtonText: 'Hủy',
+            customClass: {
+                popup: 'rounded-[32px]',
+                confirmButton: 'rounded-xl px-6 py-2.5 font-bold',
+                cancelButton: 'rounded-xl px-6 py-2.5 font-bold'
+            }
+        });
+
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Đang lưu trữ...',
+                text: 'Vui lòng chờ trong giây lát',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                const response = await fetch('/admin/period/close/' + id, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    Swal.fire('Thành công!', data.message, 'success').then(() => location.reload());
+                } else {
+                    Swal.fire('Lỗi!', data.message, 'error');
+                }
+            } catch (err) {
+                Swal.fire('Lỗi!', 'Lỗi kết nối máy chủ', 'error');
+            }
+        }
+    }
+</script>
+{{/section}}
